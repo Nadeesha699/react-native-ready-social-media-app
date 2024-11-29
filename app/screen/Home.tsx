@@ -1,13 +1,18 @@
-import { StatusBars } from '@/components/components'
-import React from 'react'
-import { View,Text, StatusBar } from 'react-native'
+import { StatusBars } from "@/components/components";
+import React from "react";
+import { View, Text, StatusBar } from "react-native";
 
 function Home() {
   return (
-    <><StatusBars/><View>
-      <Text>හලෝ මගේ රත්තරන් යාලුවනේ කොහොමද හොදින් ඉන්නවද </Text>
-    </View></>
-  )
+    <>
+      <StatusBars />
+      <View>
+        <Text style={{ fontSize: 60 }}>
+          හලෝ මගේ රත්තරන් යාලුවනේ කොහොමද හොදින් ඉන්නවද{" "}
+        </Text>
+      </View>
+    </>
+  );
 }
 
-export default Home
+export default Home;
