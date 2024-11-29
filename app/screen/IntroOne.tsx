@@ -8,10 +8,16 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
-import { q } from "@/scripts/scripts";
-import { animatedStyle } from "@/scripts/scripts";
 
 export default function IntroOne() {
+  const q = useSharedValue(-400);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: q.value }],
+    };
+  });
+
   useEffect(() => {
     q.value = withSpring(0);
   }, []);
