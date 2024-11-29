@@ -1,11 +1,12 @@
 import React from 'react'
-import { View,Text } from 'react-native'
+import { View,Text, StatusBar } from 'react-native'
 
 function Home() {
   return (
-    <View>
-        <Text>Home</Text>
-    </View>
+    <><StatusBar backgroundColor={"#2b80ff"} barStyle={"default"} /><View>
+
+      <Text>Home</Text>
+    </View></>
   )
 }
 

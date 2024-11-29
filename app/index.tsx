@@ -1,17 +1,13 @@
-import { View, Text } from "react-native";
-import Home from "./screen/Home";
+import { StatusBar } from "react-native";
 import IntroOne from "./screen/IntroOne";
-import {
-  NavigationContainer,
-  NavigationIndependentTree,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-const Stack = createNativeStackNavigator();
 
 const index = () => {
+
   return (
-    <IntroOne/>
+    <>
+    <StatusBar backgroundColor={"#2b80ff"} barStyle={"default"}/>
+      <IntroOne />
+    </>
   );
 };
 
