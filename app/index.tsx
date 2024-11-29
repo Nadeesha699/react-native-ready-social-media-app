@@ -1,12 +1,13 @@
 import { StatusBar } from "react-native";
 import IntroOne from "./screen/IntroOne";
+import { StatusBars } from "@/components/components";
 
 const index = () => {
 
   return (
     <>
-    <StatusBar backgroundColor={"#2b80ff"} barStyle={"default"}/>
-      <IntroOne />
+    <StatusBars/>
+    <IntroOne/>
     </>
   );
 };

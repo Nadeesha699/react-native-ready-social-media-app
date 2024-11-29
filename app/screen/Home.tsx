@@ -1,11 +1,11 @@
+import { StatusBars } from '@/components/components'
 import React from 'react'
 import { View,Text, StatusBar } from 'react-native'
 
 function Home() {
   return (
-    <><StatusBar backgroundColor={"#2b80ff"} barStyle={"default"} /><View>
-
-      <Text>Home</Text>
+    <><StatusBars/><View>
+      <Text>හලෝ මගේ රත්තරන් යාලුවනේ කොහොමද හොදින් ඉන්නවද </Text>
     </View></>
   )
 }
