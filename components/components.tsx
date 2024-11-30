@@ -18,7 +18,7 @@ export const BtnSkip = () => {
   return (
     <TouchableOpacity
       onPress={() => {
-        router.navigate("/screen/Home");
+        router.navigate("/screen/Login");
       }}
       style={styles.btn_1}
     >
