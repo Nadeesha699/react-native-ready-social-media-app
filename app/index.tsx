@@ -9,7 +9,7 @@ const index = () => {
   return (
     <>
     <StatusBars/>
-    <Login/>
+    <IntroOne/>
     </>
   );
 };

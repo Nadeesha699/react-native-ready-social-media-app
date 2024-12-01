@@ -7,7 +7,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   TextInput,
   ScrollView,
   ToastAndroid,
@@ -26,6 +25,7 @@ const Register = () => {
   const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [usernameSuccess, setUserNameSuccess] = useState(false);
   const [conatctnoSuccess, setContactNoSuccess] = useState(false);
+  const [passwordEye, setPasswordEye] = useState(false);
 
   const validateEmail = () => {
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) 
@@ -112,8 +112,22 @@ const Register = () => {
                   setPassword(e);
                   validatePassword();
                 }}
-                secureTextEntry={true}
+                secureTextEntry={passwordEye ? false : true}
               />
+              <TouchableOpacity
+            onPress={() => {
+              passwordEye ? setPasswordEye(false) : setPasswordEye(true);
+            }}
+          >
+            <Image
+              source={
+                passwordEye
+                  ? require("@/assets/images/eye.png")
+                  : require("@/assets/images/hidden.png")
+              }
+              style={styles.icon}
+            />
+          </TouchableOpacity>
             </View>
             <Text
               style={[

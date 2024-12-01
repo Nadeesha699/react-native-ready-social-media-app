@@ -18,6 +18,7 @@ const Login = () => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [passwordEye, setPasswordEye] = useState(false);
 
   const validateEmail = () => {
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
@@ -81,8 +82,22 @@ const Login = () => {
               setPassword(e);
               validatePassword();
             }}
-            secureTextEntry={true}
+            secureTextEntry={passwordEye ? false : true}
           />
+          <TouchableOpacity
+            onPress={() => {
+              passwordEye ? setPasswordEye(false) : setPasswordEye(true);
+            }}
+          >
+            <Image
+              source={
+                passwordEye
+                  ? require("@/assets/images/eye.png")
+                  : require("@/assets/images/hidden.png")
+              }
+              style={styles.icon}
+            />
+          </TouchableOpacity>
         </View>
         <Text
           style={[

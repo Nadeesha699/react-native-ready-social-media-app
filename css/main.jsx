@@ -110,6 +110,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     gap: 10,
+    width:"110%"
   },
   btn_login: {
     backgroundColor: "#2b80ff",
@@ -129,7 +130,7 @@ export const styles = StyleSheet.create({
   feild_1: {
     fontSize: 20,
     letterSpacing: 2,
-    width: "100%",
+    width:"70%",
     borderBottomWidth: 1,
     borderColor: "#a3a3a3",
   },
@@ -197,7 +198,7 @@ export const styles = StyleSheet.create({
   feildr_1: {
     fontSize: 20,
     letterSpacing: 2,
-    width: "90%",
+    width: "70%",
     borderBottomWidth: 1,
     borderColor: "#a3a3a3",
   },
@@ -233,7 +234,7 @@ export const styles = StyleSheet.create({
     paddingLeft:20,
     paddingRight:20,
     flexDirection:"column",
-    paddingBottom:100,
+    paddingBottom:"60%",
     gap:20
   },
   error_message:{
@@ -242,5 +243,6 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ff9c9c",
     padding: 5,
     borderRadius: 2,
+    width:"100%"
   }
 });
