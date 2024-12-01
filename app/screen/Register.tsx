@@ -10,6 +10,7 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  ToastAndroid,
 } from "react-native";
 
 const Register = () => {
@@ -27,31 +28,29 @@ const Register = () => {
   const [conatctnoSuccess, setContactNoSuccess] = useState(false);
 
   const validateEmail = () => {
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) || email.match("")
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) 
       ? setEmailShow(true)
       : setEmailShow(false);
     setEmailSuccess(true);
   };
 
   const validatePassword = () => {
-    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password) ||
-    password.match("")
+    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)
       ? setPasswordShow(true)
       : setPasswordShow(false);
     setPasswordSuccess(true);
   };
 
   const validateUserName = () => {
-    !/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/.test(username) ||
-    username.match("")
+    !/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/.test(username)
       ? setUserNameShow(true)
       : setUserNameShow(false);
     setUserNameSuccess(true);
   };
 
   const validateContactNO = () => {
-    !/^\+?[0-9]{1,3}?[-. ]?(\(?\d{1,4}?\)?)[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/.test(contactno) ||
-    contactno.match("")
+    !/^\+?[0-9]{1,3}?[-. ]?(\(?\d{1,4}?\)?)[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/.test(contactno)
+
       ? setContactNoShow(true)
       : setContactNoShow(false);
     setContactNoSuccess(true);
@@ -85,11 +84,9 @@ const Register = () => {
               <TextInput
                 placeholder="Email"
                 style={styles.feildr_1}
-                onChange={() => {
-                  validateEmail();
-                }}
                 onChangeText={(e) => {
                   setEmail(e);
+                  validateEmail();
                 }}
               />
             </View>
@@ -111,11 +108,9 @@ const Register = () => {
               <TextInput
                 placeholder="Password"
                 style={styles.feildr_1}
-                onChange={() => {
-                  validatePassword();
-                }}
                 onChangeText={(e) => {
                   setPassword(e);
+                  validatePassword();
                 }}
                 secureTextEntry={true}
               />
@@ -136,11 +131,9 @@ const Register = () => {
               <TextInput
                 placeholder="Full Name"
                 style={styles.feildr_1}
-                onChange={() => {
-                  validateUserName();
-                }}
                 onChangeText={(e) => {
                   setUserName(e);
+                  validateUserName();
                 }}
               />
             </View>
@@ -162,11 +155,9 @@ const Register = () => {
               <TextInput
                 placeholder="Contact Number"
                 style={styles.feildr_1}
-                onChange={() => {
-                  validateContactNO();
-                }}
                 onChangeText={(e) => {
                   setContactNo(e);
+                  validateContactNO();
                 }}
               />
             </View>
@@ -186,8 +177,8 @@ const Register = () => {
                 passwordSuccess === true &&
                 conatctnoSuccess === true &&
                 usernameSuccess === true
-                  ? console.log("succuss")
-                  : console.log("unsuccuss");
+                  ? ToastAndroid.show("register success", 3000)
+                  : ToastAndroid.show("register unsuccess",3000)
               }}
               style={styles.btn_sign}
             >

@@ -20,15 +20,14 @@ const Login = () => {
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
   const validateEmail = () => {
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) || !email.match("")
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
       ? setEmailShow(true)
       : setEmailShow(false);
     setEmailSuccess(true);
   };
 
   const validatePassword = () => {
-    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password) ||
-    !password.match("")
+    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)
       ? setPasswordShow(true)
       : setPasswordShow(false);
     setPasswordSuccess(true);
@@ -53,11 +52,9 @@ const Login = () => {
             placeholder="Email"
             style={styles.feild_1}
             value={email}
-            onChange={() => {
-              validateEmail();
-            }}
             onChangeText={(e) => {
               setEmail(e);
+              validateEmail();
             }}
           />
         </View>
@@ -80,28 +77,29 @@ const Login = () => {
             placeholder="Password"
             style={styles.feild_1}
             value={password}
-            onChange={() => {
-              validatePassword();
-            }}
             onChangeText={(e) => {
               setPassword(e);
+              validatePassword();
             }}
             secureTextEntry={true}
           />
         </View>
         <Text
           style={[
-           { display: passwordShow ? "flex" : "none"},
-           styles.error_message,
+            { display: passwordShow ? "flex" : "none" },
+            styles.error_message,
           ]}
         >
           Invalid password
         </Text>
         <TouchableOpacity
           onPress={() => {
-            emailSuccess === true && passwordSuccess === true
-              ? console.log("success")
-              : console.log("unsuccess");
+            if (emailSuccess === true && passwordSuccess === true) {
+              ToastAndroid.show("logging success", 3000);
+              router.navigate("/screen/Home");
+            } else {
+              ToastAndroid.show("logging unsuccess", 3000);
+            }
           }}
           style={styles.btn_login}
         >
