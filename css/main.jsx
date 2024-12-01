@@ -89,4 +89,151 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     height: 40,
   },
+  login_img: {
+    width: 250,
+    height: 300,
+  },
+  login_1: {
+    fontSize: 40,
+    fontWeight: "bold",
+    textAlign: "left",
+    width: "110%",
+    letterSpacing: 2,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  field_back: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 10,
+  },
+  btn_login: {
+    backgroundColor: "#2b80ff",
+    height: 40,
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "110%",
+  },
+  login_2: {
+    fontSize: 20,
+    letterSpacing: 2,
+    fontWeight: "bold",
+    color: "white",
+  },
+  feild_1: {
+    fontSize: 20,
+    letterSpacing: 2,
+    width: "100%",
+    borderBottomWidth: 1,
+    borderColor: "#a3a3a3",
+  },
+  login_container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 45,
+    gap: 15,
+  },
+  login_img1: {
+    width: 35,
+    height: 35,
+  },
+  login_txt1: {
+    fontSize: 15,
+    color: "#a3a3a3",
+    fontWeight: "bold",
+    letterSpacing: 2,
+  },
+  login_com1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    gap: 20,
+  },
+  login_com2: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    gap: 10,
+  },
+  login_txt2: {
+    fontSize: 20,
+    fontWeight: "bold",
+    letterSpacing: 2,
+  },
+  login_txt3: {
+    fontSize: 14,
+    color: "#a3a3a3",
+  },
+  login_txt4: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#2b80ff",
+    letterSpacing:2
+  },
+  sign_1: {
+    fontSize: 40,
+    fontWeight: "bold",
+    textAlign: "left",
+    letterSpacing: 2,
+    marginBottom:20
+  },
+  btn_sign: {
+    backgroundColor: "#2b80ff",
+    height: 40,
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  feildr_1: {
+    fontSize: 20,
+    letterSpacing: 2,
+    width: "90%",
+    borderBottomWidth: 1,
+    borderColor: "#a3a3a3",
+  },
+  sign_container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sign_txt1: {
+    fontSize: 15,
+    color: "#a3a3a3",
+    fontWeight: "bold",
+    letterSpacing: 2,
+    textAlign:"center"
+  },
+  sign_com1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent:"center",
+    gap:20,
+    alignItems: "center"
+  },
+  sign_com2: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent:"center",
+    gap:5,
+    alignItems: "center",
+  },
+  reg_scroll: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    paddingLeft:20,
+    paddingRight:20,
+    flexDirection:"column",
+    paddingBottom:100,
+    gap:20
+  },
 });
