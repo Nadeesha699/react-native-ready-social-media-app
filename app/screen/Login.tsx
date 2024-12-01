@@ -1,7 +1,8 @@
 import { StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
+import { validateEmail, validatePassword, variables } from "@/scripts/scripts";
 import { router } from "expo-router";
-import { useState } from "react";
+// import { useState } from "react";
 import {
   View,
   Text,
@@ -12,27 +13,23 @@ import {
 } from "react-native";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailShow, setEmailShow] = useState(false);
-  const [passwordShow, setPasswordShow] = useState(false);
-  const [emailSuccess, setEmailSuccess] = useState(false);
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
-  const [passwordEye, setPasswordEye] = useState(false);
-
-  const validateEmail = () => {
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
-      ? setEmailShow(true)
-      : setEmailShow(false);
-    setEmailSuccess(true);
-  };
-
-  const validatePassword = () => {
-    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)
-      ? setPasswordShow(true)
-      : setPasswordShow(false);
-    setPasswordSuccess(true);
-  };
+  
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    emailShow,
+    setEmailShow,
+    passwordShow,
+    setPasswordShow,
+    emailSuccess,
+    setEmailSuccess,
+    passwordSuccess,
+    setPasswordSuccess,
+    passwordEye,
+    setPasswordEye,
+  } = variables();
 
   return (
     <>
@@ -55,7 +52,8 @@ const Login = () => {
             value={email}
             onChangeText={(e) => {
               setEmail(e);
-              validateEmail();
+              validateEmail(email) ? setEmailShow(true) : setEmailShow(false);
+              setEmailSuccess(true);
             }}
           />
         </View>
@@ -80,7 +78,10 @@ const Login = () => {
             value={password}
             onChangeText={(e) => {
               setPassword(e);
-              validatePassword();
+              validatePassword(password)
+                ? setPasswordShow(true)
+                : setPasswordShow(false);
+              setPasswordSuccess(true);
             }}
             secureTextEntry={passwordEye ? false : true}
           />

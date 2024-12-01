@@ -1,5 +1,12 @@
 import { StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
+import {
+  validateContactNO,
+  validateEmail,
+  validatePassword,
+  validateUserName,
+  variables,
+} from "@/scripts/scripts";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -13,48 +20,36 @@ import {
 } from "react-native";
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUserName] = useState("");
-  const [contactno, setContactNo] = useState("");
-  const [emailShow, setEmailShow] = useState(false);
-  const [passwordShow, setPasswordShow] = useState(false);
-  const [usernameShow, setUserNameShow] = useState(false);
-  const [conatctnoShow, setContactNoShow] = useState(false);
-  const [emailSuccess, setEmailSuccess] = useState(false);
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
-  const [usernameSuccess, setUserNameSuccess] = useState(false);
-  const [conatctnoSuccess, setContactNoSuccess] = useState(false);
-  const [passwordEye, setPasswordEye] = useState(false);
 
-  const validateEmail = () => {
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) 
-      ? setEmailShow(true)
-      : setEmailShow(false);
-    setEmailSuccess(true);
-  };
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    username,
+    setUserName,
+    contactno,
+    setContactNo,
+    usernameShow,
+    setUserNameShow,
+    emailShow,
+    setEmailShow,
+    conatctnoShow,
+    setContactNoShow,
+    usernameSuccess,
+    setUserNameSuccess,
+    conatctnoSuccess,
+    setContactNoSuccess,
+    passwordShow,
+    setPasswordShow,
+    emailSuccess,
+    setEmailSuccess,
+    passwordSuccess,
+    setPasswordSuccess,
+    passwordEye,
+    setPasswordEye,
+  } = variables();
 
-  const validatePassword = () => {
-    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)
-      ? setPasswordShow(true)
-      : setPasswordShow(false);
-    setPasswordSuccess(true);
-  };
-
-  const validateUserName = () => {
-    !/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/.test(username)
-      ? setUserNameShow(true)
-      : setUserNameShow(false);
-    setUserNameSuccess(true);
-  };
-
-  const validateContactNO = () => {
-    !/^\+?[0-9]{1,3}?[-. ]?(\(?\d{1,4}?\)?)[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/.test(contactno)
-
-      ? setContactNoShow(true)
-      : setContactNoShow(false);
-    setContactNoSuccess(true);
-  };
 
   return (
     <>
@@ -86,7 +81,10 @@ const Register = () => {
                 style={styles.feildr_1}
                 onChangeText={(e) => {
                   setEmail(e);
-                  validateEmail();
+                  validateEmail(email)
+                    ? setEmailShow(true)
+                    : setEmailShow(false);
+                  setEmailSuccess(true);
                 }}
               />
             </View>
@@ -110,24 +108,27 @@ const Register = () => {
                 style={styles.feildr_1}
                 onChangeText={(e) => {
                   setPassword(e);
-                  validatePassword();
+                  validatePassword(password)
+                    ? setPasswordShow(true)
+                    : setPasswordShow(false);
+                  setPasswordSuccess(true);
                 }}
                 secureTextEntry={passwordEye ? false : true}
               />
               <TouchableOpacity
-            onPress={() => {
-              passwordEye ? setPasswordEye(false) : setPasswordEye(true);
-            }}
-          >
-            <Image
-              source={
-                passwordEye
-                  ? require("@/assets/images/eye.png")
-                  : require("@/assets/images/hidden.png")
-              }
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+                onPress={() => {
+                  passwordEye ? setPasswordEye(false) : setPasswordEye(true);
+                }}
+              >
+                <Image
+                  source={
+                    passwordEye
+                      ? require("@/assets/images/eye.png")
+                      : require("@/assets/images/hidden.png")
+                  }
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
             </View>
             <Text
               style={[
@@ -147,7 +148,10 @@ const Register = () => {
                 style={styles.feildr_1}
                 onChangeText={(e) => {
                   setUserName(e);
-                  validateUserName();
+                  validateUserName(username)
+                    ? setUserNameShow(true)
+                    : setUserNameShow(false);
+                  setUserNameSuccess(true);
                 }}
               />
             </View>
@@ -171,7 +175,10 @@ const Register = () => {
                 style={styles.feildr_1}
                 onChangeText={(e) => {
                   setContactNo(e);
-                  validateContactNO();
+                  validateContactNO(contactno)
+                    ? setContactNoShow(true)
+                    : setContactNoShow(false);
+                  setContactNoSuccess(true);
                 }}
               />
             </View>
@@ -192,7 +199,7 @@ const Register = () => {
                 conatctnoSuccess === true &&
                 usernameSuccess === true
                   ? ToastAndroid.show("register success", 3000)
-                  : ToastAndroid.show("register unsuccess",3000)
+                  : ToastAndroid.show("register unsuccess", 3000);
               }}
               style={styles.btn_sign}
             >

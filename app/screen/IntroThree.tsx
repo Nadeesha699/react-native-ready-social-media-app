@@ -50,7 +50,7 @@ export default function IntroThree() {
           </View>
           <TouchableOpacity
             onPress={() => {
-              router.navigate("/screen/Register");
+              router.navigate("/screen/Login");
             }}
             style={styles.btn_2}
           >
