@@ -236,4 +236,11 @@ export const styles = StyleSheet.create({
     paddingBottom:100,
     gap:20
   },
+  error_message:{
+    color: "red",
+    fontWeight: "bold",
+    backgroundColor: "#ff9c9c",
+    padding: 5,
+    borderRadius: 2,
+  }
 });

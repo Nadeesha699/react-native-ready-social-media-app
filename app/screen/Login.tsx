@@ -2,11 +2,38 @@ import { StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ToastAndroid,
+} from "react-native";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailShow, setEmailShow] = useState(false);
+  const [passwordShow, setPasswordShow] = useState(false);
+  const [emailSuccess, setEmailSuccess] = useState(false);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+
+  const validateEmail = () => {
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) || !email.match("")
+      ? setEmailShow(true)
+      : setEmailShow(false);
+    setEmailSuccess(true);
+  };
+
+  const validatePassword = () => {
+    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password) ||
+    !password.match("")
+      ? setPasswordShow(true)
+      : setPasswordShow(false);
+    setPasswordSuccess(true);
+  };
+
   return (
     <>
       <StatusBars />
@@ -26,11 +53,24 @@ const Login = () => {
             placeholder="Email"
             style={styles.feild_1}
             value={email}
+            onChange={() => {
+              validateEmail();
+            }}
             onChangeText={(e) => {
               setEmail(e);
             }}
           />
         </View>
+        <Text
+          style={[
+            styles.error_message,
+            {
+              display: emailShow ? "flex" : "none",
+            },
+          ]}
+        >
+          Invalid email
+        </Text>
         <View style={styles.field_back}>
           <Image
             source={require("@/assets/images/lock.png")}
@@ -40,13 +80,31 @@ const Login = () => {
             placeholder="Password"
             style={styles.feild_1}
             value={password}
+            onChange={() => {
+              validatePassword();
+            }}
             onChangeText={(e) => {
               setPassword(e);
             }}
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity onPress={() => {}} style={styles.btn_login}>
+        <Text
+          style={[
+           { display: passwordShow ? "flex" : "none"},
+           styles.error_message,
+          ]}
+        >
+          Invalid password
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            emailSuccess === true && passwordSuccess === true
+              ? console.log("success")
+              : console.log("unsuccess");
+          }}
+          style={styles.btn_login}
+        >
           <Text style={styles.login_2}>Login</Text>
         </TouchableOpacity>
         <Text style={styles.login_txt1}>OR</Text>
