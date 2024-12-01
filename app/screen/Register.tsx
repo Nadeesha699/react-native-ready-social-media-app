@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 
-export const Register = () => {
+const Register = () => {
   return (
     <><StatusBars /><View style={styles.sign_container}>
       <Image
@@ -66,3 +66,5 @@ export const Register = () => {
     </View></>
   );
 };
+
+export default Register
