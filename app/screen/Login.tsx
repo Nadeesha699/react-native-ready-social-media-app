@@ -2,7 +2,7 @@ import { StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
 import { validateEmail, validatePassword, variables } from "@/scripts/scripts";
 import { router } from "expo-router";
-// import { useState } from "react";
+import { useEffect } from "react";
 import {
   View,
   Text,
@@ -11,9 +11,13 @@ import {
   TextInput,
   ToastAndroid,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+} from "react-native-reanimated";
 
 const Login = () => {
-  
   const {
     email,
     setEmail,
@@ -31,17 +35,38 @@ const Login = () => {
     setPasswordEye,
   } = variables();
 
+  const value1 = useSharedValue(-400)
+  const value2 = useSharedValue(400)
+
+  const animated = useAnimatedStyle(()=>{
+    return {
+      transform:[{translateX:value1.value}]
+    }
+  })
+
+  const animated1 = useAnimatedStyle(()=>{
+    return {
+      transform:[{translateX:value2.value}]
+    }
+  })
+
+  useEffect(()=>{
+    value1.value = withSpring(0)
+    value2.value = withSpring(0)
+  },[])
+
   return (
+    
     <>
       <StatusBars />
       <View style={styles.login_container}>
-        <Image
+        <Animated.Image
           source={require("@/assets/images/6333040.jpg")}
           alt="icon"
-          style={styles.login_img}
+          style={[styles.login_img,animated]}
         />
-        <Text style={styles.login_1}>Login</Text>
-        <View style={styles.field_back}>
+        <Animated.Text style={[styles.login_1,animated1]}>Login</Animated.Text>
+        <Animated.View style={[styles.field_back,animated1]}>
           <Image
             source={require("@/assets/images/arroba.png")}
             style={styles.icon}
@@ -56,7 +81,7 @@ const Login = () => {
               setEmailSuccess(true);
             }}
           />
-        </View>
+        </Animated.View>
         <Text
           style={[
             styles.error_message,
@@ -67,7 +92,7 @@ const Login = () => {
         >
           Invalid email
         </Text>
-        <View style={styles.field_back}>
+        <Animated.View style={[styles.field_back,animated1]}>
           <Image
             source={require("@/assets/images/lock.png")}
             style={styles.icon}
@@ -99,7 +124,7 @@ const Login = () => {
               style={styles.icon}
             />
           </TouchableOpacity>
-        </View>
+        </Animated.View>
         <Text
           style={[
             { display: passwordShow ? "flex" : "none" },
@@ -108,6 +133,7 @@ const Login = () => {
         >
           Invalid password
         </Text>
+        <Animated.View style={[styles.login_btn_back,animated1]}>
         <TouchableOpacity
           onPress={() => {
             if (emailSuccess === true && passwordSuccess === true) {
@@ -121,24 +147,25 @@ const Login = () => {
         >
           <Text style={styles.login_2}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.login_txt1}>OR</Text>
+        </Animated.View>
+        <Animated.Text style={[styles.login_txt1,animated1]}>OR</Animated.Text>
         <TouchableOpacity style={styles.login_com1}>
-          <Image
+          <Animated.Image
             source={require("@/assets/images/google_2504914.png")}
-            style={styles.login_img1}
+            style={[styles.login_img1,animated1]}
           />
-          <Text style={styles.login_txt2}>Login with google</Text>
+          <Animated.Text style={[styles.login_txt2,animated1]}>Login with google</Animated.Text>
         </TouchableOpacity>
-        <View style={styles.login_com2}>
-          <Text style={styles.login_txt3}>if you are new user ?</Text>
+        <Animated.View style={styles.login_com2}>
+          <Animated.Text style={[styles.login_txt3,animated1]}>if you are new user ?</Animated.Text>
           <TouchableOpacity
             onPress={() => {
               router.navigate("/screen/Register");
             }}
           >
-            <Text style={[styles.login_txt4]}>Register</Text>
+            <Animated.Text style={[styles.login_txt4,animated1]}>Register</Animated.Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </View>
     </>
   );

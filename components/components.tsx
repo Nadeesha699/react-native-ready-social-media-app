@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { StatusBar, TouchableOpacity } from "react-native";
-import { Text } from "react-native";
+import { Text,Image } from "react-native";
 import {styles} from '@/css/main'
 
 export const P1 = () => {
@@ -33,15 +33,14 @@ export const StatusBars = ()=>{
   )
 }
 
-// export const EmailIcon = '@/assets/images/arroba.png'
-// export const PasswordIcon = '@/assets/images/lock.png'
-// export const EyeCloseIcon = '@/assets/images/hidden.png'
-// export const EyeIcon = '@/assets/images/eye.png'
-// export const GoogeleIcon = '@/assets/images/google_2504914.png'
-// export const CallIcon = '@/assets/images/call.png'
-// export const UserIcon ='@/assets/images/user.png'
-// export const Intro1Image = '@/assets/images/7426283.jpg'
-// export const Intro2Image = '@/assets/images/4421883.jpg'
-// export const Intro3Image = '@/assets/images/2992830.jpg'
-// export const LoginImage = '@/assets/images/6333040.jpg'
-// export const RegisterImage = '@/assets/images/6333050.jpg'
+export const GoogleLogin = () =>{
+  return(
+    <TouchableOpacity style={styles.login_com1}>
+          <Image
+            source={require("@/assets/images/google_2504914.png")}
+            style={styles.login_img1}
+          />
+          <Text style={styles.login_txt2}>Login with google</Text>
+        </TouchableOpacity>
+  )
+}

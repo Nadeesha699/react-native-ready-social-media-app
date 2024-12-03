@@ -119,6 +119,10 @@ export const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
+  },
+  login_btn_back:{
+    height: 40,
     width: "110%",
   },
   login_2: {

@@ -26,10 +26,10 @@ export default function IntroOne() {
     <View style={styles.inro_container}>
       <Animated.View style={[styles.inro_container1, animatedStyle]}>
         <Image
-          source={require("@/assets/images/7426283.jpg")}
+          source={require("@/assets/images/4505748.jpg")}
           style={styles.img_intro}
         />
-        <Animated.Text style={styles.txt_1}>24 hours Open</Animated.Text>
+        <Animated.Text style={styles.txt_1}>Make own story 🪄</Animated.Text>
         <P1 />
       </Animated.View>
       <View style={styles.inro_container2}>

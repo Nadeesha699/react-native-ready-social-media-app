@@ -1,5 +1,4 @@
 import { BtnSkip, P1, StatusBars } from "@/components/components";
-import { transform } from "@babel/core";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
@@ -30,10 +29,10 @@ export default function IntroTwo() {
       <View style={styles.inro_container}>
         <Animated.View style={[styles.inro_container1, animatedStyle]}>
           <Image
-            source={require("@/assets/images/4421883.jpg")}
+            source={require("@/assets/images/4977116.jpg")}
             style={styles.img_intro}
           />
-          <Text style={styles.txt_1}>Big Discount</Text>
+          <Text style={styles.txt_1}>Read all in one 🏷️</Text>
           <P1 />
         </Animated.View>
         <View style={styles.inro_container2}>

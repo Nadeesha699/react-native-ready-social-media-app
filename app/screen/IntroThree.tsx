@@ -1,14 +1,7 @@
 import { BtnSkip, P1, StatusBars } from "@/components/components";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -35,10 +28,10 @@ export default function IntroThree() {
       <View style={styles.inro_container}>
         <Animated.View style={[styles.inro_container1, animatedStyle]}>
           <Image
-            source={require("@/assets/images/2992830.jpg")}
+            source={require("@/assets/images/3206467.jpg")}
             style={styles.img_intro}
           />
-          <Text style={styles.txt_1}>Best Customer Service</Text>
+          <Text style={styles.txt_1}>Make more friends 🕺</Text>
           <P1 />
         </Animated.View>
         <View style={styles.inro_container2}>

@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import { GoogleLogin, StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
 import {
   validateContactNO,
@@ -8,7 +8,7 @@ import {
   variables,
 } from "@/scripts/scripts";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,11 @@ import {
   ScrollView,
   ToastAndroid,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+} from "react-native-reanimated";
 
 const Register = () => {
 
@@ -50,26 +55,41 @@ const Register = () => {
     setPasswordEye,
   } = variables();
 
+  const value1 = useSharedValue(-400)
+  const value2 = useSharedValue(400)
+
+  const animated = useAnimatedStyle(()=>{
+    return {
+      transform:[{translateX:value1.value}]
+    }
+  })
+
+  const animated1 = useAnimatedStyle(()=>{
+    return {
+      transform:[{translateX:value2.value}]
+    }
+  })
+
+  useEffect(()=>{
+    value1.value = withSpring(0)
+    value2.value = withSpring(0)
+  },[])
+
+
 
   return (
     <>
       <StatusBars />
       <View style={styles.sign_container}>
-        <Image
+        <Animated.Image
           source={require("@/assets/images/6333050.jpg")}
           alt="icon"
-          style={styles.login_img}
+          style={[styles.login_img,animated]}
         />
-        <ScrollView horizontal={false} showsVerticalScrollIndicator={false}>
+        <Animated.ScrollView horizontal={false} showsVerticalScrollIndicator={false} style={animated1}>
           <View style={styles.reg_scroll}>
             <Text style={styles.sign_1}>Sign Up</Text>
-            <TouchableOpacity style={styles.sign_com1}>
-              <Image
-                source={require("@/assets/images/google_2504914.png")}
-                style={styles.login_img1}
-              />
-              <Text style={styles.login_txt2}>Sign Up with google</Text>
-            </TouchableOpacity>
+            <GoogleLogin/>
             <Text style={styles.sign_txt1}>OR</Text>
             <View style={styles.field_back}>
               <Image
@@ -216,7 +236,7 @@ const Register = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
     </>
   );
