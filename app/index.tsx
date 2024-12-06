@@ -10,7 +10,7 @@ const index = () => {
   return (
     <>
     <StatusBars/>
-    <IntroOne/>
+    <Home/>
     </>
   );
 };

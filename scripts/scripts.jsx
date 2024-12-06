@@ -1,9 +1,5 @@
 import { useState } from "react";
 
-export const imgs = () => {
-  return "@/assets/images/6333050.jpg";
-};
-
 export const variables = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +14,65 @@ export const variables = () => {
   const [usernameSuccess, setUserNameSuccess] = useState(false);
   const [conatctnoSuccess, setContactNoSuccess] = useState(false);
   const [passwordEye, setPasswordEye] = useState(false);
+  const all = [
+    {
+      imgs: require("@/assets/images/3d-fantasy-scene.jpg"),
+      author: "Nadeesha Ruwndima",
+      storyName: "The Crystal cave 🌛",
+      type: "Fantasy",
+    },
+    {
+      imgs: require("@/assets/images/0d28cc5c-3f7c-45ac-ac7b-9abc6bbf90f6.jpg"),
+      author: "Saman Kumara",
+      storyName: "The Whispering Library 📖",
+      type: "Horror",
+    },
+    {
+      imgs: require("@/assets/images/young-man-city-bus-stop-generative-ai.jpg"),
+      author: "Saman Kumari",
+      storyName: "The Midnight Passenger 🏃‍♂️",
+      type: "Thriller",
+    },
+  ];
+
+  const horror = [
+    {
+      imgs: require("@/assets/images/0d28cc5c-3f7c-45ac-ac7b-9abc6bbf90f6.jpg"),
+      author: "Saman Kumara",
+      storyName: "The Whispering Library 📖",
+      type: "Horror",
+    },
+  ];
+
+  const fantasy = [
+    {
+      imgs: require("@/assets/images/3d-fantasy-scene.jpg"),
+      author: "Nadeesha Ruwndima",
+      storyName: "The Crystal cave 🌛",
+      type: "Fantasy",
+    },
+  ];
+  const thriller = [
+    {
+      imgs: require("@/assets/images/young-man-city-bus-stop-generative-ai.jpg"),
+      author: "Saman Kumari",
+      storyName: "The Midnight Passenger 🏃‍♂️",
+      type: "Thriller",
+    },
+  ];
+
+  const categories = [
+    { name: "Horror" },
+    { name: "Fantasy" },
+    { name: "Romance" },
+    { name: "Mystery" },
+    { name: "Comedy" },
+    { name: "Sci-Fi" },
+    { name: "Thriller" },
+  ];
+
+  const [data, setData] = useState(all);
+  const [hideYesdata, setHideYesdata] = useState(true);
 
   return {
     email,
@@ -48,8 +103,19 @@ export const variables = () => {
     setPasswordSuccess,
     passwordEye,
     setPasswordEye,
+    all,
+    horror,
+    fantasy,
+    thriller,
+    categories,
+    data,
+    setData,
+    hideYesdata,
+    setHideYesdata,
   };
 };
+
+
 
 export const validateEmail = (email) => {
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
@@ -86,3 +152,4 @@ export const validateContactNO = (contactno) => {
     return false;
   }
 };
+

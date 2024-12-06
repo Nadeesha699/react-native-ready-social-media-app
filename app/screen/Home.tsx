@@ -1,15 +1,28 @@
-import { StatusBars } from "@/components/components";
+import {
+  HomeCategoryDataScroll,
+  HomeCategoryScroll,
+  HomeHeader,
+  HomeHeaderScroll,
+  StatusBars,
+} from "@/components/components";
+import { styles } from "@/css/main";
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text } from "react-native";
 
 function Home() {
   return (
     <>
       <StatusBars />
-      <View>
-        <Text style={{ fontSize: 60 }}>
-          හලෝ මගේ රත්තරන් යාලුවනේ කොහොමද හොදින් ඉන්නවද{" "}
-        </Text>
+      <View style={styles.home_container}>
+        <HomeHeader />
+        <HomeHeaderScroll />
+        <View style={styles.home_body}>
+          <View style={styles.home_con3}>
+            <Text style={styles.home_txt_5}>Categories</Text>
+            <HomeCategoryScroll />
+          </View>
+          <HomeCategoryDataScroll />
+        </View>
       </View>
     </>
   );
