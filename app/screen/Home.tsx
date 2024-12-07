@@ -11,7 +11,9 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import {all,horror,fantasy,thriller,categories} from "@/data/dumiData"
+import {all,horror,fantasy,thriller,categories} from "@/data/jsx/dumiData"
+import { navigate } from "expo-router/build/global-state/routing";
+import { router } from "expo-router";
 
 function Home() {
  
@@ -38,7 +40,7 @@ function Home() {
           <View style={styles.home_scroll_sub_view}>
             {all.map((e, index) => {
               return (
-                <TouchableOpacity key={index}>
+                <TouchableOpacity key={index} onPress={()=>{router.navigate('/screen/ReadScreen')}}>
                   <View style={styles.home_con2}>
                     <ImageBackground source={e.imgs} style={styles.home_img2}>
                       <Text style={styles.home_txt_3}>{e.storyName}</Text>
@@ -101,7 +103,7 @@ function Home() {
             <View style={styles.home_con5}>
               {data.map((e, index) => {
                 return (
-                  <TouchableOpacity key={index} style={styles.home_con6}>
+                  <TouchableOpacity key={index} style={styles.home_con6} onPress={()=>{router.navigate('/screen/ReadScreen')}}>
                     <View style={styles.home_con7}>
                       <ImageBackground
                         source={e.imgs}

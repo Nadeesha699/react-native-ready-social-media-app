@@ -1,6 +1,6 @@
 import { GoogleLogin, StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
-import { loginfield } from "@/data/dumiData";
+import { loginfield } from "@/data/jsx/dumiData";
 import { validateEmail, validatePassword } from "@/scripts/scripts";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -59,7 +59,7 @@ const Login = () => {
         <Animated.Text style={[styles.login_1, animated1]}>Login</Animated.Text>
         {loginfield.map((e, index) => {
           return (
-            <View key={index}>
+            <View key={index} style={{width:"110%"}}>
               <Animated.View style={[styles.field_back, animated1]}>
                 <Image source={e.icon} style={styles.icon} />
                 <TextInput
@@ -214,7 +214,15 @@ const Login = () => {
           </TouchableOpacity>
         </Animated.View>
         <Animated.Text style={[styles.login_txt1, animated1]}>OR</Animated.Text>
-        <GoogleLogin />
+        <Animated.View style={animated1}>
+          <TouchableOpacity style={styles.login_com1}>
+            <Image
+              source={require("@/assets/images/google_2504914.png")}
+              style={styles.login_img1}
+            />
+            <Text style={styles.login_txt2}>Login with google</Text>
+          </TouchableOpacity>
+        </Animated.View>
         <Animated.View style={styles.login_com2}>
           <Animated.Text style={[styles.login_txt3, animated1]}>
             if you are new user ?

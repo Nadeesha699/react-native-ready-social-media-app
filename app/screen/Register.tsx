@@ -1,6 +1,6 @@
 import { GoogleLogin, StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
-import { registerField } from "@/data/dumiData";
+import { registerField } from "@/data/jsx/dumiData";
 import {
   validateContactNO,
   validateEmail,

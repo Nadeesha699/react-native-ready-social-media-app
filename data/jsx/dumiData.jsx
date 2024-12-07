@@ -16,6 +16,7 @@ export const all = [
       author: "Saman Kumari",
       storyName: "The Midnight Passenger 🏃‍♂️",
       type: "Thriller",
+      story:""
     },
   ];
 

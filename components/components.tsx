@@ -9,8 +9,6 @@ import {
 import { Text, Image } from "react-native";
 import { styles } from "@/css/main"
 
-
-
 export const P1 = () => {
   return (
     <Text style={styles.txt_2}>
