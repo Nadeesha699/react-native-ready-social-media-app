@@ -1,18 +1,15 @@
-
-import IntroOne from "./screen/IntroOne";
+import React from "react";
 import { StatusBars } from "@/components/components";
-import Login from "./screen/Login";
-import Register from "./screen/Register";
-import Home from "./screen/Home";
+import IntroOne from "./screen/IntroOne";
 
-const index = () => {
-
+const Index = () => {
   return (
     <>
-    <StatusBars/>
-    <Home/>
+      <StatusBars />
+      <IntroOne/>
+      
     </>
   );
 };
 
-export default index;
+export default Index;

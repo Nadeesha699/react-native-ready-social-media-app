@@ -1,11 +1,11 @@
 import { GoogleLogin, StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
+import { registerField } from "@/data/dumiData";
 import {
   validateContactNO,
   validateEmail,
   validatePassword,
   validateUserName,
-  variables,
 } from "@/scripts/scripts";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -15,7 +15,6 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  ScrollView,
   ToastAndroid,
 } from "react-native";
 import Animated, {
@@ -25,57 +24,41 @@ import Animated, {
 } from "react-native-reanimated";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [contactno, setContactNo] = useState("");
+  const [emailShow, setEmailShow] = useState(false);
+  const [passwordShow, setPasswordShow] = useState(false);
+  const [usernameShow, setUserNameShow] = useState(false);
+  const [conatctnoShow, setContactNoShow] = useState(false);
+  const [emailSuccess, setEmailSuccess] = useState(false);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [usernameSuccess, setUserNameSuccess] = useState(false);
+  const [conatctnoSuccess, setContactNoSuccess] = useState(false);
+  const [passwordEye, setPasswordEye] = useState(false);
 
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    username,
-    setUserName,
-    contactno,
-    setContactNo,
-    usernameShow,
-    setUserNameShow,
-    emailShow,
-    setEmailShow,
-    conatctnoShow,
-    setContactNoShow,
-    usernameSuccess,
-    setUserNameSuccess,
-    conatctnoSuccess,
-    setContactNoSuccess,
-    passwordShow,
-    setPasswordShow,
-    emailSuccess,
-    setEmailSuccess,
-    passwordSuccess,
-    setPasswordSuccess,
-    passwordEye,
-    setPasswordEye,
-  } = variables();
+  const value1 = useSharedValue(-400);
+  const value2 = useSharedValue(400);
 
-  const value1 = useSharedValue(-400)
-  const value2 = useSharedValue(400)
-
-  const animated = useAnimatedStyle(()=>{
+  const animated = useAnimatedStyle(() => {
     return {
-      transform:[{translateX:value1.value}]
-    }
-  })
+      transform: [{ translateX: value1.value }],
+    };
+  });
 
-  const animated1 = useAnimatedStyle(()=>{
+  const animated1 = useAnimatedStyle(() => {
     return {
-      transform:[{translateX:value2.value}]
-    }
-  })
+      transform: [{ translateX: value2.value }],
+    };
+  });
 
-  useEffect(()=>{
-    value1.value = withSpring(0)
-    value2.value = withSpring(0)
-  },[])
+  useEffect(() => {
+    value1.value = withSpring(0);
+    value2.value = withSpring(0);
+  }, []);
 
-
+  
 
   return (
     <>
@@ -84,14 +67,103 @@ const Register = () => {
         <Animated.Image
           source={require("@/assets/images/6333050.jpg")}
           alt="icon"
-          style={[styles.login_img,animated]}
+          style={[styles.login_img, animated]}
         />
-        <Animated.ScrollView horizontal={false} showsVerticalScrollIndicator={false} style={animated1}>
+        <Animated.ScrollView
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+          style={animated1}
+        >
           <View style={styles.reg_scroll}>
             <Text style={styles.sign_1}>Sign Up</Text>
-            <GoogleLogin/>
+            <GoogleLogin />
             <Text style={styles.sign_txt1}>OR</Text>
-            <View style={styles.field_back}>
+            {registerField.map((e,index) => {
+              return (
+                <View key={index}>
+                  <View style={styles.field_back}>
+                    <Image source={e.icon} style={styles.icon} />
+                    <TextInput
+                      placeholder={e.placeHolder}
+                      style={styles.feildr_1}
+                      onChangeText={
+                        e.placeHolder === "Email"
+                          ? (e) => {
+                              setEmail(e);
+                              validateEmail(email)
+                                ? setEmailShow(true)
+                                : setEmailShow(false);
+                              setEmailSuccess(true);
+                            }
+                          : e.placeHolder === "Password"
+                          ? (e) => {
+                              setPassword(e);
+                              validatePassword(password)
+                                ? setPasswordShow(true)
+                                : setPasswordShow(false);
+                              setPasswordSuccess(true);
+                            }
+                          : e.placeHolder === "Full Name"
+                          ? (e) => {
+                              setUserName(e);
+                              validateUserName(username)
+                                ? setUserNameShow(true)
+                                : setUserNameShow(false);
+                              setUserNameSuccess(true);
+                            }
+                          : (e) => {
+                              setContactNo(e);
+                              validateContactNO(contactno)
+                                ? setContactNoShow(true)
+                                : setContactNoShow(false);
+                              setContactNoSuccess(true);
+                            }
+                      }
+                    />
+                    {e.placeHolder === "Password" ? (
+                      <TouchableOpacity
+                        onPress={() => {
+                          passwordEye
+                            ? setPasswordEye(false)
+                            : setPasswordEye(true);
+                        }}
+                      >
+                        <Image
+                          source={
+                            passwordEye
+                              ? require("@/assets/images/eye.png")
+                              : require("@/assets/images/hidden.png")
+                          }
+                          style={styles.icon}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <></>
+                    )}
+                  </View>
+                  <Text
+                    style={[
+                      styles.error_message,
+                      e.placeHolder === "Email"
+                        ? {
+                            display: emailShow ? "flex" : "none",
+                          }
+                        : e.placeHolder === "Password"
+                        ? { display: passwordShow ? "flex" : "none" }
+                        : e.placeHolder === "Full Name"
+                        ? { display: usernameShow ? "flex" : "none" }
+                        : { display: conatctnoShow ? "flex" : "none" },
+                    ]}
+                  >
+                    {e.errormessage}
+                  </Text>
+                </View>
+              );
+            })}
+
+            {/* normal register field setup*/}
+
+            {/* <View style={styles.field_back}>
               <Image
                 source={require("@/assets/images/arroba.png")}
                 style={styles.icon}
@@ -211,7 +283,7 @@ const Register = () => {
               ]}
             >
               Invalid conatct number
-            </Text>
+            </Text> */}
             <TouchableOpacity
               onPress={() => {
                 emailSuccess === true &&

@@ -1,5 +1,3 @@
-import { BtnSkip, P1 } from "@/components/components";
-import { router } from "expo-router";
 import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
@@ -8,19 +6,21 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
+import { router } from "expo-router";
+import { BtnSkip, P1 } from "@/components/components";
 
 export default function IntroOne() {
-  const q = useSharedValue(-400);
+  const translateYValue = useSharedValue(-400);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: q.value }],
-    };
-  });
-
+ 
   useEffect(() => {
-    q.value = withSpring(0);
+    translateYValue.value = withSpring(0);
   }, []);
+
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateYValue.value }],
+  }));
 
   return (
     <View style={styles.inro_container}>
@@ -29,11 +29,11 @@ export default function IntroOne() {
           source={require("@/assets/images/4505748.jpg")}
           style={styles.img_intro}
         />
-        <Animated.Text style={styles.txt_1}>Make own story 🪄</Animated.Text>
-        <P1 />
+        <Animated.Text style={styles.txt_1}>Make your own story 🪄</Animated.Text>
+        <P1/>
       </Animated.View>
       <View style={styles.inro_container2}>
-        <BtnSkip />
+        <BtnSkip/>
         <View style={styles.dot_view}>
           <View style={styles.dot1}></View>
           <View style={styles.dot2}></View>
