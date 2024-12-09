@@ -1,6 +1,4 @@
-import {
-  StatusBars,
-} from "@/components/components";
+import { StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
 import React, { useState } from "react";
 import {
@@ -11,14 +9,22 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import {all,horror,fantasy,thriller,categories} from "@/data/jsx/dumiData"
-import { navigate } from "expo-router/build/global-state/routing";
+import {
+  all,
+  horror,
+  fantasy,
+  thriller,
+  categories,
+} from "@/data/dumiData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
+
 function Home() {
- 
   const [data, setData] = useState(all);
   const [hideYesdata, setHideYesdata] = useState(true);
+
+  const a = "@/assets/images/menu.png"
 
   return (
     <>
@@ -27,7 +33,7 @@ function Home() {
         <View style={styles.home_header}>
           <TouchableOpacity>
             <Image
-              source={require("@/assets/images/menu.png")}
+              source={require(a)}
               style={styles.home_img1}
             />
           </TouchableOpacity>
@@ -40,7 +46,20 @@ function Home() {
           <View style={styles.home_scroll_sub_view}>
             {all.map((e, index) => {
               return (
-                <TouchableOpacity key={index} onPress={()=>{router.navigate('/screen/ReadScreen')}}>
+                <TouchableOpacity
+                  key={index}
+                  onPress={async () => {
+                    try {
+                      await AsyncStorage.setItem("author_name", e.author);
+                      await AsyncStorage.setItem("story_name", e.storyName);
+                      await AsyncStorage.setItem("story", e.story);
+                      await AsyncStorage.setItem("story_img", JSON.stringify(e.imgs));
+                      router.push("/screen/ReadScreen");
+                    } catch (error) {
+                      console.error("Error saving to AsyncStorage:", error);
+                    }
+                  }}
+                >
                   <View style={styles.home_con2}>
                     <ImageBackground source={e.imgs} style={styles.home_img2}>
                       <Text style={styles.home_txt_3}>{e.storyName}</Text>
@@ -103,7 +122,22 @@ function Home() {
             <View style={styles.home_con5}>
               {data.map((e, index) => {
                 return (
-                  <TouchableOpacity key={index} style={styles.home_con6} onPress={()=>{router.navigate('/screen/ReadScreen')}}>
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.home_con6}
+                    onPress={async () => {
+                      try {
+                        await AsyncStorage.setItem("author_name", e.author);
+                        await AsyncStorage.setItem("story_name", e.storyName);
+                        await AsyncStorage.setItem("story", e.story);
+                        await AsyncStorage.setItem("story_img", JSON.stringify(e.imgs));
+                        router.push("/screen/ReadScreen");
+                      } catch (error) {
+                        console.error("Error saving to AsyncStorage:", error);
+                      }
+                    }}
+                    
+                  >
                     <View style={styles.home_con7}>
                       <ImageBackground
                         source={e.imgs}

@@ -110,7 +110,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     gap: 10,
-    width:"100%",
+    width: "100%",
   },
   btn_login: {
     backgroundColor: "#2b80ff",
@@ -121,7 +121,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  login_btn_back:{
+  login_btn_back: {
     height: 40,
     width: "110%",
   },
@@ -134,7 +134,7 @@ export const styles = StyleSheet.create({
   feild_1: {
     fontSize: 20,
     letterSpacing: 2,
-    width:"70%",
+    width: "70%",
     borderBottomWidth: 1,
     borderColor: "#a3a3a3",
   },
@@ -158,7 +158,7 @@ export const styles = StyleSheet.create({
   login_com1: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:"center",
+    justifyContent: "center",
     alignItems: "center",
     gap: 20,
   },
@@ -182,14 +182,14 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing:2
+    letterSpacing: 2,
   },
   sign_1: {
     fontSize: 40,
     fontWeight: "bold",
     textAlign: "left",
     letterSpacing: 2,
-    marginBottom:20
+    marginBottom: 20,
   },
   btn_sign: {
     backgroundColor: "#2b80ff",
@@ -216,38 +216,38 @@ export const styles = StyleSheet.create({
     color: "#a3a3a3",
     fontWeight: "bold",
     letterSpacing: 2,
-    textAlign:"center"
+    textAlign: "center",
   },
   sign_com1: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:"center",
-    gap:20,
-    alignItems: "center"
+    justifyContent: "center",
+    gap: 20,
+    alignItems: "center",
   },
   sign_com2: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:"center",
-    gap:5,
+    justifyContent: "center",
+    gap: 5,
     alignItems: "center",
   },
   reg_scroll: {
     flex: 1,
     justifyContent: "space-evenly",
-    paddingLeft:20,
-    paddingRight:20,
-    flexDirection:"column",
-    paddingBottom:"60%",
-    gap:20
+    paddingLeft: 20,
+    paddingRight: 20,
+    flexDirection: "column",
+    paddingBottom: "60%",
+    gap: 20,
   },
-  error_message:{
+  error_message: {
     color: "red",
     fontWeight: "bold",
     backgroundColor: "#ff9c9c",
     padding: 5,
     borderRadius: 2,
-    width:"100%"
+    width: "100%",
   },
   home_container: {
     flex: 1,
@@ -420,11 +420,12 @@ export const styles = StyleSheet.create({
   readscreen_con2: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-end",
-    padding: 20,
-    gap: 20,
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
+  readscreen_con4: { display: "flex", flexDirection: "row", gap: 10 },
   readscreen_con3: {
     display: "flex",
     flexDirection: "row",
@@ -434,6 +435,16 @@ export const styles = StyleSheet.create({
     height: 100,
     paddingLeft: 10,
     paddingRight: 10,
+  },
+  readscreen_con5:{
+    backgroundColor: "white",
+    borderRadius: 50,
+    display: "flex",
+    flexDirection: "row",
+    padding: 5,
+    gap: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   readscreen_img2: { width: 20, height: 20 },
   readscreen_txt1: {
@@ -456,7 +467,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     color: "#888888",
   },
-  readscreen_txt4:{
+  readscreen_txt4: {
     textAlign: "left",
     fontSize: 15,
     letterSpacing: 2,
