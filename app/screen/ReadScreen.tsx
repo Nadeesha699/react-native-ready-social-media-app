@@ -1,5 +1,6 @@
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,

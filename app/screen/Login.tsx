@@ -1,8 +1,9 @@
 import { GoogleLogin, StatusBars } from "@/components/components";
 import { styles } from "@/css/main";
-import { loginfield } from "@/data/jsx/dumiData";
+import { loginfield } from "@/data/dumiData.jsx";
 import { validateEmail, validatePassword } from "@/scripts/scripts";
 import { router } from "expo-router";
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   View,

@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
+import React from "react";
 
 export default function IntroThree() {
   const q = useSharedValue(-400);
