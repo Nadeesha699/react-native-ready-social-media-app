@@ -1,5 +1,4 @@
 import { GoogleLogin, StatusBars } from "@/components/components";
-import { styles } from "@/css/main";
 import { registerField } from "@/data/dumiData.jsx";
 import {
   validateContactNO,
@@ -15,304 +14,185 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  TextInput,
   ToastAndroid,
+  StyleSheet,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUserName] = useState("");
-  const [contactno, setContactNo] = useState("");
-  const [emailShow, setEmailShow] = useState(false);
-  const [passwordShow, setPasswordShow] = useState(false);
-  const [usernameShow, setUserNameShow] = useState(false);
-  const [conatctnoShow, setContactNoShow] = useState(false);
-  const [emailSuccess, setEmailSuccess] = useState(false);
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
-  const [usernameSuccess, setUserNameSuccess] = useState(false);
-  const [conatctnoSuccess, setContactNoSuccess] = useState(false);
-  const [passwordEye, setPasswordEye] = useState(false);
-
-  const value1 = useSharedValue(-400);
-  const value2 = useSharedValue(400);
-
-  const animated = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: value1.value }],
-    };
-  });
-
-  const animated1 = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: value2.value }],
-    };
-  });
-
-  useEffect(() => {
-    value1.value = withSpring(0);
-    value2.value = withSpring(0);
-  }, []);
-
-  
+  const [passwordHide, setPasswordHide] = useState(true);
 
   return (
     <>
       <StatusBars />
       <View style={styles.sign_container}>
-        <Animated.Image
-          source={require("@/assets/images/6333050.jpg")}
-          alt="icon"
-          style={[styles.login_img, animated]}
-        />
-        <Animated.ScrollView
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          style={animated1}
-        >
-          <View style={styles.reg_scroll}>
-            <Text style={styles.sign_1}>Sign Up</Text>
-            <GoogleLogin />
-            <Text style={styles.sign_txt1}>OR</Text>
-            {registerField.map((e,index) => {
-              return (
-                <View key={index}>
-                  <View style={styles.field_back}>
-                    <Image source={e.icon} style={styles.icon} />
-                    <TextInput
-                      placeholder={e.placeHolder}
-                      style={styles.feildr_1}
-                      onChangeText={
-                        e.placeHolder === "Email"
-                          ? (e) => {
-                              setEmail(e);
-                              validateEmail(email)
-                                ? setEmailShow(true)
-                                : setEmailShow(false);
-                              setEmailSuccess(true);
-                            }
-                          : e.placeHolder === "Password"
-                          ? (e) => {
-                              setPassword(e);
-                              validatePassword(password)
-                                ? setPasswordShow(true)
-                                : setPasswordShow(false);
-                              setPasswordSuccess(true);
-                            }
-                          : e.placeHolder === "Full Name"
-                          ? (e) => {
-                              setUserName(e);
-                              validateUserName(username)
-                                ? setUserNameShow(true)
-                                : setUserNameShow(false);
-                              setUserNameSuccess(true);
-                            }
-                          : (e) => {
-                              setContactNo(e);
-                              validateContactNO(contactno)
-                                ? setContactNoShow(true)
-                                : setContactNoShow(false);
-                              setContactNoSuccess(true);
-                            }
-                      }
-                    />
-                    {e.placeHolder === "Password" ? (
-                      <TouchableOpacity
-                        onPress={() => {
-                          passwordEye
-                            ? setPasswordEye(false)
-                            : setPasswordEye(true);
-                        }}
-                      >
-                        <Image
-                          source={
-                            passwordEye
-                              ? require("@/assets/images/eye.png")
-                              : require("@/assets/images/hidden.png")
-                          }
-                          style={styles.icon}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <></>
-                    )}
-                  </View>
-                  <Text
-                    style={[
-                      styles.error_message,
-                      e.placeHolder === "Email"
-                        ? {
-                            display: emailShow ? "flex" : "none",
-                          }
-                        : e.placeHolder === "Password"
-                        ? { display: passwordShow ? "flex" : "none" }
-                        : e.placeHolder === "Full Name"
-                        ? { display: usernameShow ? "flex" : "none" }
-                        : { display: conatctnoShow ? "flex" : "none" },
-                    ]}
-                  >
-                    {e.errormessage}
-                  </Text>
-                </View>
-              );
-            })}
-
-            {/* normal register field setup*/}
-
-            {/* <View style={styles.field_back}>
-              <Image
-                source={require("@/assets/images/arroba.png")}
-                style={styles.icon}
-              />
-              <TextInput
-                placeholder="Email"
-                style={styles.feildr_1}
-                onChangeText={(e) => {
-                  setEmail(e);
-                  validateEmail(email)
-                    ? setEmailShow(true)
-                    : setEmailShow(false);
-                  setEmailSuccess(true);
-                }}
-              />
-            </View>
-            <Text
-              style={[
-                styles.error_message,
-                {
-                  display: emailShow ? "flex" : "none",
-                },
-              ]}
-            >
-              Invalid email
-            </Text>
-            <View style={styles.field_back}>
-              <Image
-                source={require("@/assets/images/lock.png")}
-                style={styles.icon}
-              />
-              <TextInput
-                placeholder="Password"
-                style={styles.feildr_1}
-                onChangeText={(e) => {
-                  setPassword(e);
-                  validatePassword(password)
-                    ? setPasswordShow(true)
-                    : setPasswordShow(false);
-                  setPasswordSuccess(true);
-                }}
-                secureTextEntry={passwordEye ? false : true}
-              />
-              <TouchableOpacity
+        <View style={styles.sign_header}>
+          <Image
+            source={require("@/assets/images/6333050.jpg")}
+            alt="icon"
+            style={styles.login_img}
+          />
+          <Text style={styles.sign_1}>Sign Up</Text>
+        </View>
+        <View style={styles.sign_body}>
+          <TouchableOpacity style={styles.login_com1}>
+                      <Image
+                        source={require("@/assets/images/google_2504914.png")}
+                        style={styles.login_img1}
+                      />
+                      <Text style={styles.login_txt2}>Login with google</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.sign_txt1}>OR</Text>
+          <TextInput
+            left={<TextInput.Icon icon={() => <Icon name="email" />} />}
+            label="Email"
+            mode="outlined"
+            style={styles.input_field}
+          />
+          <TextInput
+            left={<TextInput.Icon icon={() => <Icon name="account" />} />}
+            label="Full Name"
+            mode="outlined"
+            style={styles.input_field}
+          />
+          <TextInput
+            left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
+            label="Password"
+            mode="outlined"
+            style={styles.input_field}
+            secureTextEntry={passwordHide}
+            right={
+              <TextInput.Icon
+                icon={() => <Icon name={passwordHide ? "eye" : "eye-off"} />}
                 onPress={() => {
-                  passwordEye ? setPasswordEye(false) : setPasswordEye(true);
-                }}
-              >
-                <Image
-                  source={
-                    passwordEye
-                      ? require("@/assets/images/eye.png")
-                      : require("@/assets/images/hidden.png")
-                  }
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
-            </View>
-            <Text
-              style={[
-                { display: passwordShow ? "flex" : "none" },
-                styles.error_message,
-              ]}
-            >
-              Invalid password
-            </Text>
-            <View style={styles.field_back}>
-              <Image
-                source={require("@/assets/images/user.png")}
-                style={styles.icon}
-              />
-              <TextInput
-                placeholder="Full Name"
-                style={styles.feildr_1}
-                onChangeText={(e) => {
-                  setUserName(e);
-                  validateUserName(username)
-                    ? setUserNameShow(true)
-                    : setUserNameShow(false);
-                  setUserNameSuccess(true);
+                  passwordHide ? setPasswordHide(false) : setPasswordHide(true);
                 }}
               />
-            </View>
-            <Text
-              style={[
-                styles.error_message,
-                {
-                  display: usernameShow ? "flex" : "none",
-                },
-              ]}
-            >
-              Invalid name
-            </Text>
-            <View style={styles.field_back}>
-              <Image
-                source={require("@/assets/images/call.png")}
-                style={styles.icon}
-              />
-              <TextInput
-                placeholder="Contact Number"
-                style={styles.feildr_1}
-                onChangeText={(e) => {
-                  setContactNo(e);
-                  validateContactNO(contactno)
-                    ? setContactNoShow(true)
-                    : setContactNoShow(false);
-                  setContactNoSuccess(true);
-                }}
-              />
-            </View>
-            <Text
-              style={[
-                styles.error_message,
-                {
-                  display: conatctnoShow ? "flex" : "none",
-                },
-              ]}
-            >
-              Invalid conatct number
-            </Text> */}
+            }
+          />
+          <TextInput
+            left={<TextInput.Icon icon={() => <Icon name="phone" />} />}
+            label="Phone Number"
+            mode="outlined"
+            style={styles.input_field}
+          />
+          <TouchableOpacity style={styles.btn_signup}>
+            <Text style={styles.login_2}>Sign up</Text>
+          </TouchableOpacity>
+          <View style={styles.login_com1}>
+            <Text style={[styles.login_txt3]}>back to</Text>
             <TouchableOpacity
               onPress={() => {
-                emailSuccess === true &&
-                passwordSuccess === true &&
-                conatctnoSuccess === true &&
-                usernameSuccess === true
-                  ? ToastAndroid.show("register success", 3000)
-                  : ToastAndroid.show("register unsuccess", 3000);
+                router.navigate("/screen/Login");
               }}
-              style={styles.btn_sign}
             >
-              <Text style={styles.login_2}>Sign Up</Text>
+              <Text style={[styles.login_txt4]}>Login</Text>
             </TouchableOpacity>
-            <View style={styles.sign_com2}>
-              <Text style={styles.login_txt3}>back to</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  router.back();
-                }}
-              >
-                <Text style={[styles.login_txt4]}>login</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </Animated.ScrollView>
+        </View>
       </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  sign_container: {
+    flex: 1,
+    padding: "5%",
+  },
+  sign_txt1: {
+    fontSize: 15,
+    color: "#a3a3a3",
+    fontWeight: "bold",
+    letterSpacing: 2,
+    textAlign: "center",
+  },
+  sign_com1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 20,
+    alignItems: "center",
+  },
+  login_img1: {
+    width: 35,
+    height: 35,
+  },
+  login_txt2: {
+    fontSize: 20,
+    fontWeight: "bold",
+    letterSpacing: 2,
+  },
+  sign_com2: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 5,
+    alignItems: "center",
+  },
+  login_txt3: {
+    fontSize: 14,
+    color: "#a3a3a3",
+  },
+  login_txt4: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#2b80ff",
+    letterSpacing: 2,
+  },
+  login_img: {
+    width: "80%",
+    height: "80%",
+  },
+  sign_1: {
+    fontSize: 40,
+    fontWeight: "bold",
+    textAlign: "left",
+    letterSpacing: 2,
+    marginBottom: 20,
+  },
+  sign_header: {
+    flex: 0.5,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  sign_body: {
+    flex: 0.5,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    overflowY:"scroll"
+  },
+  btn_signup: {
+    backgroundColor: "#ff1151",
+    borderRadius: 50,
+    padding: "3%",
+    width: "80%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  login_2: {
+    fontSize: 20,
+    letterSpacing: 2,
+    fontWeight: "bold",
+    color: "white",
+  },
+  input_field: {
+    width: "100%",
+  },
+  login_com1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: "80%",
+  },
+});
 
 export default Register;
