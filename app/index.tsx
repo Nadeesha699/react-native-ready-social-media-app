@@ -6,13 +6,13 @@ import Profile from "./screen/Profile";
 import UpdateProfile from "./screen/UpdateProfile";
 import Register from "./screen/Register";
 import Login from "./screen/Login";
-import Test from "./screen/Test"
+import ReadScreen from "./screen/ReadScreen";
 
 const Index = () => {
   return (
     <>
       <StatusBars />
-      <Home/>
+      <ReadScreen/>
     </>
   );
 };

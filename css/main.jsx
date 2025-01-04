@@ -410,12 +410,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  readscreen_con1: {
-    width: "100%",
-    height: 350,
-    display: "flex",
-    justifyContent: "flex-start",
-  },
+  // : {
+  //   width: "100%",
+  //   height: 350,
+  //   display: "flex",
+  //   justifyContent: "flex-start",
+  // },
   readscreen_img1: { width: "100%", height: 250 },
   readscreen_con2: {
     display: "flex",

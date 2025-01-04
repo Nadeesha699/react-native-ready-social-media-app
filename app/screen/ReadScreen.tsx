@@ -1,28 +1,22 @@
-import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,
-  ScrollView,
   StatusBar,
   View,
   Text,
   TouchableOpacity,
   Image,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 
-export default function ReadScreen() {
-  const [btnFollownig, setBtnFollownig] = useState(false);
+const { width, height } = Dimensions.get("window");
+
+function ReadScreen() {
+  const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
-  const [translateBtnText, setTranslateBtnText] = useState(
-    "Translate to Sinhala"
-  );
-
-  const [fromLanguage, setFromLanguage] = useState("en-GB");
-  const [toLanguage, setToLanguage] = useState("si-LK");
-
   const [authorName, setAuthorName] = useState<string | null>(null);
   const [storyName, setStoryName] = useState<string | null>(null);
   const [story, setStory] = useState<string | null>(null);
@@ -41,116 +35,200 @@ export default function ReadScreen() {
     loadData();
   }, []);
 
-  const TranslateText = () => {
-    const apiUrl = `https://api.mymemory.translated.net/get?q=
-  ${story}&langpair=${fromLanguage}|${toLanguage}`;
-
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setStory(data.responseData.translatedText);
-      });
-
-    fromLanguage === "en-GB"
-      ? setFromLanguage("si-LK")
-      : setFromLanguage("en-GB");
-    toLanguage === "si-LK" ? setToLanguage("en-GB") : setToLanguage("si-LK");
-  };
-
   return (
     <>
       <StatusBar />
-      <View>
-        <View style={styles.readscreen_con1}>
-          <ImageBackground
-            source={
-              storyImg
-                ? storyImg
-                : require("@/assets/images/3d-fantasy-scene.jpg")
-            }
-            style={styles.readscreen_img1}
-          >
-            <View style={styles.readscreen_con2}>
-              <View style={styles.readscreen_con4}>
-                <TouchableOpacity
-                  onPress={() => {
-                    likeRed ? setLikeRed(false) : setLikeRed(true);
-                  }}
-                >
-                  <Image
-                    source={
-                      likeRed
-                        ? require("@/assets/images/like2.png")
-                        : require("@/assets/images/like1.png")
-                    }
-                    style={styles.readscreen_img2}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image
-                    source={require("@/assets/images/comment1.png")}
-                    style={styles.readscreen_img2}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    TranslateText();
-                    translateBtnText === "Translate to Sinhala"
-                      ? setTranslateBtnText("Translate To English")
-                      : setTranslateBtnText("Translate to Sinhala");
-                  }}
-                  style={styles.readscreen_con5}
-                >
-                  <Text style={{ fontWeight: "bold" }}>{translateBtnText}</Text>
-                  <Image
-                    source={
-                      fromLanguage === "en-GB"
-                        ? require("@/assets/images/sri-lanka.png")
-                        : require("@/assets/images/united-kingdom.png")
-                    }
-                    style={styles.readscreen_img2}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ImageBackground>
-          <View style={styles.readscreen_con3}>
-            <View style={{ width: "70%" }}>
-              <Text style={styles.readscreen_txt1}>{storyName}</Text>
+      <View style={styles.readscreen_container}>
+        <ImageBackground
+          style={styles.readscreen_header}
+          source={
+            storyImg
+              ? storyImg
+              : require("@/assets/images/3d-fantasy-scene.jpg")
+          }
+        >
+          <TouchableOpacity>
+            <ImageBackground
+              source={require("@/assets/images/left-arrow.png")}
+              style={styles.profile_back_button}
+            />
+          </TouchableOpacity>
+          <View style={styles.readscreen_con6}>
+            <TouchableOpacity
+              onPress={() => {
+                likeRed ? setLikeRed(false) : setLikeRed(true);
+              }}
+            >
+              <ImageBackground
+                source={
+                  likeRed
+                    ? require("@/assets/images/like2.png")
+                    : require("@/assets/images/like1.png")
+                }
+                style={styles.readscreen_img2}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={require("@/assets/images/comment1.png")}
+                style={styles.readscreen_img2}
+              />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        <View style={styles.readscreen_body}>
+          <View style={styles.readscreen_con8}>
+            <View style={styles.readscreen_con7}>
+              <Text
+                style={styles.readscreen_txt1}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {storyName}
+              </Text>
               <Text style={styles.readscreen_txt4}>{authorName}</Text>
             </View>
             <TouchableOpacity
               style={[
-                styles.readscreen_btn1,
+                styles.readscreen_follow_button,
                 {
-                  borderWidth: btnFollownig ? 0 : 2,
-                  backgroundColor: btnFollownig ? "#fe165c" : "transparent",
+                  backgroundColor: followed ? "white" : "#ff1158",
+                  borderWidth: followed ? 2 : 0,
                 },
               ]}
               onPress={() => {
-                btnFollownig ? setBtnFollownig(false) : setBtnFollownig(true);
+                followed ? setFollowed(false) : setFollowed(true);
               }}
             >
               <Text
                 style={[
                   styles.readscreen_txt2,
-                  { color: btnFollownig ? "white" : "black" },
+                  { color: followed ? "" : "white" },
                 ]}
               >
-                {btnFollownig ? "following" : "follow"}
+                {followed ? "Following" : "Follow"}
               </Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.readscreen_con9}>
+            <Text style={styles.readscreen_txt3}>{story}</Text>
+          </View>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.readscreen_txt3}>{story}</Text>
-          <Text>
-            
-          </Text>
-        </ScrollView>
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  readscreen_container: { flex: 1 },
+  readscreen_header: {
+    flex: 0.3,
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  readscreen_body: { flex: 0.7,padding: "5%" },
+  readscreen_con1: {
+    width: "100%",
+    height: 350,
+    display: "flex",
+    justifyContent: "flex-start",
+  },
+  readscreen_img1: { width: "100%", height: 250 },
+  readscreen_con2: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  readscreen_con4: { display: "flex", flexDirection: "row", gap: 10 },
+  readscreen_con3: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 100,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  readscreen_con5: {
+    backgroundColor: "white",
+    borderRadius: 50,
+    display: "flex",
+    flexDirection: "row",
+    padding: 5,
+    gap: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  readscreen_img2: { width: 20, height: 20 },
+  readscreen_txt1: {
+    letterSpacing: 2,
+    fontWeight: "bold",
+  },
+  readscreen_txt2: {
+    textAlign: "center",
+    fontWeight: "bold",
+    letterSpacing: 2,
+  },
+  readscreen_txt3: {
+    fontSize: 17,
+    color: "#888888",
+    overflowY: "scroll",
+    paddingTop: "10%",
+  },
+  readscreen_txt4: {
+    textAlign: "left",
+    fontSize: 15,
+    letterSpacing: 2,
+    color: "#fe165c",
+    fontWeight: "bold",
+  },
+  readscreen_btn1: {
+    width: "30%",
+    height: 40,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    borderColor: "black",
+  },
+  profile_back_button: {
+    width: 20,
+    height: 20,
+    margin: 20,
+  },
+  readscreen_con6: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "20%",
+    margin: 20,
+    justifyContent: "space-between",
+  },
+  readscreen_con7: {
+    justifyContent: "space-around",
+    width: "70%",
+  },
+  readscreen_con8: {
+    flex: 0.09,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  readscreen_con9: {
+    flex: 0.91
+  },
+  readscreen_follow_button: {
+    backgroundColor: "#ff1158",
+    padding: "2%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    width: "30%",
+  },
+});
+
+export default ReadScreen;

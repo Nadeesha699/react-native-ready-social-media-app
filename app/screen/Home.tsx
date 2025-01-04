@@ -8,10 +8,14 @@ import {
   ImageBackground,
   Image,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { all, horror, fantasy, thriller} from "@/data/dumiData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+
+
+const { width, height } = Dimensions.get("window");
 
 function Home() {
   const [data, setData] = useState(all);
@@ -203,44 +207,45 @@ const styles = StyleSheet.create({
   },
   home_category_button: {
     backgroundColor: "#1178ff",
-    width: "20%",
+    width: width *0.2,
     justifyContent: "center",
     alignItems: "center",
-    padding: "1%",
-    borderRadius: 5,
+    padding: "3%",
+    borderRadius: width*0.03,
     overflow: "hidden",
   },
   home_img1: {
-    width: 25,
-    height: 25,
+    width: width*0.07,
+    height: width*0.07,
   },
   home_txt_6: {
     color: "white",
     fontWeight: "bold",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
   },
   home_img2: {
-    width: 300,
-    height: 200,
-    borderRadius: 10,
+    width: width * 0.8,
+    height: height * 0.25,
+    borderRadius: width*0.03,
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
+    padding:"5%"
   },
   home_img3: {
-    width: 100,
-    height: 100,
+    width: width * 0.2,
+    height: width * 0.2,
     overflow: "hidden",
-    borderRadius: 10,
+    borderRadius: width*0.03,
   },
-  home_img4: { width: 15, height: 15 },
+  home_img4: { width: width*0.04, height: width*0.04 },
   home_header: {
-    flex: 0.45,
+    flex: 0.5,
     justifyContent: "space-between",
   },
   home_body: {
-    flex: 0.55,
+    flex: 0.5,
     justifyContent: "flex-start",
     gap: "2%",
     width: "100%",
@@ -252,40 +257,32 @@ const styles = StyleSheet.create({
     overflowX: "scroll",
   },
   home_txt_1: {
-    fontSize: 40,
+    fontSize: width*0.1,
     color: "#8e8e8e",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
     fontWeight: "bold",
   },
   home_txt_2: {
-    fontSize: 20,
-    letterSpacing: 2,
+    fontSize: width*0.05,
+    letterSpacing: width*0.007,
   },
   home_txt_3: {
-    fontSize: 20,
+    fontSize: width*0.05,
     color: "white",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
     fontWeight: "bold",
-    display: "flex",
-    alignItems: "flex-start",
-    paddingLeft: 10,
   },
   home_txt_4: {
-    fontSize: 12,
+    fontSize: width*0.035,
     color: "white",
-    letterSpacing: 2,
-    display: "flex",
-    alignItems: "flex-start",
-    paddingLeft: 10,
-    paddingBottom: 10,
+    letterSpacing: width*0.007,
   },
   home_txt_7: {
     fontWeight: "bold",
-    letterSpacing: 2,
-    flexWrap: "wrap",
+    letterSpacing: width*0.007,
   },
   home_txt_8: {
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
     color: "#8e8e8e",
   },
   home_con1: {
@@ -309,7 +306,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: "10%",
   },
 });
 

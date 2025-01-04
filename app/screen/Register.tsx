@@ -42,13 +42,13 @@ const Register = () => {
         </View>
         <View style={styles.sign_body}>
           <TouchableOpacity style={styles.login_com1}>
-                      <Image
-                        source={require("@/assets/images/google_2504914.png")}
-                        style={styles.login_img1}
-                      />
-                      <Text style={styles.login_txt2}>Login with google</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.sign_txt1}>OR</Text>
+            <Image
+              source={require("@/assets/images/google_2504914.png")}
+              style={styles.login_img1}
+            />
+            <Text style={styles.login_txt2}>Login with google</Text>
+          </TouchableOpacity>
+          <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="email" />} />}
             label="Email"
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     justifyContent: "space-evenly",
     alignItems: "center",
-    overflowY:"scroll"
+    overflowY: "scroll",
   },
   btn_signup: {
     backgroundColor: "#ff1151",
