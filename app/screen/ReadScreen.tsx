@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from "react-native";
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 function ReadScreen() {
   const [followed, setFollowed] = useState(false);
@@ -102,7 +102,7 @@ function ReadScreen() {
             >
               <Text
                 style={[
-                  styles.readscreen_txt2,
+                  styles.readscreen_txt1,
                   { color: followed ? "" : "white" },
                 ]}
               >
@@ -129,89 +129,38 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   readscreen_body: { flex: 0.7,padding: "5%" },
-  readscreen_con1: {
-    width: "100%",
-    height: 350,
-    display: "flex",
-    justifyContent: "flex-start",
-  },
-  readscreen_img1: { width: "100%", height: 250 },
-  readscreen_con2: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  readscreen_con4: { display: "flex", flexDirection: "row", gap: 10 },
-  readscreen_con3: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: 100,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  readscreen_con5: {
-    backgroundColor: "white",
-    borderRadius: 50,
-    display: "flex",
-    flexDirection: "row",
-    padding: 5,
-    gap: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  readscreen_img2: { width: 20, height: 20 },
+  readscreen_img2: { width: width*0.05, height: width*0.05 },
   readscreen_txt1: {
-    letterSpacing: 2,
+    letterSpacing: width*0.004,
     fontWeight: "bold",
-  },
-  readscreen_txt2: {
-    textAlign: "center",
-    fontWeight: "bold",
-    letterSpacing: 2,
   },
   readscreen_txt3: {
-    fontSize: 17,
+    fontSize: width*0.035,
     color: "#888888",
+    fontWeight:"light",
     overflowY: "scroll",
-    paddingTop: "10%",
+    paddingTop: width*0.07,
   },
   readscreen_txt4: {
-    textAlign: "left",
-    fontSize: 15,
-    letterSpacing: 2,
+    fontSize: width*0.035,
+    letterSpacing: width*0.004,
     color: "#fe165c",
-    fontWeight: "bold",
-  },
-  readscreen_btn1: {
-    width: "30%",
-    height: 40,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    borderColor: "black",
   },
   profile_back_button: {
-    width: 20,
-    height: 20,
-    margin: 20,
+    width: width*0.05,
+    height: width*0.05,
+    margin: width*0.05,
   },
   readscreen_con6: {
     display: "flex",
     flexDirection: "row",
-    gap: "20%",
-    margin: 20,
+    gap: width*0.05,
+    margin: width*0.05,
     justifyContent: "space-between",
   },
   readscreen_con7: {
     justifyContent: "space-around",
-    width: "70%",
+    width: width*0.6,
   },
   readscreen_con8: {
     flex: 0.09,
@@ -223,11 +172,10 @@ const styles = StyleSheet.create({
   },
   readscreen_follow_button: {
     backgroundColor: "#ff1158",
-    padding: "2%",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
-    width: "30%",
+    borderRadius: width*0.05,
+    width: width*0.25,
   },
 });
 

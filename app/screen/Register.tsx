@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Animated, {
@@ -24,6 +25,8 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+const { width, height } = Dimensions.get("window");
 
 const Register = () => {
   const [passwordHide, setPasswordHide] = useState(true);
@@ -46,7 +49,7 @@ const Register = () => {
               source={require("@/assets/images/google_2504914.png")}
               style={styles.login_img1}
             />
-            <Text style={styles.login_txt2}>Login with google</Text>
+            <Text style={styles.login_txt2}>Register with google</Text>
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
@@ -107,55 +110,38 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
   sign_txt1: {
-    fontSize: 15,
+    fontSize: width * 0.035,
     color: "#a3a3a3",
     fontWeight: "bold",
-    letterSpacing: 2,
-    textAlign: "center",
-  },
-  sign_com1: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 20,
-    alignItems: "center",
+    letterSpacing: width * 0.007,
   },
   login_img1: {
-    width: 35,
-    height: 35,
+    width: width * 0.1,
+    height: width * 0.1,
   },
   login_txt2: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: "bold",
-    letterSpacing: 2,
-  },
-  sign_com2: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 5,
-    alignItems: "center",
+    letterSpacing: width * 0.007,
   },
   login_txt3: {
-    fontSize: 14,
+    fontSize: width * 0.038,
     color: "#a3a3a3",
   },
   login_txt4: {
-    fontSize: 14,
+    fontSize: width * 0.038,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing: 2,
+    letterSpacing: width * 0.007,
   },
   login_img: {
     width: "80%",
     height: "80%",
   },
   sign_1: {
-    fontSize: 40,
+    fontSize: width * 0.1,
     fontWeight: "bold",
-    textAlign: "left",
-    letterSpacing: 2,
-    marginBottom: 20,
+    letterSpacing: width * 0.007,
   },
   sign_header: {
     flex: 0.5,
@@ -163,23 +149,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   sign_body: {
+    paddingTop: "10%",
     flex: 0.5,
     justifyContent: "space-evenly",
     alignItems: "center",
     overflowY: "scroll",
+    gap: "5%",
   },
   btn_signup: {
     backgroundColor: "#ff1151",
-    borderRadius: 50,
-    padding: "3%",
     width: "80%",
-    display: "flex",
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
     justifyContent: "center",
     alignItems: "center",
   },
   login_2: {
-    fontSize: 20,
-    letterSpacing: 2,
+    fontSize: width * 0.05,
+    letterSpacing: width * 0.007,
     fontWeight: "bold",
     color: "white",
   },
@@ -191,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    width: "80%",
+    width: "100%",
   },
 });
 

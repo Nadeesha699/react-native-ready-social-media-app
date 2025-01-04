@@ -11,8 +11,11 @@ import {
   TouchableOpacity,
   ToastAndroid,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { TextInput } from "react-native-paper";
+
+const { width, height } = Dimensions.get("window");
 
 const Login = () => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -86,62 +89,43 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
   login_img1: {
-    width: 35,
-    height: 35,
-  },
-  login_txt1: {
-    fontSize: 15,
-    color: "#a3a3a3",
-    fontWeight: "bold",
-    letterSpacing: 2,
+    width: width*0.1,
+    height: width*0.1,
   },
   login_com1: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    width: "80%",
+    width: "100%",
   },
   login_txt2: {
-    fontSize: 20,
+    fontSize: width*0.05,
     fontWeight: "bold",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
   },
   login_txt3: {
-    fontSize: 14,
+    fontSize: width*0.038,
     color: "#a3a3a3",
   },
   login_txt4: {
-    fontSize: 14,
+    fontSize: width*0.038,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
   },
   login_img: {
     width: "80%",
     height: "80%",
   },
   login_1: {
-    fontSize: 40,
+    fontSize: width*0.1,
     fontWeight: "bold",
-    letterSpacing: 2,
-  },
-  login_btn_back: {
-    height: 40,
-    width: "110%",
-  },
-  btn_login: {
-    backgroundColor: "#8c11ff",
-    borderRadius: 50,
-    padding: "3%",
-    width: "80%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    letterSpacing: width*0.007,
   },
   login_2: {
-    fontSize: 20,
-    letterSpacing: 2,
+    fontSize: width*0.05,
+    letterSpacing: width*0.007,
     fontWeight: "bold",
     color: "white",
   },
@@ -160,10 +144,9 @@ const styles = StyleSheet.create({
   },
   btn_sign: {
     backgroundColor: "#116cff",
-    borderRadius: 50,
-    padding: "2%",
     width: "80%",
-    display: "flex",
+    borderRadius: width*0.05,
+    padding:width*0.02,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -171,11 +154,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   sign_txt1: {
-    fontSize: 15,
+    fontSize: width*0.035,
     color: "#a3a3a3",
     fontWeight: "bold",
-    letterSpacing: 2,
-    textAlign: "center",
+    letterSpacing: width*0.007,
   },
 });
 

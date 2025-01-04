@@ -2,9 +2,11 @@ import { StatusBars } from "@/components/components";
 import { useState } from "react";
 // import { styles } from "@/css/main";
 import { StyleSheet } from "react-native";
-import { View, ImageBackground, Text, TouchableOpacity } from "react-native";
+import { View, ImageBackground, Text, TouchableOpacity,Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+const { width, height } = Dimensions.get("window");
 
 const UpdateProfile = () => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -24,7 +26,7 @@ const UpdateProfile = () => {
               />
             </TouchableOpacity>
             <View style={styles.profile_update_header_3}>
-            <Icon name="camera" color="white" size={40}/>
+            <Icon name="camera" color="white" size={width*0.08}/>
             </View>
           </ImageBackground>
           <View style={styles.profile_update_hearder_2}>
@@ -32,7 +34,7 @@ const UpdateProfile = () => {
               source={require("@/assets/images/40523.jpg")}
               style={styles.profile_update_image}
             >
-              <Icon name="camera" color="white" size={40}/>
+              <Icon name="camera" color="white" size={width*0.08}/>
               </ImageBackground>
           </View>
         </View>
@@ -121,17 +123,17 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profile_back_button: {
-    width: 20,
-    height: 20,
-    margin: 20,
+    width: width*0.05,
+    height: width*0.05,
+    margin: width*0.05,
   },
 
   profile_update_image: {
     position: "absolute",
-    bottom: "40%",
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    bottom: width*0.005,
+    width: width*0.25,
+    height: width*0.25,
+    borderRadius:  width*0.5,
     backgroundPosition: "center",
     overflow: "hidden",
     display:"flex",
@@ -142,17 +144,16 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   btn_edit: {
-    backgroundColor: "#8c11ff",
-    borderRadius: 50,
-    padding:"3%",
-    width:"80%",
-    display: "flex",
+    backgroundColor: "#45ff25",
+    width: "80%",
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
     justifyContent: "center",
     alignItems: "center",
   },
   login_2: {
-    fontSize: 20,
-    letterSpacing: 2,
+    fontSize: width * 0.05,
+    letterSpacing: width * 0.007,
     fontWeight: "bold",
     color: "white",
   },

@@ -1,7 +1,10 @@
 import { StatusBars } from "@/components/components";
 import React from "react";
-import { ImageBackground, ScrollView } from "react-native";
+import { Dimensions, ImageBackground, ScrollView } from "react-native";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+
+
+const { width, height } = Dimensions.get("window");
 
 const Profile = () => {
   return (
@@ -195,9 +198,9 @@ const styles = StyleSheet.create({
   profile_image: {
     position: "absolute",
     bottom: "80%",
-    width: 80,
-    height: 80,
-    borderRadius: 50,
+    width: width*0.2,
+    height: width*0.2,
+    borderRadius: width*0.2,
     backgroundPosition: "center",
     overflow: "hidden",
   },
@@ -213,38 +216,38 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    borderRadius: 5,
+    padding: width*0.02,
+    borderRadius: width*0.05,
     color: "white",
   },
   profile_edit_button_text: {
     color: "white",
     fontWeight: "bold",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
   },
   profile_message_button: {
     width: "30%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    borderRadius: 5,
+    padding: width*0.02,
+    borderRadius: width*0.05,
     color: "white",
-    borderWidth: 2,
+    borderWidth: width*0.002,
     borderColor: "#fa2d6a",
   },
   profile_message_button_text: {
     color: "#fa2d6a",
     fontWeight: "bold",
-    letterSpacing: 2,
+    letterSpacing: width*0.007,
   },
   profile_txt_1: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: width*0.05,
   },
   profile_txt_2: {
     fontWeight: "light",
-    fontSize: 12,
+    fontSize: width*0.03,
   },
   profile_story_card: {
     width: "33.3%",
@@ -255,16 +258,16 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     justifyContent: "flex-end",
-    padding: 10,
+    padding: width*0.02
   },
   profile_txt_3: {
     color: "white",
     fontWeight: "bold",
   },
   profile_back_button:{
-    width:20,
-    height:20,
-    margin:20
+    width: width*0.05,
+    height: width*0.05,
+    margin: width*0.05,
   }
 });
 

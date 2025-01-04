@@ -1,6 +1,8 @@
 import React from "react";
 import { StatusBars } from "@/components/components";
 import IntroOne from "./screen/IntroOne";
+import IntroTwo from "./screen/IntroTwo";
+import IntroThree from "./screen/IntroThree";
 import Home from "./screen/Home";
 import Profile from "./screen/Profile";
 import UpdateProfile from "./screen/UpdateProfile";
@@ -12,7 +14,7 @@ const Index = () => {
   return (
     <>
       <StatusBars />
-      <ReadScreen/>
+      <UpdateProfile/>
     </>
   );
 };
