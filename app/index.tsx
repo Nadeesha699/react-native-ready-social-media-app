@@ -9,12 +9,13 @@ import UpdateProfile from "./screen/UpdateProfile";
 import Register from "./screen/Register";
 import Login from "./screen/Login";
 import ReadScreen from "./screen/ReadScreen";
+import Message from "./screen/Message";
 
 const Index = () => {
   return (
     <>
       <StatusBars />
-      <UpdateProfile/>
+      <Message/>
     </>
   );
 };

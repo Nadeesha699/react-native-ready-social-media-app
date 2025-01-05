@@ -2,7 +2,13 @@ import { StatusBars } from "@/components/components";
 import { useState } from "react";
 // import { styles } from "@/css/main";
 import { StyleSheet } from "react-native";
-import { View, ImageBackground, Text, TouchableOpacity,Dimensions } from "react-native";
+import {
+  View,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -25,8 +31,9 @@ const UpdateProfile = () => {
                 style={styles.profile_back_button}
               />
             </TouchableOpacity>
+            <Text style={styles.header_name}>Update Profile</Text>
             <View style={styles.profile_update_header_3}>
-            <Icon name="camera" color="white" size={width*0.08}/>
+              <Icon name="camera" color="white" size={width * 0.1} />
             </View>
           </ImageBackground>
           <View style={styles.profile_update_hearder_2}>
@@ -34,8 +41,8 @@ const UpdateProfile = () => {
               source={require("@/assets/images/40523.jpg")}
               style={styles.profile_update_image}
             >
-              <Icon name="camera" color="white" size={width*0.08}/>
-              </ImageBackground>
+              <Icon name="camera" color="white" size={width * 0.08} />
+            </ImageBackground>
           </View>
         </View>
         <View style={styles.profile_update_body}>
@@ -104,41 +111,41 @@ const styles = StyleSheet.create({
   profile_update_body: {
     flex: 0.7,
     flexDirection: "column",
-    justifyContent:"space-around",
+    justifyContent: "space-around",
     alignItems: "center",
     overflowY: "scroll",
-    padding:"5%",
+    padding: "5%",
   },
   profile_update_hearder_1: {
     flex: 0.9,
     width: "100%",
     height: "100%",
-   justifyContent:"flex-start",
-   flexDirection:"column",
-   alignItems:"flex-start"
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    flexDirection: "row",
+    padding: width * 0.05,
   },
   profile_update_hearder_2: {
     flex: 0.1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   profile_back_button: {
-    width: width*0.05,
-    height: width*0.05,
-    margin: width*0.05,
+    width: width * 0.05,
+    height: width * 0.05,
   },
 
   profile_update_image: {
     position: "absolute",
-    bottom: width*0.005,
-    width: width*0.25,
-    height: width*0.25,
-    borderRadius:  width*0.5,
+    bottom: width * 0.005,
+    width: width * 0.25,
+    height: width * 0.25,
+    borderRadius: width * 0.5,
     backgroundPosition: "center",
     overflow: "hidden",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center"
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   input_field: {
     width: "100%",
@@ -157,12 +164,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  profile_update_header_3:{
-    width:"100%",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center"
-  }
+  profile_update_header_3: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    height: "100%",
+  },
+  header_name: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: width * 0.05,
+  },
 });
 
 export default UpdateProfile;
