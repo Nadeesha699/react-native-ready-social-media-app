@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <>
       <StatusBars />
-      <Message/>
+      <IntroOne/>
     </>
   );
 };

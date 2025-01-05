@@ -45,7 +45,8 @@ const commentData = [
   },
   {
     profile: "@/assets/images/40523.jpg",
-    comment: "Eka Pattaedhgd gedyg uugfeufgue fuufufueu feu feufue",
+    comment:
+      "Eka Pattaedhgd gedyg uugfeufgue fuufufueu feu feufue hfuhfuhu urhfu rufhru hgur ugr gurfughu",
     name: "Kusal Ahela Arachchi",
     time: "5h",
   },
@@ -116,9 +117,11 @@ function ReadScreen() {
                 style={styles.readscreen_img2}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                  closeComment ? setCloseComment(false) : setCloseComment(true);
-                }}>
+            <TouchableOpacity
+              onPress={() => {
+                closeComment ? setCloseComment(false) : setCloseComment(true);
+              }}
+            >
               <Image
                 source={require("@/assets/images/comment1.png")}
                 style={styles.readscreen_img2}
@@ -163,86 +166,70 @@ function ReadScreen() {
           <View style={styles.readscreen_con9}>
             <Text style={styles.readscreen_txt3}>{story}</Text>
           </View>
-        <View
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: closeComment? 0 : 1000,
-          }}
-        >
-          <View style={{ flex: 0.5, backgroundColor: "#0000008c" }}></View>
           <View
-            style={{
-              flex: 0.5,
-            }}
+            style={[
+              styles.readscreen_comment_section,
+              {
+                top: closeComment ? 0 : width * 10,
+              },
+            ]}
           >
+            <View style={styles.readscreen_dark_view}></View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                padding: "5%",
-                backgroundColor:"white"
+                flex: 0.5,
               }}
             >
-              <TouchableOpacity
-                onPress={() => {
-                  closeComment ? setCloseComment(false) : setCloseComment(true);
-                }}
+              <View style={styles.comment_header}>
+                <TouchableOpacity
+                  onPress={() => {
+                    closeComment
+                      ? setCloseComment(false)
+                      : setCloseComment(true);
+                  }}
+                >
+                  <Image
+                    source={require("@/assets/images/close.png")}
+                    style={styles.close_img}
+                  />
+                </TouchableOpacity>
+              </View>
+              <ScrollView
+                style={styles.comment_scroll}
+                showsHorizontalScrollIndicator={false}
+                ref={scrollViewRef}
               >
-                <Image
-                  source={require("@/assets/images/close.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              </TouchableOpacity>
-            </View>
-            <ScrollView
-              style={{ padding: "5%",backgroundColor:"white" }}
-              showsHorizontalScrollIndicator={false}
-              ref={scrollViewRef}
-            >
-              {commentData.map((e, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "flex-start",
-                      marginBottom: 10,
-                      // borderBottomWidth: 1,
-                      padding: 10,
-                      gap:10,
-                    }}
-                  >
-                    <Image
-                      source={require("@/assets/images/40523.jpg")}
-                      style={{ width: 70, height: 70, borderRadius: 50 }}
-                    />
-                    <View style={{ justifyContent: "space-evenly" ,width:"100%"}}>
-                      <Text style={{fontWeight:"bold"}}>{e.name}</Text>
-                      <Text style={{fontWeight:"bold",fontSize:17}}>{e.comment}</Text>
-                      <Text style={{fontSize:12,color:"#848484"}}>{e.time}</Text>
+                {commentData.map((e, index) => {
+                  return (
+                    <View key={index} style={styles.comment_card}>
+                      <Image
+                        source={require("@/assets/images/40523.jpg")}
+                        style={styles.comment_profile}
+                      />
+                      <View style={styles.comment_con}>
+                        <Text style={{ fontWeight: "bold" }}>{e.name}</Text>
+                        <Text>{e.comment}</Text>
+                        <Text style={styles.comment_txt}>{e.time}</Text>
+                      </View>
                     </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
-            <TextInput
-              placeholder="Message"
-              left={
-                <TextInput.Icon
-                  icon={() => <Icon name="attachment" size={width * 0.06} />}
-                />
-              }
-              right={
-                <TextInput.Icon
-                  icon={() => <Icon name="send" size={width * 0.06} />}
-                />
-              }
-            />
+                  );
+                })}
+              </ScrollView>
+              <TextInput
+                placeholder="Message"
+                left={
+                  <TextInput.Icon
+                    icon={() => <Icon name="attachment" size={width * 0.06} />}
+                  />
+                }
+                right={
+                  <TextInput.Icon
+                    icon={() => <Icon name="send" size={width * 0.06} />}
+                  />
+                }
+              />
+            </View>
           </View>
-        </View>
         </View>
       </View>
     </>
@@ -251,6 +238,38 @@ function ReadScreen() {
 
 const styles = StyleSheet.create({
   readscreen_container: { flex: 1 },
+  readscreen_comment_section: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  comment_con: {
+    justifyContent: "space-evenly",
+    width: width * 0.5,
+  },
+  comment_txt: { fontSize: width * 0.025, color: "#848484" },
+  readscreen_dark_view: { flex: 0.5, backgroundColor: "#0000008c" },
+  close_img: { width: width * 0.05, height: width * 0.05 },
+  comment_scroll: { padding: width * 0.02, backgroundColor: "white" },
+  comment_card: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginBottom: width * 0.02,
+    padding: width * 0.02,
+    gap: width * 0.02,
+  },
+  comment_profile: {
+    width: width * 0.15,
+    height: width * 0.15,
+    borderRadius: width * 0.5,
+  },
+  comment_header: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    padding: "5%",
+    backgroundColor: "white",
+  },
   readscreen_header: {
     flex: 0.3,
     width: "100%",
