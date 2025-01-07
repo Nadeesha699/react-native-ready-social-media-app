@@ -9,13 +9,17 @@ import UpdateProfile from "./screen/UpdateProfile";
 import Register from "./screen/Register";
 import Login from "./screen/Login";
 import ReadScreen from "./screen/ReadScreen";
-import Message from "./screen/Message";
+import Message from "./screen/UserMessage";
+import Setting from "./screen/Setting";
+import MyStack from "./Stack/RootStack";
+import Search from "./screen/Search";
+import RootStack from "./Stack/RootStack";
 
 const Index = () => {
   return (
     <>
       <StatusBars />
-      <IntroOne/>
+      <RootStack/>
     </>
   );
 };

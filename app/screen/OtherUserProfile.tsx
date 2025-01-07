@@ -24,26 +24,18 @@ const uploadaData = [
   { name: "Story Name" },
 ];
 
-const loggedId = 1;
 
-import { NavigationProp } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationProp } from '@react-navigation/native';
 
 type TestScreenProps = {
-  navigation: NavigationProp<any>;
+  navigation: NavigationProp<any>; 
 };
 
-const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
 
-  useEffect(() => {
-    const load = async () => {
-      const a = AsyncStorage.getItem("uid");
-      setUserId(await a);
-    };
-    load();
-  }, []);
 
+
+  
   return (
     <>
       <StatusBars />
@@ -86,39 +78,40 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.profile_hearder_2_1}>
-              <TouchableOpacity
-                style={styles.profile_edit_button}
-                onPress={() => {
-                  navigation.navigate("UpdateProfile");
-                }}
-              >
+             
+                  {/* <TouchableOpacity style={styles.profile_edit_button} onPress={()=>{navigation.navigate('UpdateProfile')}}>
+                    <Text style={styles.profile_edit_button_text}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.profile_message_button}>
+                    <Text style={styles.profile_message_button_text}>
+                      Share
+                    </Text>
+                  </TouchableOpacity> */}
+              
+                  <TouchableOpacity style={styles.profile_edit_button}>
+                    <Text style={styles.profile_edit_button_text}>Follow</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.profile_message_button}  onPress={() => {
+                                    navigation.navigate("Message");
+                                  }}>
+                    <Text style={styles.profile_message_button_text}>
+                      Chat
+                    </Text>
+                  </TouchableOpacity>
+                
+              {/* <TouchableOpacity style={styles.profile_edit_button}>
                 <Text style={styles.profile_edit_button_text}>Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.profile_message_button}>
                 <Text style={styles.profile_message_button_text}>Share</Text>
-              </TouchableOpacity>
-
-              {/* <TouchableOpacity style={styles.profile_edit_button}>
-                    <Text style={styles.profile_edit_button_text}>Follow</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.profile_message_button}>
-                    <Text style={styles.profile_message_button_text}>
-                      Chat
-                    </Text>
-                  </TouchableOpacity> */}
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>
         <View style={styles.profile_body}>
           {uploadaData.map((e, Index) => {
             return (
-              <TouchableOpacity
-                style={styles.profile_story_card}
-                key={Index}
-                onPress={() => {
-                  navigation.navigate("ReadScreen");
-                }}
-              >
+              <TouchableOpacity style={styles.profile_story_card} key={Index} onPress={()=>{navigation.navigate('ReadScreen')}}>
                 <ImageBackground
                   source={require("@/assets/images/beautiful-anime-character-cartoon-scene.jpg")}
                   style={styles.profile_story_card_background}
@@ -251,4 +244,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default OtherUserProfile;

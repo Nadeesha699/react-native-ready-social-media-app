@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useRef } from "react";
+import { router } from "expo-router";
+import React, { useId, useRef } from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,
@@ -58,7 +59,13 @@ const commentData = [
   },
 ];
 
-function ReadScreen() {
+import { NavigationProp } from "@react-navigation/native";
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>;
+};
+
+const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
@@ -96,12 +103,12 @@ function ReadScreen() {
               : require("@/assets/images/3d-fantasy-scene.jpg")
           }
         >
-          <TouchableOpacity>
+          {/* <TouchableOpacity onPress={()=>{ navigation.goBack()}}>
             <ImageBackground
               source={require("@/assets/images/left-arrow.png")}
               style={styles.profile_back_button}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
               onPress={() => {
@@ -139,7 +146,15 @@ function ReadScreen() {
               >
                 {storyName}
               </Text>
-              <Text style={styles.readscreen_txt4}>{authorName}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(
+                    "UserProfile"
+                  );
+                }}
+              >
+                <Text style={styles.readscreen_txt4}>{authorName}</Text>
+              </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={[
@@ -234,7 +249,7 @@ function ReadScreen() {
       </View>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   readscreen_container: { flex: 1 },
@@ -274,8 +289,10 @@ const styles = StyleSheet.create({
     flex: 0.3,
     width: "100%",
     height: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
   },
   readscreen_body: { flex: 0.7, padding: "5%" },
   readscreen_img2: { width: width * 0.05, height: width * 0.05 },
@@ -304,8 +321,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: width * 0.05,
-    margin: width * 0.05,
-    justifyContent: "space-between",
+    margin: width * 0.02,
+    // justifyContent: "space-between",
   },
   readscreen_con7: {
     justifyContent: "space-around",

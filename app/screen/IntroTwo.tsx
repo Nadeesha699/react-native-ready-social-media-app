@@ -16,7 +16,13 @@ import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
-function IntroTwo() {
+import { NavigationProp } from '@react-navigation/native';
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>; 
+};
+
+const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
   const translateYValue = useSharedValue(-400);
 
   useEffect(() => {
@@ -58,7 +64,7 @@ function IntroTwo() {
         </View>
         <TouchableOpacity
           onPress={() => {
-            router.navigate("/screen/IntroThree");
+            navigation.navigate('IntroThree')
           }}
           style={styles.btn_2}
         >

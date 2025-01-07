@@ -1,4 +1,4 @@
-import { GoogleLogin, StatusBars } from "@/components/components";
+import { StatusBars } from "@/components/components";
 import { registerField } from "@/data/dumiData.jsx";
 import {
   validateContactNO,
@@ -28,7 +28,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width, height } = Dimensions.get("window");
 
-const Register = () => {
+import { NavigationProp } from '@react-navigation/native';
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>; 
+};
+
+const Register: React.FC<TestScreenProps> = ({navigation}) => {
   const [passwordHide, setPasswordHide] = useState(true);
 
   return (
@@ -92,7 +98,7 @@ const Register = () => {
             <Text style={[styles.login_txt3]}>back to</Text>
             <TouchableOpacity
               onPress={() => {
-                router.navigate("/screen/Login");
+                navigation.navigate('Login')
               }}
             >
               <Text style={[styles.login_txt4]}>Login</Text>

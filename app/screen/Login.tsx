@@ -17,7 +17,14 @@ import { TextInput } from "react-native-paper";
 
 const { width, height } = Dimensions.get("window");
 
-const Login = () => {
+import { NavigationProp } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>;
+};
+
+const Login: React.FC<TestScreenProps> = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
 
   return (
@@ -62,14 +69,19 @@ const Login = () => {
             }
             style={styles.input_field}
           />
-          <TouchableOpacity style={styles.btn_sign}>
+          <TouchableOpacity
+            style={styles.btn_sign}
+            onPress={() => {
+              navigation.navigate("Main");
+            }}
+          >
             <Text style={styles.login_2}>Sign in</Text>
           </TouchableOpacity>
           <View style={styles.login_com1}>
             <Text style={[styles.login_txt3]}>if you are new user ?</Text>
             <TouchableOpacity
               onPress={() => {
-                router.navigate("/screen/Register");
+                navigation.navigate("Register");
               }}
             >
               <Text style={[styles.login_txt4]}>Register</Text>
@@ -89,8 +101,8 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
   login_img1: {
-    width: width*0.1,
-    height: width*0.1,
+    width: width * 0.1,
+    height: width * 0.1,
   },
   login_com1: {
     display: "flex",
@@ -100,32 +112,32 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   login_txt2: {
-    fontSize: width*0.05,
+    fontSize: width * 0.05,
     fontWeight: "bold",
-    letterSpacing: width*0.007,
+    letterSpacing: width * 0.007,
   },
   login_txt3: {
-    fontSize: width*0.038,
+    fontSize: width * 0.038,
     color: "#a3a3a3",
   },
   login_txt4: {
-    fontSize: width*0.038,
+    fontSize: width * 0.038,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing: width*0.007,
+    letterSpacing: width * 0.007,
   },
   login_img: {
     width: "80%",
     height: "80%",
   },
   login_1: {
-    fontSize: width*0.1,
+    fontSize: width * 0.1,
     fontWeight: "bold",
-    letterSpacing: width*0.007,
+    letterSpacing: width * 0.007,
   },
   login_2: {
-    fontSize: width*0.05,
-    letterSpacing: width*0.007,
+    fontSize: width * 0.05,
+    letterSpacing: width * 0.007,
     fontWeight: "bold",
     color: "white",
   },
@@ -134,7 +146,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     justifyContent: "space-evenly",
-    alignItems:"center",
+    alignItems: "center",
   },
   login_body: {
     flex: 0.5,
@@ -145,8 +157,8 @@ const styles = StyleSheet.create({
   btn_sign: {
     backgroundColor: "#116cff",
     width: "80%",
-    borderRadius: width*0.05,
-    padding:width*0.02,
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -154,10 +166,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   sign_txt1: {
-    fontSize: width*0.035,
+    fontSize: width * 0.035,
     color: "#a3a3a3",
     fontWeight: "bold",
-    letterSpacing: width*0.007,
+    letterSpacing: width * 0.007,
   },
 });
 

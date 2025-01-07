@@ -14,7 +14,14 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width, height } = Dimensions.get("window");
 
-const UpdateProfile = () => {
+import { NavigationProp } from '@react-navigation/native';
+import React from "react";
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>; 
+};
+
+const UpdateProfile: React.FC<TestScreenProps> = () => {
   const [hidePassword, setHidePassword] = useState(true);
   return (
     <>
@@ -25,13 +32,13 @@ const UpdateProfile = () => {
             style={styles.profile_update_hearder_1}
             source={require("@/assets/images/3d-fantasy-scene.jpg")}
           >
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <ImageBackground
                 source={require("@/assets/images/left-arrow.png")}
                 style={styles.profile_back_button}
               />
             </TouchableOpacity>
-            <Text style={styles.header_name}>Update Profile</Text>
+            <Text style={styles.header_name}>Update Profile</Text> */}
             <View style={styles.profile_update_header_3}>
               <Icon name="camera" color="white" size={width * 0.1} />
             </View>
@@ -120,9 +127,6 @@ const styles = StyleSheet.create({
     flex: 0.9,
     width: "100%",
     height: "100%",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    flexDirection: "row",
     padding: width * 0.05,
   },
   profile_update_hearder_2: {

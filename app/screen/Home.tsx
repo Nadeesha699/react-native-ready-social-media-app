@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import {StatusBars } from "@/components/components";
 
 import React, { useState } from "react";
 import {
@@ -14,10 +14,16 @@ import { all, horror, fantasy, thriller} from "@/data/dumiData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
+import { NavigationProp } from '@react-navigation/native';
+
+type TestScreenProps = {
+  navigation: NavigationProp<any>; 
+};
+
 
 const { width, height } = Dimensions.get("window");
 
-function Home() {
+const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [data, setData] = useState(all);
 
   const a = "@/assets/images/menu.png";
@@ -77,7 +83,8 @@ function Home() {
                         e.story,
                         e.imgs
                       );
-                      router.push("/screen/ReadScreen");
+                      navigation.navigate('ReadScreen')
+                      // router.push("/screen/ReadScreen");
                     } catch (error) {
                       console.error("Error saving to AsyncStorage:", error);
                     }
@@ -112,9 +119,10 @@ function Home() {
             >
               <Text style={styles.home_txt_6}>All</Text>
             </TouchableOpacity>
-            {all.map((e) => {
+            {all.map((e,index) => {
               return (
                 <TouchableOpacity
+                key={index}
                   style={styles.home_category_button}
                   onPress={() => {
                     setType(e.type);
@@ -135,7 +143,7 @@ function Home() {
                 onPress={async () => {
                   try {
                     await setLocalData(e.author, e.storyName, e.story, e.imgs);
-                    router.push("/screen/ReadScreen");
+                    navigation.navigate('ReadScreen')
                   } catch (error) {
                     console.error("Error saving to AsyncStorage:", error);
                   }

@@ -42,7 +42,7 @@ const messageData = [
   { messsage: "Hmm", time: "21.15", cid: 1 },
 ];
 
-const Message = () => {
+const UserMessages = () => {
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Message = () => {
 
   return (
     <View style={styles.message_container}>
-      <View style={styles.message_header}>
+      {/* <View style={styles.message_header}>
         <TouchableOpacity>
           <ImageBackground
             source={require("@/assets/images/left-arrow.png")}
@@ -63,7 +63,7 @@ const Message = () => {
         <Text style={styles.header_name} numberOfLines={1} ellipsizeMode="tail">
           Nadeesha Rwuandima
         </Text>
-      </View>
+      </View> */}
       <ScrollView style={styles.message_body} ref={scrollViewRef}>
         {messageData.map((e, index) => {
           return (
@@ -151,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Message;
+export default UserMessages;
