@@ -1,24 +1,20 @@
 import { StatusBars } from "@/components/components";
 import { useState } from "react";
-// import { styles } from "@/css/main";
 import { StyleSheet } from "react-native";
 import {
   View,
   ImageBackground,
-  Text,
-  TouchableOpacity,
   Dimensions,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-const { width, height } = Dimensions.get("window");
-
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 
+const { width} = Dimensions.get("window");
+
 type TestScreenProps = {
-  navigation: NavigationProp<any>; 
+  navigation: NavigationProp<any>;
 };
 
 const UpdateProfile: React.FC<TestScreenProps> = () => {
@@ -32,15 +28,8 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             style={styles.profile_update_hearder_1}
             source={require("@/assets/images/3d-fantasy-scene.jpg")}
           >
-            {/* <TouchableOpacity>
-              <ImageBackground
-                source={require("@/assets/images/left-arrow.png")}
-                style={styles.profile_back_button}
-              />
-            </TouchableOpacity>
-            <Text style={styles.header_name}>Update Profile</Text> */}
             <View style={styles.profile_update_header_3}>
-              <Icon name="camera" color="white" size={width * 0.1} />
+              <Icon name="camera" color="white" size={width * 0.08} />
             </View>
           </ImageBackground>
           <View style={styles.profile_update_hearder_2}>
@@ -56,12 +45,17 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
           <TextInput
             style={styles.input_field}
             label="Email"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             left={<TextInput.Icon icon={() => <Icon name="email" />} />}
-            mode="outlined"
           />
           <TextInput
             style={styles.input_field}
             label="Password"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             secureTextEntry={hidePassword}
             left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
             right={
@@ -78,29 +72,31 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
                 )}
               />
             }
-            mode="outlined"
           />
           <TextInput
             style={styles.input_field}
             label="Full Name"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             left={<TextInput.Icon icon={() => <Icon name="account" />} />}
-            mode="outlined"
           />
           <TextInput
             style={styles.input_field}
             label="Contact Numeber"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             left={<TextInput.Icon icon={() => <Icon name="phone" />} />}
-            mode="outlined"
           />
           <TextInput
             style={styles.input_field}
             label="Bio"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             left={<TextInput.Icon icon={() => <Icon name="bio" />} />}
-            mode="outlined"
           />
-          <TouchableOpacity style={styles.btn_edit}>
-            <Text style={styles.login_2}>Edit</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </>
@@ -134,16 +130,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  profile_back_button: {
-    width: width * 0.05,
-    height: width * 0.05,
-  },
 
   profile_update_image: {
     position: "absolute",
     bottom: width * 0.005,
-    width: width * 0.25,
-    height: width * 0.25,
+    width: width * 0.3,
+    height: width * 0.3,
     borderRadius: width * 0.5,
     backgroundPosition: "center",
     overflow: "hidden",
@@ -152,6 +144,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input_field: {
+    borderRadius: width * 0.1,
+    borderTopRightRadius: width * 0.1,
+    borderTopLeftRadius: width * 0.1,
     width: "100%",
   },
   btn_edit: {
@@ -161,12 +156,6 @@ const styles = StyleSheet.create({
     padding: width * 0.02,
     justifyContent: "center",
     alignItems: "center",
-  },
-  login_2: {
-    fontSize: width * 0.05,
-    letterSpacing: width * 0.007,
-    fontWeight: "bold",
-    color: "white",
   },
   profile_update_header_3: {
     justifyContent: "flex-end",

@@ -48,7 +48,7 @@ const HomeNaviagte = () => {
         })}
       />
       <Tab.Screen
-        name="Create"
+        name="Create story"
         component={Create}
         options={({ navigation }) => ({
           animation:"fade",
@@ -59,8 +59,8 @@ const HomeNaviagte = () => {
           ),
           headerLeft: () => (
             <Icon
-              name="chevron-left"
-              size={width * 0.1}
+              name="close"
+              size={width * 0.05}
               onPress={() => navigation.goBack()}
             />
           ),

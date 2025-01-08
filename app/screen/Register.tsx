@@ -61,19 +61,25 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="email" />} />}
             label="Email"
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             style={styles.input_field}
           />
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="account" />} />}
             label="Full Name"
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             style={styles.input_field}
           />
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
             label="Password"
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             style={styles.input_field}
             secureTextEntry={passwordHide}
             right={
@@ -88,7 +94,9 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="phone" />} />}
             label="Phone Number"
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             style={styles.input_field}
           />
           <TouchableOpacity style={styles.btn_signup}>
@@ -119,7 +127,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
     color: "#a3a3a3",
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
   login_img1: {
     width: width * 0.1,
@@ -128,7 +135,6 @@ const styles = StyleSheet.create({
   login_txt2: {
     fontSize: width * 0.05,
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
   login_txt3: {
     fontSize: width * 0.038,
@@ -138,7 +144,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.038,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing: width * 0.007,
   },
   login_img: {
     width: "80%",
@@ -147,7 +152,6 @@ const styles = StyleSheet.create({
   sign_1: {
     fontSize: width * 0.1,
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
   sign_header: {
     flex: 0.5,
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     gap: "5%",
   },
   btn_signup: {
-    backgroundColor: "#ff1151",
+      backgroundColor: "#116cff",
     width: "80%",
     borderRadius: width * 0.05,
     padding: width * 0.02,
@@ -172,17 +176,20 @@ const styles = StyleSheet.create({
   },
   login_2: {
     fontSize: width * 0.05,
-    letterSpacing: width * 0.007,
     fontWeight: "bold",
     color: "white",
   },
   input_field: {
+    borderRadius: width * 0.1,
+    borderTopRightRadius: width * 0.1,
+    borderTopLeftRadius: width * 0.1,
     width: "100%",
   },
   login_com1: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent:"center",
+    gap:width*0.02,
     alignItems: "center",
     width: "100%",
   },

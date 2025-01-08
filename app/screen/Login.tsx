@@ -50,13 +50,17 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="email" />} />}
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             label="Email"
             style={styles.input_field}
           />
           <TextInput
             left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
-            mode="outlined"
+            underlineColor="transparent"
+            activeUnderlineColor="transparent"
+            mode="flat"
             label="Password"
             secureTextEntry={hidePassword}
             right={
@@ -107,14 +111,14 @@ const styles = StyleSheet.create({
   login_com1: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent:"center",
+    gap:width*0.02,
     alignItems: "center",
     width: "100%",
   },
   login_txt2: {
     fontSize: width * 0.05,
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
   login_txt3: {
     fontSize: width * 0.038,
@@ -124,7 +128,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.038,
     fontWeight: "bold",
     color: "#2b80ff",
-    letterSpacing: width * 0.007,
   },
   login_img: {
     width: "80%",
@@ -133,7 +136,6 @@ const styles = StyleSheet.create({
   login_1: {
     fontSize: width * 0.1,
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
   login_2: {
     fontSize: width * 0.05,
@@ -163,13 +165,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input_field: {
+    borderRadius: width * 0.1,
+    borderTopRightRadius: width * 0.1,
+    borderTopLeftRadius: width * 0.1,
     width: "100%",
   },
   sign_txt1: {
     fontSize: width * 0.035,
     color: "#a3a3a3",
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
   },
 });
 

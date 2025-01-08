@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Profile from "../screen/Profile";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Dimensions } from "react-native";
+import { Dimensions, TouchableOpacity,Text } from "react-native";
 import UpdateProfile from "../screen/UpdateProfile";
 import ReadScreen from "../screen/ReadScreen";
 import Notifications from "../screen/Notification";
@@ -26,13 +26,21 @@ export const ProfileStack = () => {
         component={UpdateProfile}
         options={({ navigation }) => ({
           animation: "slide_from_right",
+          headerTitleAlign:"center",
+          headerTitleStyle:{fontWeight:"bold"},
           headerLeft: () => (
             <Icon
-              name="chevron-left"
-              size={width * 0.1}
+              name="close"
+              size={width * 0.07}
+              color="#ff005d"
               onPress={() => navigation.goBack()}
             />
           ),
+          headerRight:()=>(
+            <TouchableOpacity>
+              <Text style={{color:"#1178ff",padding:width*0.02,fontWeight:"bold"}}>edit</Text>
+            </TouchableOpacity>
+          )
         })}
       />
       <Stack.Screen
