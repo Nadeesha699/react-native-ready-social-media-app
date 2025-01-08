@@ -14,6 +14,9 @@ import Setting from "./screen/Setting";
 import MyStack from "./Stack/RootStack";
 import Search from "./screen/Search";
 import RootStack from "./Stack/RootStack";
+import { NotificationStack} from "./Stack/ScreenStack";
+import HomeNaviagte from "./Navigate/HomeNavigate";
+import  HomeDrawer  from "./Drawer/HomeDrawer";
 
 const Index = () => {
   return (

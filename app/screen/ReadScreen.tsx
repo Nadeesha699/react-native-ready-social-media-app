@@ -160,7 +160,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               style={[
                 styles.readscreen_follow_button,
                 {
-                  backgroundColor: followed ? "white" : "#ff1158",
+                  backgroundColor: followed ? "white" : "#1178ff",
                   borderWidth: followed ? 2 : 0,
                 },
               ]}
@@ -196,6 +196,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               }}
             >
               <View style={styles.comment_header}>
+                <Text style={{fontWeight:"bold"}}>Comments</Text>
                 <TouchableOpacity
                   onPress={() => {
                     closeComment
@@ -231,6 +232,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 })}
               </ScrollView>
               <TextInput
+              style={{backgroundColor:"white"}}
                 placeholder="Message"
                 left={
                   <TextInput.Icon
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
   },
   comment_header: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent:"space-between",
     padding: "5%",
     backgroundColor: "white",
   },
@@ -297,7 +299,7 @@ const styles = StyleSheet.create({
   readscreen_body: { flex: 0.7, padding: "5%" },
   readscreen_img2: { width: width * 0.05, height: width * 0.05 },
   readscreen_txt1: {
-    letterSpacing: width * 0.004,
+    // letterSpacing: width * 0.004,
     fontWeight: "bold",
   },
   readscreen_txt3: {
@@ -308,9 +310,9 @@ const styles = StyleSheet.create({
     paddingTop: width * 0.07,
   },
   readscreen_txt4: {
-    fontSize: width * 0.035,
-    letterSpacing: width * 0.004,
-    color: "#fe165c",
+    // letterSpacing: width * 0.004,
+    color: "#1178ff",
+    fontWeight:"bold"
   },
   profile_back_button: {
     width: width * 0.05,
@@ -337,7 +339,7 @@ const styles = StyleSheet.create({
     flex: 0.91,
   },
   readscreen_follow_button: {
-    backgroundColor: "#ff1158",
+    backgroundColor: "#1178ff",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: width * 0.09,

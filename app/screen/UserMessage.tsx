@@ -40,9 +40,17 @@ const messageData = [
   { messsage: "ne ne halo", time: "21:07", cid: 1 },
   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
   { messsage: "Hmm", time: "21.15", cid: 1 },
+
+  
 ];
 
-const UserMessages = () => {
+import { NavigationProp } from "@react-navigation/native";
+  
+  type TestScreenProps = {
+    navigation: NavigationProp<any>;
+  };
+
+const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   useEffect(() => {
@@ -53,17 +61,17 @@ const UserMessages = () => {
 
   return (
     <View style={styles.message_container}>
-      {/* <View style={styles.message_header}>
-        <TouchableOpacity>
+      <View style={styles.message_header}>
+        <TouchableOpacity onPress={()=>{navigation.goBack()}}>
           <ImageBackground
-            source={require("@/assets/images/left-arrow.png")}
+            source={require("@/assets/images/back.png")}
             style={styles.profile_back_button}
           />
         </TouchableOpacity>
         <Text style={styles.header_name} numberOfLines={1} ellipsizeMode="tail">
           Nadeesha Rwuandima
         </Text>
-      </View> */}
+      </View>
       <ScrollView style={styles.message_body} ref={scrollViewRef}>
         {messageData.map((e, index) => {
           return (
@@ -78,7 +86,7 @@ const UserMessages = () => {
                 style={[
                   styles.message_card,
                   {
-                    backgroundColor: e.cid === 1 ? "#d7d7d7" : "#ffd3e3",
+                    backgroundColor: e.cid === 1 ? "#d7d7d7" : "#b9d7ff",
                     borderTopLeftRadius: e.cid === 1 ? width * 0.02 : 0,
                     borderTopRightRadius: e.cid === 1 ? 0 : width * 0.02,
                     marginLeft: e.cid === 1 ? width * 0.02 : 0,
@@ -117,9 +125,8 @@ const styles = StyleSheet.create({
   },
   message_txt: { textAlign: "right", fontSize: width * 0.025, color: "gray" },
   message_header: {
-    flex: 0.1,
-    backgroundColor: "#970037",
-    padding: width * 0.05,
+    flex: 0.05,
+    padding: width * 0.03,
     alignItems: "center",
     flexDirection: "row",
     gap: width * 0.02,
@@ -133,14 +140,13 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.02,
   },
   message_footer: {
-    flex: 0.1,
+    backgroundColor:"white"
   },
   profile_back_button: {
     width: width * 0.05,
     height: width * 0.05,
   },
   header_name: {
-    color: "white",
     fontWeight: "bold",
     fontSize: width * 0.05,
   },

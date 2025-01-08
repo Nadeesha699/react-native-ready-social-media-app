@@ -1,20 +1,20 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ReadScreen from "../screen/ReadScreen";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IntroOne from "../screen/IntroOne";
 import IntroTwo from "../screen/IntroTwo";
 import IntroThree from "../screen/IntroThree";
 import Login from "../screen/Login";
 import Register from "../screen/Register";
-import HomeNaviagte from "../Navigate/HomeNavigate";
-import Message from "../screen/UserMessage";
 import UpdateProfile from "../screen/UpdateProfile";
 import UserProfile from "../screen/OtherUserProfile";
+import Search from "../screen/Search";
+import  HomeDrawer  from "../Drawer/HomeDrawer";
 
 const Stack = createNativeStackNavigator();
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 function RootStack() {
   return (
@@ -48,11 +48,11 @@ function RootStack() {
       />
       <Stack.Screen
         name="Main"
-        component={HomeNaviagte}
+        component={HomeDrawer}
         options={{ headerShown: false, animation: "slide_from_right" }}
       />
       <Stack.Screen
-        name="ReadScreen"
+        name="Story"
         component={ReadScreen}
         options={({ navigation }) => ({
           headerShown: true,
@@ -97,19 +97,9 @@ function RootStack() {
         })}
       />
       <Stack.Screen
-        name="Message"
-        component={Message}
-        options={({ navigation }) => ({
-          headerShown: true,
-          animation: "slide_from_right",
-          headerLeft: () => (
-            <Icon
-              name="chevron-left"
-              size={width * 0.1}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
+        name="Search"
+        component={Search}
+        options={{ animation: "slide_from_right" ,headerShown: false, }}
       />
     </Stack.Navigator>
   );

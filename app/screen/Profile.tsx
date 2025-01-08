@@ -24,25 +24,16 @@ const uploadaData = [
   { name: "Story Name" },
 ];
 
-const loggedId = 1;
 
 import { NavigationProp } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
-  const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const load = async () => {
-      const a = AsyncStorage.getItem("uid");
-      setUserId(await a);
-    };
-    load();
-  }, []);
+
 
   return (
     <>
@@ -89,7 +80,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.profile_edit_button}
                 onPress={() => {
-                  navigation.navigate("UpdateProfile");
+                  navigation.navigate("Update Profile");
                 }}
               >
                 <Text style={styles.profile_edit_button_text}>Edit</Text>
@@ -178,9 +169,9 @@ const styles = StyleSheet.create({
   profile_image: {
     position: "absolute",
     bottom: "80%",
-    width: width * 0.2,
-    height: width * 0.2,
-    borderRadius: width * 0.2,
+    width: width * 0.3,
+    height: width * 0.3,
+    borderRadius: width * 0.5,
     backgroundPosition: "center",
     overflow: "hidden",
   },
@@ -191,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profile_edit_button: {
-    backgroundColor: "#fa2d6a",
+    backgroundColor: "#1178ff",
     width: "30%",
     display: "flex",
     justifyContent: "center",
@@ -203,7 +194,7 @@ const styles = StyleSheet.create({
   profile_edit_button_text: {
     color: "white",
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
+    // letterSpacing: width * 0.007,
   },
   profile_message_button: {
     width: "30%",
@@ -214,12 +205,12 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.05,
     color: "white",
     borderWidth: width * 0.002,
-    borderColor: "#fa2d6a",
+    borderColor: "#1178ff",
   },
   profile_message_button_text: {
-    color: "#fa2d6a",
+    color: "#1178ff",
     fontWeight: "bold",
-    letterSpacing: width * 0.007,
+    // letterSpacing: width * 0.007,
   },
   profile_txt_1: {
     fontWeight: "bold",
