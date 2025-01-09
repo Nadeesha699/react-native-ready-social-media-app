@@ -89,7 +89,7 @@ const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <View style={{ flex: 1, padding: width * 0.02, gap: width * 0.05 }}>
+    <View style={{ flex: 1, padding: width * 0.02, gap: width * 0.05,backgroundColor:"white" }}>
       <Text style={{ fontSize: width * 0.075, fontWeight: "bold" }}>Chat</Text>
       <TextInput
         value={searchText}

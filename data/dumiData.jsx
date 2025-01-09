@@ -246,38 +246,3 @@ export const categories = [
   { name: "Thriller" },
 ];
 
-export const loginfield = [
-  {
-    placeHolder: "Email",
-    icon: require("@/assets/images/arroba.png"),
-    errormessage: "Invalid Email",
-  },
-  {
-    placeHolder: "Password",
-    icon: require("@/assets/images/lock.png"),
-    errormessage: "Invalid Password",
-  },
-];
-
-export const registerField = [
-  {
-    placeHolder: "Email",
-    icon: require("@/assets/images/arroba.png"),
-    errormessage: "Invalid Email",
-  },
-  {
-    placeHolder: "Password",
-    icon: require("@/assets/images/lock.png"),
-    errormessage: "Invalid Password",
-  },
-  {
-    placeHolder: "Full Name",
-    icon: require("@/assets/images/user.png"),
-    errormessage: "Invalid name",
-  },
-  {
-    placeHolder: "Contact Numebr",
-    icon: require("@/assets/images/call.png"),
-    errormessage: "Invalid contact number",
-  },
-];

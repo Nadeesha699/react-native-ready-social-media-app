@@ -54,52 +54,15 @@ function RootStack() {
       <Stack.Screen
         name="Story"
         component={ReadScreen}
-        options={({ navigation }) => ({
-          headerShown: true,
+        options={{ 
+          headerShown:false,
           animation: "slide_from_right",
-          headerLeft: () => (
-            <Icon
-              name="chevron-left"
-              size={width * 0.1}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
-      />
-      <Stack.Screen
-        name="UserProfile"
-        component={UserProfile}
-        options={({ navigation }) => ({
-          headerShown: true,
-          animation: "slide_from_right",
-          headerLeft: () => (
-            <Icon
-              name="chevron-left"
-              size={width * 0.1}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
-      />
-      <Stack.Screen
-        name="UpdateProfile"
-        component={UpdateProfile}
-        options={({ navigation }) => ({
-          headerShown: true,
-          animation: "slide_from_right",
-          headerLeft: () => (
-            <Icon
-              name="chevron-left"
-              size={width * 0.1}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
+        }}
       />
       <Stack.Screen
         name="Search"
         component={Search}
-        options={{ animation: "slide_from_right" ,headerShown: false, }}
+        options={{ headerShown: false, animation: "slide_from_right" }}
       />
     </Stack.Navigator>
   );

@@ -63,10 +63,7 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
     <View style={styles.message_container}>
       <View style={styles.message_header}>
         <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-          <ImageBackground
-            source={require("@/assets/images/back.png")}
-            style={styles.profile_back_button}
-          />
+          <Icon name="chevron-left" size={width * 0.1}  />
         </TouchableOpacity>
         <Text style={styles.header_name} numberOfLines={1} ellipsizeMode="tail">
           Nadeesha Rwuandima
@@ -104,11 +101,6 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
       <TextInput
         style={styles.message_footer}
         placeholder="Message"
-        left={
-          <TextInput.Icon
-            icon={() => <Icon name="attachment" size={width * 0.06} />}
-          />
-        }
         right={
           <TextInput.Icon
             icon={() => <Icon name="send" size={width * 0.06} />}
@@ -122,6 +114,7 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   message_container: {
     flex: 1,
+    backgroundColor:"white"
   },
   message_txt: { textAlign: "right", fontSize: width * 0.025, color: "gray" },
   message_header: {
@@ -143,8 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor:"white"
   },
   profile_back_button: {
-    width: width * 0.05,
-    height: width * 0.05,
+    width: width * 0.1,
+    height: width * 0.1,
   },
   header_name: {
     fontWeight: "bold",

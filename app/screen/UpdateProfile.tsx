@@ -48,7 +48,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
-            left={<TextInput.Icon icon={() => <Icon name="email" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="email"size={size} />} />}
           />
           <TextInput
             style={styles.input_field}
@@ -57,10 +57,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             activeUnderlineColor="transparent"
             mode="flat"
             secureTextEntry={hidePassword}
-            left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="lock" size={size}/>} />}
             right={
               <TextInput.Icon
-                icon={() => (
+                icon={({size}) => (
                   <Icon
                     name={hidePassword ? "eye" : "eye-off"}
                     onPress={() => {
@@ -68,6 +68,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
                         ? setHidePassword(false)
                         : setHidePassword(true);
                     }}
+                    size={size}
                   />
                 )}
               />
@@ -79,7 +80,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
-            left={<TextInput.Icon icon={() => <Icon name="account" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="account" size={size}/>} />}
           />
           <TextInput
             style={styles.input_field}
@@ -87,7 +88,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
-            left={<TextInput.Icon icon={() => <Icon name="phone" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="phone" size={size}/>} />}
           />
           <TextInput
             style={styles.input_field}
@@ -95,7 +96,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
-            left={<TextInput.Icon icon={() => <Icon name="bio" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="bio"size={size} />} />}
           />
         </View>
       </View>
@@ -106,6 +107,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
 const styles = StyleSheet.create({
   profile_update_container: {
     flex: 1,
+    backgroundColor:"white"
   },
 
   profile_update_hearder: {
@@ -140,8 +142,8 @@ const styles = StyleSheet.create({
     backgroundPosition: "center",
     overflow: "hidden",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent:"center",
+    alignItems:"center"
   },
   input_field: {
     borderRadius: width * 0.1,

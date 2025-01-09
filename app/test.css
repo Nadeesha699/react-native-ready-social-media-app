@@ -1,4 +1,5 @@
 .d {
   color:#cbcbcb;
   transition: all 1s ease-in-out;
+  border-style: dotted;
 }

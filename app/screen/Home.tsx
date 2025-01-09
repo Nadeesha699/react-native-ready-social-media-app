@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 import { DrawerActions, NavigationProp } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -62,21 +63,23 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               flexDirection: "row",
             }}
           >
-            <TouchableOpacity onPress={()=>{navigation.dispatch(DrawerActions.openDrawer())}}>
-              <Image
-                source={require("@/assets/images/menu-button.png")}
-                style={styles.home_img1}
-              />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.dispatch(DrawerActions.openDrawer());
+              }}
+            >
+              <Icon name={"menu"} size={width * 0.06} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Search");
-
               }}
             >
-              <Image
-                source={require("@/assets/images/search-analytics.png")}
-                style={[styles.home_img1, { marginRight: width * 0.05 }]}
+              <Icon
+                name={"magnify"}
+                size={width * 0.06}
+                color={"#1178ff"}
+                style={{ marginRight: width * 0.03 }}
               />
             </TouchableOpacity>
           </View>
@@ -102,7 +105,6 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                         e.imgs
                       );
                       navigation.navigate("Story");
-                      // router.push("/screen/ReadScreen");
                     } catch (error) {
                       console.error("Error saving to AsyncStorage:", error);
                     }
@@ -188,17 +190,11 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </Text>
                   <View style={styles.home_con8}>
                     <View style={styles.home_con9}>
-                      <ImageBackground
-                        source={require("@/assets/images/like.png")}
-                        style={styles.home_img4}
-                      />
+                    <Icon name={"thumb-up-outline"} size={width * 0.04} />
                       <Text>1k</Text>
                     </View>
                     <View style={styles.home_con9}>
-                      <ImageBackground
-                        source={require("@/assets/images/comment.png")}
-                        style={styles.home_img4}
-                      />
+                    <Icon name={"comment-outline"} size={width * 0.04} />
                       <Text>14</Text>
                     </View>
                   </View>
@@ -218,6 +214,7 @@ const styles = StyleSheet.create({
     gap: "2%",
     paddingTop: "5%",
     paddingLeft: "5%",
+    backgroundColor: "white",
   },
   home_con10: {
     flex: 1,
@@ -237,7 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: "3%",
-    borderRadius:width * 0.02,
+    borderRadius: width * 0.02,
     overflow: "hidden",
   },
   home_img1: {
@@ -247,7 +244,6 @@ const styles = StyleSheet.create({
   home_txt_6: {
     color: "white",
     fontWeight: "bold",
-    // letterSpacing: width * 0.007,
   },
   home_img2: {
     width: width * 0.8,
@@ -285,31 +281,26 @@ const styles = StyleSheet.create({
   },
   home_txt_1: {
     fontSize: width * 0.1,
-    color: "#8e8e8e",
-    // letterSpacing: width * 0.007,
+    color: "#1178ff",
     fontWeight: "bold",
   },
   home_txt_2: {
+    color: "#8e8e8e",
     fontSize: width * 0.05,
-    // letterSpacing: width * 0.007,
   },
   home_txt_3: {
     fontSize: width * 0.05,
     color: "white",
-    // letterSpacing: width * 0.007,
     fontWeight: "bold",
   },
   home_txt_4: {
     fontSize: width * 0.035,
     color: "white",
-    // letterSpacing: width * 0.007,
   },
   home_txt_7: {
     fontWeight: "bold",
-    // letterSpacing: width * 0.007,
   },
   home_txt_8: {
-    // letterSpacing: width * 0.007,
     color: "#8e8e8e",
   },
   home_con1: {

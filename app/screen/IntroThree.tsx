@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   intro_container: {
     flex: 1,
     padding: "5%",
+    backgroundColor:"white"
   },
   intro_header: {
     flex: 0.9,

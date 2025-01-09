@@ -10,9 +10,9 @@ import {
   NotificationStack,
   ProfileStack,
   ChatStack,
-} from "../Stack/ScreenStack";
+} from "../Stack/TabStack"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { Dimensions } from "react-native";
+import { Dimensions, TouchableOpacity, Text } from "react-native";
 import Create from "../screen/Create";
 
 const Tab = createBottomTabNavigator();
@@ -51,18 +51,35 @@ const HomeNaviagte = () => {
         name="Create story"
         component={Create}
         options={({ navigation }) => ({
-          animation:"fade",
+          animation: "fade",
           headerShown: true,
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Icon name="plus-circle-outline" size={size} color={color} />
           ),
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontWeight: "bold" },
           headerLeft: () => (
             <Icon
+              style={{ padding: width * 0.02 }}
               name="close"
               size={width * 0.05}
+              color="#ff005d"
               onPress={() => navigation.goBack()}
             />
+          ),
+          headerRight: () => (
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: "#1178ff",
+                  fontWeight: "bold",
+                  padding: width * 0.02,
+                }}
+              >
+                upload
+              </Text>
+            </TouchableOpacity>
           ),
         })}
       />

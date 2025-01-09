@@ -44,12 +44,6 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.profile_hearder_1}
             source={require("@/assets/images/3d-fantasy-scene.jpg")}
           >
-            {/* <TouchableOpacity>
-              <ImageBackground
-                source={require("@/assets/images/left-arrow.png")}
-                style={styles.profile_back_button}
-              />
-            </TouchableOpacity> */}
           </ImageBackground>
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
@@ -88,15 +82,6 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               <TouchableOpacity style={styles.profile_message_button}>
                 <Text style={styles.profile_message_button_text}>Share</Text>
               </TouchableOpacity>
-
-              {/* <TouchableOpacity style={styles.profile_edit_button}>
-                    <Text style={styles.profile_edit_button_text}>Follow</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.profile_message_button}>
-                    <Text style={styles.profile_message_button_text}>
-                      Chat
-                    </Text>
-                  </TouchableOpacity> */}
             </View>
           </View>
         </View>
@@ -107,7 +92,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
                 style={styles.profile_story_card}
                 key={Index}
                 onPress={() => {
-                  navigation.navigate("ReadScreen");
+                  navigation.navigate("Story");
                 }}
               >
                 <ImageBackground
@@ -128,6 +113,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   profile_container: {
     flex: 1,
+    backgroundColor:"white"
   },
 
   profile_hearder: {
@@ -194,7 +180,6 @@ const styles = StyleSheet.create({
   profile_edit_button_text: {
     color: "white",
     fontWeight: "bold",
-    // letterSpacing: width * 0.007,
   },
   profile_message_button: {
     width: "30%",
@@ -210,7 +195,6 @@ const styles = StyleSheet.create({
   profile_message_button_text: {
     color: "#1178ff",
     fontWeight: "bold",
-    // letterSpacing: width * 0.007,
   },
   profile_txt_1: {
     fontWeight: "bold",

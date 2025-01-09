@@ -45,12 +45,12 @@ const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
             style={styles.profile_hearder_1}
             source={require("@/assets/images/3d-fantasy-scene.jpg")}
           >
-            {/* <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.goBack()}}>
               <ImageBackground
-                source={require("@/assets/images/left-arrow.png")}
+                source={require("@/assets/images/arrow1.png")}
                 style={styles.profile_back_button}
               />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </ImageBackground>
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
@@ -78,15 +78,6 @@ const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
               </View>
             </View>
             <View style={styles.profile_hearder_2_1}>
-             
-                  {/* <TouchableOpacity style={styles.profile_edit_button} onPress={()=>{navigation.navigate('UpdateProfile')}}>
-                    <Text style={styles.profile_edit_button_text}>Edit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.profile_message_button}>
-                    <Text style={styles.profile_message_button_text}>
-                      Share
-                    </Text>
-                  </TouchableOpacity> */}
               
                   <TouchableOpacity style={styles.profile_edit_button}>
                     <Text style={styles.profile_edit_button_text}>Follow</Text>
@@ -98,13 +89,6 @@ const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
                       Chat
                     </Text>
                   </TouchableOpacity>
-                
-              {/* <TouchableOpacity style={styles.profile_edit_button}>
-                <Text style={styles.profile_edit_button_text}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.profile_message_button}>
-                <Text style={styles.profile_message_button_text}>Share</Text>
-              </TouchableOpacity> */}
             </View>
           </View>
         </View>
@@ -130,6 +114,7 @@ const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   profile_container: {
     flex: 1,
+    backgroundColor:"white"
   },
 
   profile_hearder: {
@@ -171,8 +156,8 @@ const styles = StyleSheet.create({
   profile_image: {
     position: "absolute",
     bottom: "80%",
-    width: width * 0.2,
-    height: width * 0.2,
+    width: width * 0.3,
+    height: width * 0.3,
     borderRadius: width * 0.2,
     backgroundPosition: "center",
     overflow: "hidden",
@@ -184,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profile_edit_button: {
-    backgroundColor: "#fa2d6a",
+    backgroundColor: "#1178ff",
     width: "30%",
     display: "flex",
     justifyContent: "center",
@@ -207,10 +192,10 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.05,
     color: "white",
     borderWidth: width * 0.002,
-    borderColor: "#fa2d6a",
+    borderColor: "#1178ff",
   },
   profile_message_button_text: {
-    color: "#fa2d6a",
+    color: "#1178ff",
     fontWeight: "bold",
     letterSpacing: width * 0.007,
   },
@@ -238,8 +223,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   profile_back_button: {
-    width: width * 0.05,
-    height: width * 0.05,
+    width: width * 0.1,
+    height: width * 0.1,
     margin: width * 0.05,
   },
 });

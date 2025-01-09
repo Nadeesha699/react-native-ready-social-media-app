@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 const Setting = () =>{
     return(
-        <View></View>
+        <View style={{flex:1,backgroundColor:"white"}}></View>
     )
 }
 

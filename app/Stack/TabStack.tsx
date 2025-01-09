@@ -30,15 +30,16 @@ export const ProfileStack = () => {
           headerTitleStyle:{fontWeight:"bold"},
           headerLeft: () => (
             <Icon
+            style={{padding:width*0.02}}
               name="close"
-              size={width * 0.07}
+              size={width * 0.05}
               color="#ff005d"
               onPress={() => navigation.goBack()}
             />
           ),
           headerRight:()=>(
             <TouchableOpacity>
-              <Text style={{color:"#1178ff",padding:width*0.02,fontWeight:"bold"}}>edit</Text>
+              <Text style={{color:"#1178ff",fontWeight:"bold",padding:width*0.02}}>edit</Text>
             </TouchableOpacity>
           )
         })}
@@ -46,16 +47,10 @@ export const ProfileStack = () => {
       <Stack.Screen
         name="Story"
         component={ReadScreen}
-        options={({ navigation }) => ({
+        options={{ 
+          headerShown:false,
           animation: "slide_from_right",
-          headerLeft: () => (
-            <Icon
-              name="chevron-left"
-              size={width * 0.1}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
+        }}
       />
     </Stack.Navigator>
   );

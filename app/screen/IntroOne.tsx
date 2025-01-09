@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   intro_container: {
     flex: 1,
     padding: "5%",
+    backgroundColor:"white"
   },
   intro_header: {
     flex: 0.9,
@@ -104,7 +105,6 @@ const styles = StyleSheet.create({
   txt_4: {
     color: "white",
     fontSize: width*0.05,
-    // letterSpacing: width*0.007,
   },
 
   btn_2: {
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
   txt_3: {
     color: "#747474",
     fontSize: width*0.05,
-    // letterSpacing: width*0.007,
   },
   btn_1: {
     justifyContent: "center",

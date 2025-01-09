@@ -103,25 +103,23 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               : require("@/assets/images/3d-fantasy-scene.jpg")
           }
         >
-          {/* <TouchableOpacity onPress={()=>{ navigation.goBack()}}>
-            <ImageBackground
-              source={require("@/assets/images/left-arrow.png")}
-              style={styles.profile_back_button}
-            />
-          </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Icon name="chevron-left" size={width * 0.1} color="white" />
+          </TouchableOpacity>
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
               onPress={() => {
                 likeRed ? setLikeRed(false) : setLikeRed(true);
               }}
             >
-              <ImageBackground
-                source={
-                  likeRed
-                    ? require("@/assets/images/like2.png")
-                    : require("@/assets/images/like1.png")
-                }
-                style={styles.readscreen_img2}
+              <Icon
+                name={likeRed ? "thumb-up" : "thumb-up-outline"}
+                size={width * 0.06}
+                color={likeRed ? "red" : "white"}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -129,9 +127,10 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 closeComment ? setCloseComment(false) : setCloseComment(true);
               }}
             >
-              <Image
-                source={require("@/assets/images/comment1.png")}
-                style={styles.readscreen_img2}
+              <Icon
+                name={"comment-outline"}
+                size={width * 0.06}
+                color={"white"}
               />
             </TouchableOpacity>
           </View>
@@ -148,9 +147,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate(
-                    "UserProfile"
-                  );
+                  navigation.navigate("UserProfile");
                 }}
               >
                 <Text style={styles.readscreen_txt4}>{authorName}</Text>
@@ -196,7 +193,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               }}
             >
               <View style={styles.comment_header}>
-                <Text style={{fontWeight:"bold"}}>Comments</Text>
+                <Text style={{ fontWeight: "bold" }}>Comments</Text>
                 <TouchableOpacity
                   onPress={() => {
                     closeComment
@@ -204,10 +201,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                       : setCloseComment(true);
                   }}
                 >
-                  <Image
-                    source={require("@/assets/images/close.png")}
-                    style={styles.close_img}
-                  />
+                  <Icon name="close" size={width * 0.1} />
                 </TouchableOpacity>
               </View>
               <ScrollView
@@ -232,7 +226,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 })}
               </ScrollView>
               <TextInput
-              style={{backgroundColor:"white"}}
+                style={{ backgroundColor: "white" }}
                 placeholder="Message"
                 left={
                   <TextInput.Icon
@@ -254,7 +248,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  readscreen_container: { flex: 1 },
+  readscreen_container: { flex: 1, backgroundColor: "white" },
   readscreen_comment_section: {
     position: "fixed",
     bottom: 0,
@@ -283,7 +277,8 @@ const styles = StyleSheet.create({
   },
   comment_header: {
     flexDirection: "row",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
+    alignItems:"center",
     padding: "5%",
     backgroundColor: "white",
   },
@@ -291,15 +286,14 @@ const styles = StyleSheet.create({
     flex: 0.3,
     width: "100%",
     height: "100%",
-    justifyContent: "flex-end",
     alignItems: "flex-start",
-    // flexDirection: "row",
-    // justifyContent: "space-between",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: width * 0.02,
   },
   readscreen_body: { flex: 0.7, padding: "5%" },
   readscreen_img2: { width: width * 0.05, height: width * 0.05 },
   readscreen_txt1: {
-    // letterSpacing: width * 0.004,
     fontWeight: "bold",
   },
   readscreen_txt3: {
@@ -310,21 +304,18 @@ const styles = StyleSheet.create({
     paddingTop: width * 0.07,
   },
   readscreen_txt4: {
-    // letterSpacing: width * 0.004,
     color: "#1178ff",
-    fontWeight:"bold"
+    fontWeight: "bold",
   },
   profile_back_button: {
-    width: width * 0.05,
-    height: width * 0.05,
-    margin: width * 0.05,
+    width: width * 0.1,
+    height: width * 0.1,
   },
   readscreen_con6: {
     display: "flex",
     flexDirection: "row",
     gap: width * 0.05,
     margin: width * 0.02,
-    // justifyContent: "space-between",
   },
   readscreen_con7: {
     justifyContent: "space-around",

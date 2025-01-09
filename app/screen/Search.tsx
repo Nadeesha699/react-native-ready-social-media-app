@@ -19,12 +19,6 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-// imgs: require("@/assets/images/3d-fantasy-scene.jpg"),
-//     author: "Nadeesha Ruwndima",
-//     storyName: "The Crystal cave 🌛",
-//     type: "Fantasy",
-//     story:
-
 const data = [
   { name: "Nadeesha" },
   { name: "Ruwan" },
@@ -48,17 +42,14 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
             navigation.goBack();
           }}
         >
-          <ImageBackground
-            source={require("@/assets/images/back.png")}
-            style={styles.profile_back_button}
-          />
+          <Icon name="chevron-left" size={width * 0.1} />
         </TouchableOpacity>
         <TextInput
           style={{
             borderRadius: width * 0.1,
             borderTopRightRadius: width * 0.1,
             borderTopLeftRadius: width * 0.1,
-            width:"80%"
+            width: "80%",
           }}
           placeholder="Find by name, author, or type..."
           underlineColor="transparent"
@@ -86,7 +77,6 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
               )}
             />
           }
-          
         />
       </View>
       <View style={styles.search_body}>
@@ -133,7 +123,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  search_container: { flex: 1 },
+  search_container: { flex: 1, backgroundColor: "white" },
   search_header: {
     flex: 0.1,
     flexDirection: "row",
@@ -141,8 +131,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profile_back_button: {
-    width: width * 0.05,
-    height: width * 0.05,
+    width: width * 0.1,
+    height: width * 0.1,
   },
   search_bar: {
     width: "80%",
@@ -159,12 +149,10 @@ const styles = StyleSheet.create({
     gap: "5%",
   },
   home_txt_8: {
-    // letterSpacing: width * 0.007,
     color: "#8e8e8e",
   },
   home_txt_7: {
     fontWeight: "bold",
-    // letterSpacing: width * 0.007,
   },
   home_con10: {
     flex: 1,

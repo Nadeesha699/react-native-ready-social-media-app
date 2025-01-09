@@ -1,32 +1,18 @@
 import { StatusBars } from "@/components/components";
-import { registerField } from "@/data/dumiData.jsx";
-import {
-  validateContactNO,
-  validateEmail,
-  validatePassword,
-  validateUserName,
-} from "@/scripts/scripts";
-import { router } from "expo-router";
 import React from "react";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
-  ToastAndroid,
   StyleSheet,
   Dimensions,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 import { NavigationProp } from '@react-navigation/native';
 
@@ -59,7 +45,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="email" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="email" size={size}/>} />}
             label="Email"
             underlineColor="transparent"
             activeUnderlineColor="transparent"
@@ -67,7 +53,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
             style={styles.input_field}
           />
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="account" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="account" size={size}/>} />}
             label="Full Name"
             underlineColor="transparent"
             activeUnderlineColor="transparent"
@@ -75,7 +61,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
             style={styles.input_field}
           />
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="lock" size={size}/>} />}
             label="Password"
             underlineColor="transparent"
             activeUnderlineColor="transparent"
@@ -84,7 +70,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
             secureTextEntry={passwordHide}
             right={
               <TextInput.Icon
-                icon={() => <Icon name={passwordHide ? "eye" : "eye-off"} />}
+                icon={({size}) => <Icon name={passwordHide ? "eye" : "eye-off"} size={size}/>}
                 onPress={() => {
                   passwordHide ? setPasswordHide(false) : setPasswordHide(true);
                 }}
@@ -92,7 +78,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
             }
           />
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="phone" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="phone" size={size}/>} />}
             label="Phone Number"
             underlineColor="transparent"
             activeUnderlineColor="transparent"
@@ -122,6 +108,7 @@ const styles = StyleSheet.create({
   sign_container: {
     flex: 1,
     padding: "5%",
+    backgroundColor:"white"
   },
   sign_txt1: {
     fontSize: width * 0.035,

@@ -49,7 +49,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="email" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="email" size={size}/>} />}
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
@@ -57,7 +57,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.input_field}
           />
           <TextInput
-            left={<TextInput.Icon icon={() => <Icon name="lock" />} />}
+            left={<TextInput.Icon icon={({size}) => <Icon name="lock" size={size}/>} />}
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
@@ -65,7 +65,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             secureTextEntry={hidePassword}
             right={
               <TextInput.Icon
-                icon={() => <Icon name={hidePassword ? "eye" : "eye-off"} />}
+                icon={({size}) => <Icon name={hidePassword ? "eye" : "eye-off"} size={size} />}
                 onPress={() => {
                   hidePassword ? setHidePassword(false) : setHidePassword(true);
                 }}
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: "5%",
+    backgroundColor:"white"
   },
   login_img1: {
     width: width * 0.1,
