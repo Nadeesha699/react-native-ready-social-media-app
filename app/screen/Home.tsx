@@ -1,6 +1,6 @@
 import { StatusBars } from "@/components/components";
 
-import React, { useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,8 @@ import { router } from "expo-router";
 
 import { DrawerActions, NavigationProp } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { lightTheme, darkTheme } from "../Theme/theme";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -50,10 +52,13 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
       : "";
   };
 
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   return (
     <>
       <StatusBars />
-      <View style={styles.home_container}>
+      <View style={[styles.home_container,{ backgroundColor: theme.background }]}>
         <View style={styles.home_header}>
           <View
             style={{
@@ -68,7 +73,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                 navigation.dispatch(DrawerActions.openDrawer());
               }}
             >
-              <Icon name={"menu"} size={width * 0.06} />
+              <Icon name={"menu"} size={width * 0.06} color={theme.text}/>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -175,7 +180,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                 ></ImageBackground>
                 <View style={styles.home_con10}>
                   <Text
-                    style={styles.home_txt_7}
+                    style={[styles.home_txt_7,{color:theme.text}]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >
@@ -190,12 +195,12 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </Text>
                   <View style={styles.home_con8}>
                     <View style={styles.home_con9}>
-                    <Icon name={"thumb-up-outline"} size={width * 0.04} />
-                      <Text>1k</Text>
+                    <Icon name={"thumb-up-outline"} size={width * 0.04} color={theme.text}/>
+                      <Text style={{color:theme.text}}>1k</Text>
                     </View>
                     <View style={styles.home_con9}>
-                    <Icon name={"comment-outline"} size={width * 0.04} />
-                      <Text>14</Text>
+                    <Icon name={"comment-outline"} size={width * 0.04}color={theme.text} />
+                      <Text style={{color:theme.text}}>14</Text>
                     </View>
                   </View>
                 </View>
@@ -213,8 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: "2%",
     paddingTop: "5%",
-    paddingLeft: "5%",
-    backgroundColor: "white",
+    paddingLeft: "5%"
   },
   home_con10: {
     flex: 1,
@@ -231,6 +235,7 @@ const styles = StyleSheet.create({
   home_category_button: {
     backgroundColor: "#1178ff",
     width: width * 0.2,
+    height: height * 0.05,
     justifyContent: "center",
     alignItems: "center",
     padding: "3%",
@@ -247,7 +252,7 @@ const styles = StyleSheet.create({
   },
   home_img2: {
     width: width * 0.8,
-    height: height * 0.25,
+    height: height * 0.20,
     borderRadius: width * 0.02,
     overflow: "hidden",
     display: "flex",

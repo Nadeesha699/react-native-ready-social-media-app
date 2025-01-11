@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Image, TouchableOpacity, View, Text, Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -79,18 +79,24 @@ const chatData = [
 ];
 
 import { NavigationProp } from "@react-navigation/native";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
   
   type TestScreenProps = {
     navigation: NavigationProp<any>;
   };
 
 const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
+
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
+    
   const [searchIconChange, setSearchIconChange] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   return (
-    <View style={{ flex: 1, padding: width * 0.02, gap: width * 0.05,backgroundColor:"white" }}>
-      <Text style={{ fontSize: width * 0.075, fontWeight: "bold" }}>Chat</Text>
+    <View style={{ flex: 1, padding: width * 0.02, gap: width * 0.05,backgroundColor:theme.background }}>
+      <Text style={{ fontSize: width * 0.075, fontWeight: "bold",color:theme.text }}>Chat</Text>
       <TextInput
         value={searchText}
         style={{
@@ -128,9 +134,10 @@ const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
       <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
         {chatData
           .filter((e) => e.name.toLowerCase().includes(searchText.toLowerCase()))
-          .map((e) => {
+          .map((e,index) => {
             return (
               <TouchableOpacity
+              key={index}
               onPress={()=>{navigation.navigate('UserMessage')}}
                 style={{
                   flexDirection: "row",
@@ -156,11 +163,11 @@ const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
                   <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                    style={{ fontWeight: "bold" }}
+                    style={{ fontWeight: "bold",color:theme.text }}
                   >
                     {e.name}
                   </Text>
-                  <Text numberOfLines={1} ellipsizeMode="tail">
+                  <Text numberOfLines={1} ellipsizeMode="tail" style={{color:theme.text}}>
                     {e.message}
                   </Text>
                 </View>

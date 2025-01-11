@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ReadScreen from "../screen/ReadScreen";
-import { Dimensions } from "react-native";
+import { Dimensions} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IntroOne from "../screen/IntroOne";
 import IntroTwo from "../screen/IntroTwo";
@@ -54,6 +54,14 @@ function RootStack() {
       <Stack.Screen
         name="Story"
         component={ReadScreen}
+        options={{ 
+          headerShown:false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="User Profile"
+        component={UserProfile}
         options={{ 
           headerShown:false,
           animation: "slide_from_right",

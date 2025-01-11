@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Dimensions,
   ImageBackground,
@@ -5,6 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 const { width, height } = Dimensions.get("window");
 
@@ -44,13 +47,16 @@ const notificationData = [
 ];
 
 const Notifications = () => {
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <View style={{flex: 0.1,padding: width * 0.02,gap: width*0.05}}>
+    <View style={{flex: 0.1,padding: width * 0.02,gap: width*0.05,backgroundColor:theme.background}}>
       <Text style={{fontSize:width*0.075,fontWeight:"bold"}}>Notification</Text>
-    <View style={{ flex: 0.9,gap: width*0.02 }}>
-      {notificationData.map((e) => {
+    <View style={{ flex: 0.9,gap: width*0.02 ,backgroundColor:theme.background}}>
+      {notificationData.map((e,index) => {
         return (
           <TouchableOpacity
+          key={index}
             style={{
               flexDirection: "row",
               justifyContent: "flex-start",
@@ -68,18 +74,18 @@ const Notifications = () => {
             />
             <View style={{width:"60%",flexDirection:"column"}}>
             {e.notificationType.toLowerCase() === "follow" ? (
-              <Text><span style={{fontWeight:"bold"}}>{e.notificationSender}</span> started following you</Text>
+              <Text><Text style={{fontWeight:"bold"}}>{e.notificationSender}</Text> started following you</Text>
             ) : e.notificationType.toLowerCase() === "like" ? (
               <Text>
-                <span style={{fontWeight:"bold"}}>{e.notificationSender}</span> liked your story: {e.uploadStoryName}
+                <Text style={{fontWeight:"bold"}}>{e.notificationSender}</Text> liked your story: {e.uploadStoryName}
               </Text>
             ) : e.notificationType.toLowerCase() === "upload" ? (
               <Text>
-                <span style={{fontWeight:"bold"}}>{e.notificationSender}</span> uploaded a new story: {e.uploadStoryName}
+                <Text style={{fontWeight:"bold"}}>{e.notificationSender}</Text> uploaded a new story: {e.uploadStoryName}
               </Text>
             ) : e.notificationType.toLowerCase() === "comment" ? (
                 <Text>
-                <span style={{fontWeight:"bold"}}>{e.notificationSender}</span> commented on your story {e.uploadStoryName}: {e.senderComent}
+                <Text style={{fontWeight:"bold"}}>{e.notificationSender}</Text> commented on your story {e.uploadStoryName}: {e.senderComent}
               </Text>
             ) : (
               ""

@@ -2,53 +2,68 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Profile from "../screen/Profile";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Dimensions, TouchableOpacity,Text } from "react-native";
+import { Dimensions, TouchableOpacity, Text } from "react-native";
 import UpdateProfile from "../screen/UpdateProfile";
 import ReadScreen from "../screen/ReadScreen";
 import Notifications from "../screen/Notification";
 import ChatList from "../screen/ChatList";
 import UserMessages from "../screen/UserMessage";
+import { useContext } from "react";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 const Stack = createNativeStackNavigator();
 
 const { width } = Dimensions.get("window");
 
-export const ProfileStack = () => {
+const ProfileStack = () => {
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Profile"
+        name="Profiles"
         component={Profile}
-        options={{headerShown:false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Update Profile"
         component={UpdateProfile}
         options={({ navigation }) => ({
           animation: "slide_from_right",
-          headerTitleAlign:"center",
-          headerTitleStyle:{fontWeight:"bold"},
+          headerTitleAlign: "center",
+          headerTintColor:theme.text,
+          headerStyle: { backgroundColor: theme.background },
+          headerTitleStyle: { fontWeight: "bold" },
           headerLeft: () => (
             <Icon
-            style={{padding:width*0.02}}
+              style={{ padding: width * 0.02 }}
               name="close"
               size={width * 0.05}
               color="#ff005d"
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight:()=>(
+          headerRight: () => (
             <TouchableOpacity>
-              <Text style={{color:"#1178ff",fontWeight:"bold",padding:width*0.02}}>edit</Text>
+              <Text
+                style={{
+                  color: "#1178ff",
+                  fontWeight: "bold",
+                  padding: width * 0.02,
+                }}
+              >
+                edit
+              </Text>
             </TouchableOpacity>
-          )
+          ),
         })}
       />
       <Stack.Screen
         name="Story"
         component={ReadScreen}
-        options={{ 
-          headerShown:false,
+        options={{
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />
@@ -56,32 +71,4 @@ export const ProfileStack = () => {
   );
 };
 
-export const ChatStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Chat"
-        component={ChatList}
-        options={{headerShown:false}}
-      />
-      <Stack.Screen
-        name="UserMessage"
-        component={UserMessages}
-        options={{headerShown:false}}
-      />
-    </Stack.Navigator>
-  );
-};
-
-
-export const NotificationStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Notifiaction"
-        component={Notifications}
-        options={{headerShown:false}}
-      />
-    </Stack.Navigator>
-  );
-};
+export default ProfileStack;

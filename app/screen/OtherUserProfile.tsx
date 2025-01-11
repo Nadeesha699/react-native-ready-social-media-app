@@ -95,7 +95,7 @@ const OtherUserProfile: React.FC<TestScreenProps> = ({navigation}) => {
         <View style={styles.profile_body}>
           {uploadaData.map((e, Index) => {
             return (
-              <TouchableOpacity style={styles.profile_story_card} key={Index} onPress={()=>{navigation.navigate('ReadScreen')}}>
+              <TouchableOpacity style={styles.profile_story_card} key={Index} onPress={()=>{navigation.navigate('Story')}}>
                 <ImageBackground
                   source={require("@/assets/images/beautiful-anime-character-cartoon-scene.jpg")}
                   style={styles.profile_story_card_background}

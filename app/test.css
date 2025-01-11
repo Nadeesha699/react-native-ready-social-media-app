@@ -1,5 +1,8 @@
 .d {
-  color:#cbcbcb;
+  color:#e76993;
   transition: all 1s ease-in-out;
   border-style: dotted;
+  background-position:center;
+  background-size:cover;
+  backface-visibility: hidden;
 }

@@ -6,24 +6,28 @@ import Message from "../screen/UserMessage";
 import Notifications from "../screen/Notification";
 import Profile from "../screen/Profile";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  NotificationStack,
-  ProfileStack,
-  ChatStack,
-} from "../Stack/TabStack"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
+import { getFocusedRouteNameFromRoute, } from "@react-navigation/native";
 import { Dimensions, TouchableOpacity, Text } from "react-native";
 import Create from "../screen/Create";
+import ChatStack from "../Stack/ChatStack";
+import NotificationStack from "../Stack/NotificationStack";
+import ProfileStack from "../Stack/ProfileStack";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { useContext } from "react";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 const Tab = createBottomTabNavigator();
 
 const { width, height } = Dimensions.get("window");
 
 const HomeNaviagte = () => {
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator screenOptions={{ headerShown: false,tabBarStyle:{backgroundColor:theme.background} }}>
       <Tab.Screen
-        name="Home"
+        name="Homes"
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -53,11 +57,13 @@ const HomeNaviagte = () => {
         options={({ navigation }) => ({
           animation: "fade",
           headerShown: true,
+          headerStyle: { backgroundColor: theme.background },
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Icon name="plus-circle-outline" size={size} color={color} />
           ),
           headerTitleAlign: "center",
+          headerTintColor: theme.text,
           headerTitleStyle: { fontWeight: "bold" },
           headerLeft: () => (
             <Icon

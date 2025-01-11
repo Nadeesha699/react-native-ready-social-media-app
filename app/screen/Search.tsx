@@ -12,8 +12,10 @@ const { width, height } = Dimensions.get("window");
 import { NavigationProp } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { all } from "@/data/dumiData";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -34,15 +36,18 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
 
+   const { isDarkMode } = useContext(ThemeContext);
+      const theme = isDarkMode ? darkTheme : lightTheme;
+
   return (
-    <View style={styles.search_container}>
+    <View style={[styles.search_container,{backgroundColor:theme.background}]}>
       <View style={styles.search_header}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
         >
-          <Icon name="chevron-left" size={width * 0.1} />
+          <Icon name="chevron-left" size={width * 0.1} color={theme.text} />
         </TouchableOpacity>
         <TextInput
           style={{
@@ -100,7 +105,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                 ></ImageBackground>
                 <View style={styles.home_con10}>
                   <Text
-                    style={styles.home_txt_7}
+                    style={[styles.home_txt_7,{color:theme.text}]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >

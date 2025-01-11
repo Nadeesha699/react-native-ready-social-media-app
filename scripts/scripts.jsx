@@ -33,4 +33,3 @@ export const validateContactNO = (contactno) => {
     return false;
   }
 };
-

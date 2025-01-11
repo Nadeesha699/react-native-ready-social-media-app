@@ -14,15 +14,17 @@ import Setting from "./screen/Setting";
 import MyStack from "./Stack/RootStack";
 import Search from "./screen/Search";
 import RootStack from "./Stack/RootStack";
-import { NotificationStack} from "./Stack/TabStack";
 import HomeNaviagte from "./Navigate/HomeNavigate";
-import  HomeDrawer  from "./Drawer/HomeDrawer";
+import HomeDrawer from "./Drawer/HomeDrawer";
+import { ThemeContext, ThemeProvider } from "./Theme/ThemeContext";
 
 const Index = () => {
   return (
     <>
-      <StatusBars />
-      <RootStack/>
+      <ThemeProvider>
+        <StatusBars />
+        <RootStack />
+      </ThemeProvider>
     </>
   );
 };

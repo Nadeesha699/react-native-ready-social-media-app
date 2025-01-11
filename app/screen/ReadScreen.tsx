@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import React, { useId, useRef } from "react";
+import React, { useContext, useId, useRef } from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,
@@ -60,12 +60,19 @@ const commentData = [
 ];
 
 import { NavigationProp } from "@react-navigation/native";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
+
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
+
+    
   const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
@@ -94,7 +101,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   return (
     <>
       <StatusBar />
-      <View style={styles.readscreen_container}>
+      <View style={[styles.readscreen_container,{backgroundColor:theme.background}]}>
         <ImageBackground
           style={styles.readscreen_header}
           source={
@@ -108,7 +115,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               navigation.goBack();
             }}
           >
-            <Icon name="chevron-left" size={width * 0.1} color="white" />
+            <Icon name="chevron-left" size={width * 0.1} color={"white"} />
           </TouchableOpacity>
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
@@ -139,7 +146,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.readscreen_con8}>
             <View style={styles.readscreen_con7}>
               <Text
-                style={styles.readscreen_txt1}
+                style={[styles.readscreen_txt1,{color:theme.text}]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -147,7 +154,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("UserProfile");
+                  navigation.navigate("User Profile");
                 }}
               >
                 <Text style={styles.readscreen_txt4}>{authorName}</Text>
@@ -175,7 +182,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.readscreen_con9}>
+          <View style={[styles.readscreen_con9,{}]}>
             <Text style={styles.readscreen_txt3}>{story}</Text>
           </View>
           <View
@@ -248,7 +255,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  readscreen_container: { flex: 1, backgroundColor: "white" },
+  readscreen_container: { flex: 1 },
   readscreen_comment_section: {
     position: "fixed",
     bottom: 0,
@@ -289,7 +296,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: width * 0.02,
+    // padding: width * 0.02,
   },
   readscreen_body: { flex: 0.7, padding: "5%" },
   readscreen_img2: { width: width * 0.05, height: width * 0.05 },

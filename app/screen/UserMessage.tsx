@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -45,6 +45,8 @@ const messageData = [
 ];
 
 import { NavigationProp } from "@react-navigation/native";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
   
   type TestScreenProps = {
     navigation: NavigationProp<any>;
@@ -53,6 +55,9 @@ import { NavigationProp } from "@react-navigation/native";
 const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
   const scrollViewRef = useRef<ScrollView | null>(null);
 
+  const { isDarkMode } = useContext(ThemeContext);
+      const theme = isDarkMode ? darkTheme : lightTheme;
+
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
@@ -60,12 +65,12 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
   }, []);
 
   return (
-    <View style={styles.message_container}>
+    <View style={[styles.message_container,{backgroundColor:theme.background}]}>
       <View style={styles.message_header}>
         <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-          <Icon name="chevron-left" size={width * 0.1}  />
+          <Icon name="chevron-left" size={width * 0.1} color={theme.text} />
         </TouchableOpacity>
-        <Text style={styles.header_name} numberOfLines={1} ellipsizeMode="tail">
+        <Text style={[styles.header_name,{color:theme.text}]} numberOfLines={1} ellipsizeMode="tail">
           Nadeesha Rwuandima
         </Text>
       </View>
@@ -99,11 +104,11 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
         })}
       </ScrollView>
       <TextInput
-        style={styles.message_footer}
+        style={[styles.message_footer,{backgroundColor:theme.background}]}
         placeholder="Message"
         right={
           <TextInput.Icon
-            icon={() => <Icon name="send" size={width * 0.06} />}
+            icon={() => <Icon name="send" size={width * 0.06} color={theme.text} />}
           />
         }
       />
