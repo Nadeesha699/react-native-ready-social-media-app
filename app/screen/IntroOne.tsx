@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,12 +17,17 @@ import { router } from "expo-router";
 const { width } = Dimensions.get("window");
 
 import { NavigationProp } from '@react-navigation/native';
+import { darkTheme, lightTheme } from "../Theme/theme";
+import { ThemeContext } from "../Theme/ThemeContext";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>; 
 };
 
 const IntroOne: React.FC<TestScreenProps> = ({navigation})=> {
+    const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
+    
   const translateYValue = useSharedValue(-400);
 
   useEffect(() => {
@@ -34,13 +39,13 @@ const IntroOne: React.FC<TestScreenProps> = ({navigation})=> {
   }));
 
   return (
-    <View style={styles.intro_container}>
+    <View style={[styles.intro_container,{backgroundColor:theme.background}]}>
       <Animated.View style={[styles.intro_header, animatedStyle]}>
         <Image
           source={require("@/assets/images/4505748.jpg")}
           style={styles.img_intro}
         />
-        <Text style={styles.txt_1}>Make your own story 🪄</Text>
+        <Text style={[styles.txt_1,{color:theme.text}]}>Make your own story 🪄</Text>
         <Text style={styles.txt_2}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, fuga
           deleniti temporibus consequatur dolore excepturi illum! Veniam,
@@ -96,6 +101,7 @@ const styles = StyleSheet.create({
   img_intro: {
     width: width * 0.7,
     height: width * 0.7,
+    borderRadius:width*1
   },
   txt_1: {
     fontSize: width * 0.07,
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   dot1: {
-    backgroundColor: "black",
+    backgroundColor: "#1178ff",
     width: width*0.015,
     height: width*0.015,
     borderRadius: width*0.05,

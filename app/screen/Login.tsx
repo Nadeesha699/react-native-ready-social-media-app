@@ -2,7 +2,7 @@ import { StatusBars } from "@/components/components";
 import { validateEmail, validatePassword } from "@/scripts/scripts";
 import { router } from "expo-router";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
   View,
@@ -18,38 +18,76 @@ import { TextInput } from "react-native-paper";
 const { width, height } = Dimensions.get("window");
 
 import { NavigationProp } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
+import Animated ,{
+  useAnimatedStyle,
+  useSharedValue,
+  withClamp,
+  withSpring,
+} from "react-native-reanimated";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const Login: React.FC<TestScreenProps> = ({ navigation }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const [hidePassword, setHidePassword] = useState(true);
+
+  const translateXValue = useSharedValue(-200);
+  const translateXValue1 = useSharedValue(200);
+
+  useEffect(() => {
+    translateXValue.value = withSpring(0);
+    translateXValue1.value = withSpring(0);
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateXValue.value }],
+  }));
+
+  const animatedStyle1 = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateXValue1.value }],
+  }));
+
 
   return (
     <>
       <StatusBars />
-      <View style={styles.login_container}>
-        <View style={styles.login_header}>
+      <View
+        style={[styles.login_container, { backgroundColor: theme.background }]}
+      >
+        <View style={[styles.login_header,animatedStyle]}>
           <Image
             source={require("@/assets/images/6333040.jpg")}
             alt="icon"
-            style={[styles.login_img]}
+            style={[
+              styles.login_img,
+              { borderRadius: isDarkMode ? width * 1 : 0 },
+            ]}
           />
-          <Text style={[styles.login_1]}>Login</Text>
+          <Text style={[styles.login_1, { color: theme.text }]}>Login</Text>
         </View>
-        <View style={styles.login_body}>
+        <View style={[styles.login_body,animatedStyle1]}>
           <TouchableOpacity style={styles.login_com1}>
             <Image
               source={require("@/assets/images/google_2504914.png")}
               style={styles.login_img1}
             />
-            <Text style={styles.login_txt2}>Login with google</Text>
+            <Text style={[styles.login_txt2, { color: theme.text }]}>
+              Login with google
+            </Text>
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
-            left={<TextInput.Icon icon={({size}) => <Icon name="email" size={size}/>} />}
+            left={
+              <TextInput.Icon
+                icon={({ size }) => <Icon name="email" size={size} />}
+              />
+            }
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
@@ -57,7 +95,11 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.input_field}
           />
           <TextInput
-            left={<TextInput.Icon icon={({size}) => <Icon name="lock" size={size}/>} />}
+            left={
+              <TextInput.Icon
+                icon={({ size }) => <Icon name="lock" size={size} />}
+              />
+            }
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             mode="flat"
@@ -65,7 +107,9 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             secureTextEntry={hidePassword}
             right={
               <TextInput.Icon
-                icon={({size}) => <Icon name={hidePassword ? "eye" : "eye-off"} size={size} />}
+                icon={({ size }) => (
+                  <Icon name={hidePassword ? "eye" : "eye-off"} size={size} />
+                )}
                 onPress={() => {
                   hidePassword ? setHidePassword(false) : setHidePassword(true);
                 }}
@@ -91,6 +135,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
               <Text style={[styles.login_txt4]}>Register</Text>
             </TouchableOpacity>
           </View>
+          
         </View>
       </View>
     </>
@@ -103,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: "5%",
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   login_img1: {
     width: width * 0.1,
@@ -112,8 +157,8 @@ const styles = StyleSheet.create({
   login_com1: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:"center",
-    gap:width*0.02,
+    justifyContent: "center",
+    gap: width * 0.02,
     alignItems: "center",
     width: "100%",
   },

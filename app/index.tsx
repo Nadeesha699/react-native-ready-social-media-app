@@ -17,14 +17,17 @@ import RootStack from "./Stack/RootStack";
 import HomeNaviagte from "./Navigate/HomeNavigate";
 import HomeDrawer from "./Drawer/HomeDrawer";
 import { ThemeContext, ThemeProvider } from "./Theme/ThemeContext";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Test from "./screen/Test";
 
 const Index = () => {
   return (
     <>
-      <ThemeProvider>
-        <StatusBars />
-        <RootStack />
-      </ThemeProvider>
+          <ThemeProvider>
+            <StatusBars />
+            <RootStack />
+          </ThemeProvider>
     </>
   );
 };

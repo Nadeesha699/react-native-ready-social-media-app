@@ -39,12 +39,10 @@ const HomeNaviagte = () => {
         name="Chat"
         component={ChatStack}
         options={({ route }) => ({
-          tabBarStyle: ((route) => {
-            if (getFocusedRouteNameFromRoute(route) === "UserMessage") {
-              return { display: "none" };
-            }
-            return;
-          })(route),
+          tabBarStyle: {
+            backgroundColor: theme.background,
+            ...(getFocusedRouteNameFromRoute(route) === "UserMessage" && { display: "none" })
+          },
           tabBarIcon: ({ color, size }) => (
             <Icon name="chat-outline" size={size} color={color} />
           ),
@@ -102,20 +100,18 @@ const HomeNaviagte = () => {
       <Tab.Screen
         name="Profile"
         component={ProfileStack}
-        options={({ route }) => ({
-          tabBarStyle: ((route) => {
-            if (
-              getFocusedRouteNameFromRoute(route) === "Update Profile" ||
-              getFocusedRouteNameFromRoute(route) === "Story"
-            ) {
-              return { display: "none" };
-            }
-            return;
-          })(route),
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="account-outline" size={size} color={color} />
-          ),
-        })}
+        options={({ route }) => {
+          const focusedRoute = getFocusedRouteNameFromRoute(route) ?? "";
+          return {
+            tabBarStyle: {
+              backgroundColor: theme.background,
+              ...(["Update Profile", "Story"].includes(focusedRoute) && { display: "none" }),
+            },
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="account-outline" size={size} color={color} />
+            ),
+          };
+        }}
       />
     </Tab.Navigator>
   );

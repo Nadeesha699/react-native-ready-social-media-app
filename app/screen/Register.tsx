@@ -1,5 +1,5 @@
 import { StatusBars } from "@/components/components";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {useState } from "react";
 import {
   View,
@@ -15,33 +15,56 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const { width} = Dimensions.get("window");
 
 import { NavigationProp } from '@react-navigation/native';
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>; 
 };
 
 const Register: React.FC<TestScreenProps> = ({navigation}) => {
+   const { isDarkMode } = useContext(ThemeContext);
+    const theme = isDarkMode ? darkTheme : lightTheme;
+    
   const [passwordHide, setPasswordHide] = useState(true);
+
+    const translateXValue = useSharedValue(-200);
+    const translateXValue1 = useSharedValue(200);
+  
+    useEffect(() => {
+      translateXValue.value = withSpring(0);
+      translateXValue1.value = withSpring(0);
+    }, []);
+  
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateY: translateXValue.value }],
+    }));
+  
+    const animatedStyle1 = useAnimatedStyle(() => ({
+      transform: [{ translateY: translateXValue1.value }],
+    }));
 
   return (
     <>
       <StatusBars />
-      <View style={styles.sign_container}>
-        <View style={styles.sign_header}>
+      <View style={[styles.sign_container, { backgroundColor: theme.background }]}>
+        <Animated.View style={[styles.sign_header,animatedStyle]}>
           <Image
             source={require("@/assets/images/6333050.jpg")}
             alt="icon"
-            style={styles.login_img}
+            style={[styles.login_img,{ borderRadius: isDarkMode ? width * 1 : 0 },
+          ]}
           />
-          <Text style={styles.sign_1}>Sign Up</Text>
-        </View>
-        <View style={styles.sign_body}>
+          <Text style={[styles.sign_1,{color:theme.text}]}>Sign Up</Text>
+        </Animated.View>
+        <Animated.View style={[styles.sign_body,animatedStyle1]}>
           <TouchableOpacity style={styles.login_com1}>
             <Image
               source={require("@/assets/images/google_2504914.png")}
               style={styles.login_img1}
             />
-            <Text style={styles.login_txt2}>Register with google</Text>
+            <Text style={[styles.login_txt2,{color:theme.text}]}>Register with google</Text>
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
@@ -98,7 +121,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
               <Text style={[styles.login_txt4]}>Login</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </>
   );

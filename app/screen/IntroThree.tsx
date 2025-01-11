@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,13 +16,18 @@ import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp } from "@react-navigation/native";
+import { ThemeContext } from "../Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../Theme/theme";
 
 type TestScreenProps = {
-  navigation: NavigationProp<any>; 
+  navigation: NavigationProp<any>;
 };
 
-const IntroThree: React.FC<TestScreenProps> = ({navigation}) => {
+const IntroThree: React.FC<TestScreenProps> = ({ navigation }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const translateYValue = useSharedValue(-400);
 
   useEffect(() => {
@@ -30,17 +35,21 @@ const IntroThree: React.FC<TestScreenProps> = ({navigation}) => {
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateYValue.value }],
+    transform: [{ translateY: translateYValue.value}],
   }));
 
   return (
-    <View style={styles.intro_container}>
+    <View
+      style={[styles.intro_container, { backgroundColor: theme.background }]}
+    >
       <Animated.View style={[styles.intro_header, animatedStyle]}>
         <Image
           source={require("@/assets/images/3206467.jpg")}
           style={styles.img_intro}
         />
-        <Text style={styles.txt_1}>Make more friends 🕺</Text>
+        <Text style={[styles.txt_1, { color: theme.text }]}>
+          Make more friends 🕺
+        </Text>
         <Text style={styles.txt_2}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, fuga
           deleniti temporibus consequatur dolore excepturi illum! Veniam,
@@ -51,7 +60,7 @@ const IntroThree: React.FC<TestScreenProps> = ({navigation}) => {
       <View style={styles.intro_body}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate("Login");
           }}
           style={styles.btn_1}
         >
@@ -64,7 +73,7 @@ const IntroThree: React.FC<TestScreenProps> = ({navigation}) => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate("Login");
           }}
           style={styles.btn_2}
         >
@@ -73,13 +82,13 @@ const IntroThree: React.FC<TestScreenProps> = ({navigation}) => {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   intro_container: {
     flex: 1,
     padding: "5%",
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   intro_header: {
     flex: 0.9,
@@ -96,6 +105,7 @@ const styles = StyleSheet.create({
   img_intro: {
     width: width * 0.7,
     height: width * 0.7,
+    borderRadius: width * 1,
   },
   txt_1: {
     fontSize: width * 0.07,
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
   },
   txt_4: {
     color: "white",
-    fontSize: width*0.05,
+    fontSize: width * 0.05,
   },
 
   btn_2: {
@@ -112,43 +122,43 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: width*0.3,
-    borderRadius: width*0.05,
-    padding:width*0.02
+    width: width * 0.3,
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
   },
   dot_view: {
     display: "flex",
     flexDirection: "row",
-    width: width*0.07,
+    width: width * 0.07,
     justifyContent: "space-between",
   },
   dot1: {
-    backgroundColor: "black",
-    width: width*0.015,
-    height: width*0.015,
-    borderRadius: width*0.05,
+    backgroundColor: "#1178ff",
+    width: width * 0.015,
+    height: width * 0.015,
+    borderRadius: width * 0.05,
   },
   dot2: {
     backgroundColor: "#b5b5b5",
-    width: width*0.015,
-    height: width*0.015,
-    borderRadius: width*0.05,
+    width: width * 0.015,
+    height: width * 0.015,
+    borderRadius: width * 0.05,
   },
   txt_2: {
     textAlign: "center",
     color: "#747474",
-    width:"80%",
+    width: "80%",
   },
   txt_3: {
     color: "#747474",
-    fontSize: width*0.05,
+    fontSize: width * 0.05,
   },
   btn_1: {
     justifyContent: "center",
     alignItems: "center",
-    width: width*0.3,
-    borderRadius: width*0.05,
-    padding:width*0.02,
+    width: width * 0.3,
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
   },
 });
 
