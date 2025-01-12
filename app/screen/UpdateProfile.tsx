@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 import { useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, ImageBackground, Dimensions } from "react-native";

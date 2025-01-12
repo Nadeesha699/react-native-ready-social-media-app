@@ -130,7 +130,6 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   search_container: { flex: 1, backgroundColor: "white" },
   search_header: {
-    flex: 0.1,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",

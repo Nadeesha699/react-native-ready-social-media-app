@@ -15,7 +15,7 @@ const SettingStack = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{animation:"slide_from_right"}}>
       <Stack.Screen
         name="Settings"
         component={Setting}

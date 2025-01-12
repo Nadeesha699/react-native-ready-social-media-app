@@ -53,7 +53,6 @@ const HomeNaviagte = () => {
         name="Create story"
         component={Create}
         options={({ navigation }) => ({
-          animation: "fade",
           headerShown: true,
           headerStyle: { backgroundColor: theme.background },
           tabBarStyle: { display: "none" },

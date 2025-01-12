@@ -1,6 +1,6 @@
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -27,6 +27,7 @@ const { width, height } = Dimensions.get("window");
 
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [data, setData] = useState(all);
+  const [clickButtonColor, setClickButtonColor] = useState("all");
 
   const setLocalData = async (
     authorName: any,
@@ -40,17 +41,17 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
     await AsyncStorage.setItem("story_img", JSON.stringify(image));
   };
 
-  const setType = (type: any) => {
-    type === "All"
-      ? setData(all)
-      : type === "Horror"
-      ? setData(horror)
-      : type === "Fantasy"
-      ? setData(fantasy)
-      : type === "Thriller"
-      ? setData(thriller)
-      : "";
-  };
+  // const setType = (type: any) => {
+  //   type === "All"
+  //     ? setData(all)
+  //     : type === "Horror"
+  //     ? setData(horror)
+  //     : type === "Fantasy"
+  //     ? setData(fantasy)
+  //     : type === "Thriller"
+  //     ? setData(thriller)
+  //     : "";
+  // };
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
@@ -58,7 +59,9 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   return (
     <>
       <StatusBars />
-      <View style={[styles.home_container,{ backgroundColor: theme.background }]}>
+      <View
+        style={[styles.home_container, { backgroundColor: theme.background }]}
+      >
         <View style={styles.home_header}>
           <View
             style={{
@@ -73,7 +76,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                 navigation.dispatch(DrawerActions.openDrawer());
               }}
             >
-              <Icon name={"menu"} size={width * 0.06} color={theme.text}/>
+              <Icon name={"menu"} size={width * 0.06} color={theme.text} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -137,9 +140,18 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
           </View>
           <View style={styles.home_category_view}>
             <TouchableOpacity
-              style={styles.home_category_button}
+              style={[
+                styles.home_category_button,
+                {
+                  backgroundColor:
+                    "all".toLowerCase() === clickButtonColor
+                      ? "#1178ff"
+                      : "red",
+                },
+              ]}
               onPress={() => {
-                setType("All");
+                setClickButtonColor("all");
+                // setType("All");
               }}
             >
               <Text style={styles.home_txt_6}>All</Text>
@@ -148,9 +160,16 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  style={styles.home_category_button}
+                  style={[
+                    styles.home_category_button,
+                    {
+                      backgroundColor:
+                        e.type === clickButtonColor ? "#1178ff" : "red",
+                    },
+                  ]}
                   onPress={() => {
-                    setType(e.type);
+                    setClickButtonColor(e.type);
+                    // setType(e.type);
                   }}
                 >
                   <Text style={styles.home_txt_6}>{e.type}</Text>
@@ -160,53 +179,72 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.home_body}>
-          {data.map((e, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.home_con6}
-                onPress={async () => {
-                  try {
-                    await setLocalData(e.author, e.storyName, e.story, e.imgs);
-                    navigation.navigate("Story");
-                  } catch (error) {
-                    console.error("Error saving to AsyncStorage:", error);
-                  }
-                }}
-              >
-                <ImageBackground
-                  source={e.imgs}
-                  style={styles.home_img3}
-                ></ImageBackground>
-                <View style={styles.home_con10}>
-                  <Text
-                    style={[styles.home_txt_7,{color:theme.text}]}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {e.storyName}
-                  </Text>
-                  <Text
-                    style={styles.home_txt_8}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {e.author}
-                  </Text>
-                  <View style={styles.home_con8}>
-                    <View style={styles.home_con9}>
-                    <Icon name={"thumb-up-outline"} size={width * 0.04} color={theme.text}/>
-                      <Text style={{color:theme.text}}>1k</Text>
-                    </View>
-                    <View style={styles.home_con9}>
-                    <Icon name={"comment-outline"} size={width * 0.04}color={theme.text} />
-                      <Text style={{color:theme.text}}>14</Text>
+          {data
+            .filter((e) =>
+              clickButtonColor.toLowerCase() !== "all"
+                ? e.type.toLowerCase().includes(clickButtonColor.toLowerCase())
+                : true
+            )
+            .map((e, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.home_con6}
+                  onPress={async () => {
+                    try {
+                      await setLocalData(
+                        e.author,
+                        e.storyName,
+                        e.story,
+                        e.imgs
+                      );
+                      navigation.navigate("Story");
+                    } catch (error) {
+                      console.error("Error saving to AsyncStorage:", error);
+                    }
+                  }}
+                >
+                  <ImageBackground
+                    source={e.imgs}
+                    style={styles.home_img3}
+                  ></ImageBackground>
+                  <View style={styles.home_con10}>
+                    <Text
+                      style={[styles.home_txt_7, { color: theme.text }]}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {e.storyName}
+                    </Text>
+                    <Text
+                      style={styles.home_txt_8}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {e.author}
+                    </Text>
+                    <View style={styles.home_con8}>
+                      <View style={styles.home_con9}>
+                        <Icon
+                          name={"thumb-up-outline"}
+                          size={width * 0.04}
+                          color={theme.text}
+                        />
+                        <Text style={{ color: theme.text }}>1k</Text>
+                      </View>
+                      <View style={styles.home_con9}>
+                        <Icon
+                          name={"comment-outline"}
+                          size={width * 0.04}
+                          color={theme.text}
+                        />
+                        <Text style={{ color: theme.text }}>14</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+                </TouchableOpacity>
+              );
+            })}
         </View>
       </View>
     </>
@@ -218,7 +256,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: "2%",
     paddingTop: "5%",
-    paddingLeft: "5%"
+    paddingLeft: "5%",
   },
   home_con10: {
     flex: 1,
@@ -252,7 +290,7 @@ const styles = StyleSheet.create({
   },
   home_img2: {
     width: width * 0.8,
-    height: height * 0.20,
+    height: height * 0.2,
     borderRadius: width * 0.02,
     overflow: "hidden",
     display: "flex",

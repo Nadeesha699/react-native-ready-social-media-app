@@ -11,6 +11,7 @@ import UpdateProfile from "../screen/UpdateProfile";
 import UserProfile from "../screen/OtherUserProfile";
 import Search from "../screen/Search";
 import  HomeDrawer  from "../Drawer/HomeDrawer";
+import UserMessages from "../screen/UserMessage";
 
 const Stack = createNativeStackNavigator();
 
@@ -68,9 +69,17 @@ function RootStack() {
         }}
       />
       <Stack.Screen
+        name="Message"
+        component={UserMessages}
+        options={{ 
+          headerShown:false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
         name="Search"
         component={Search}
-        options={{ headerShown: false, animation: "slide_from_right" }}
+        options={{ headerShown: false, animation:"simple_push" }}
       />
     </Stack.Navigator>
   );

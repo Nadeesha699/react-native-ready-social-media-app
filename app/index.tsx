@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 import IntroOne from "./screen/IntroOne";
 import IntroTwo from "./screen/IntroTwo";
 import IntroThree from "./screen/IntroThree";
@@ -20,14 +20,15 @@ import { ThemeContext, ThemeProvider } from "./Theme/ThemeContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Test from "./screen/Test";
+import AnimatedTest from "./Test/AnimatedTest";
 
 const Index = () => {
   return (
     <>
-          <ThemeProvider>
-            <StatusBars />
-            <RootStack />
-          </ThemeProvider>
+      <ThemeProvider>
+        <StatusBars />
+        <RootStack />
+      </ThemeProvider>
     </>
   );
 };

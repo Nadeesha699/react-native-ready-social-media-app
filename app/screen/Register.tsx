@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 import React, { useContext, useEffect } from "react";
 import {useState } from "react";
 import {
@@ -17,7 +17,7 @@ const { width} = Dimensions.get("window");
 import { NavigationProp } from '@react-navigation/native';
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>; 
@@ -30,11 +30,11 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
   const [passwordHide, setPasswordHide] = useState(true);
 
     const translateXValue = useSharedValue(-200);
-    const translateXValue1 = useSharedValue(200);
+    const translateXValue1 = useSharedValue(0);
   
     useEffect(() => {
       translateXValue.value = withSpring(0);
-      translateXValue1.value = withSpring(0);
+      translateXValue1.value = withTiming(1, { duration: 2000 });
     }, []);
   
     const animatedStyle = useAnimatedStyle(() => ({
@@ -42,7 +42,7 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
     }));
   
     const animatedStyle1 = useAnimatedStyle(() => ({
-      transform: [{ translateY: translateXValue1.value }],
+      opacity: translateXValue1.value,
     }));
 
   return (

@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, ImageBackground, ScrollView } from "react-native";
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     justifyContent: "flex-end",
-    padding: width * 0.02,
+    // padding: width * 0.02,
   },
   profile_txt_3: {
     color: "white",

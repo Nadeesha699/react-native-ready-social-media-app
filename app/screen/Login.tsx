@@ -1,4 +1,4 @@
-import { StatusBars } from "@/components/components";
+import { StatusBars } from "@/app/components/components";
 import { validateEmail, validatePassword } from "@/scripts/scripts";
 import { router } from "expo-router";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,6 +12,7 @@ import {
   ToastAndroid,
   StyleSheet,
   Dimensions,
+  Easing,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 
@@ -20,11 +21,16 @@ const { width, height } = Dimensions.get("window");
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
-import Animated ,{
+import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withClamp,
+  withDecay,
+  withDelay,
+  withRepeat,
+  withSequence,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 type TestScreenProps = {
@@ -38,21 +44,20 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
 
   const translateXValue = useSharedValue(-200);
-  const translateXValue1 = useSharedValue(200);
+  const translateXValue1 = useSharedValue(0);
 
   useEffect(() => {
     translateXValue.value = withSpring(0);
-    translateXValue1.value = withSpring(0);
+    translateXValue1.value = withTiming(1, { duration: 2000 }); 
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateXValue.value }],
+    transform: [{ translateY: translateXValue.value }],
   }));
 
   const animatedStyle1 = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateXValue1.value }],
+    opacity: translateXValue1.value,
   }));
-
 
   return (
     <>
@@ -60,7 +65,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
       <View
         style={[styles.login_container, { backgroundColor: theme.background }]}
       >
-        <View style={[styles.login_header,animatedStyle]}>
+        <Animated.View style={[styles.login_header, animatedStyle]}>
           <Image
             source={require("@/assets/images/6333040.jpg")}
             alt="icon"
@@ -70,8 +75,8 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             ]}
           />
           <Text style={[styles.login_1, { color: theme.text }]}>Login</Text>
-        </View>
-        <View style={[styles.login_body,animatedStyle1]}>
+        </Animated.View>
+        <Animated.View style={[styles.login_body, animatedStyle1]}>
           <TouchableOpacity style={styles.login_com1}>
             <Image
               source={require("@/assets/images/google_2504914.png")}
@@ -135,8 +140,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
               <Text style={[styles.login_txt4]}>Register</Text>
             </TouchableOpacity>
           </View>
-          
-        </View>
+        </Animated.View>
       </View>
     </>
   );
@@ -224,3 +228,4 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
+

@@ -68,11 +68,9 @@ type TestScreenProps = {
 };
 
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
-    const { isDarkMode } = useContext(ThemeContext);
-    const theme = isDarkMode ? darkTheme : lightTheme;
-
-    
   const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
@@ -101,7 +99,12 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   return (
     <>
       <StatusBar />
-      <View style={[styles.readscreen_container,{backgroundColor:theme.background}]}>
+      <View
+        style={[
+          styles.readscreen_container,
+          { backgroundColor: theme.background },
+        ]}
+      >
         <ImageBackground
           style={styles.readscreen_header}
           source={
@@ -120,7 +123,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
               onPress={() => {
-                likeRed ? setLikeRed(false) : setLikeRed(true);
+                setLikeRed(!likeRed);
               }}
             >
               <Icon
@@ -131,7 +134,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                closeComment ? setCloseComment(false) : setCloseComment(true);
+                setCloseComment(!closeComment);
               }}
             >
               <Icon
@@ -146,7 +149,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.readscreen_con8}>
             <View style={styles.readscreen_con7}>
               <Text
-                style={[styles.readscreen_txt1,{color:theme.text}]}
+                style={[styles.readscreen_txt1, { color: theme.text }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -182,37 +185,36 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.readscreen_con9,{}]}>
+          <View style={[styles.readscreen_con9, {}]}>
             <Text style={styles.readscreen_txt3}>{story}</Text>
           </View>
-          <View
+        </View>
+        <View
             style={[
               styles.readscreen_comment_section,
               {
-                top: closeComment ? 0 : width * 10,
+                top:closeComment?0:width*20,
               },
             ]}
           >
-            <View style={styles.readscreen_dark_view}></View>
+            <View style={styles.readscreen_dark_view} />
             <View
               style={{
                 flex: 0.5,
               }}
             >
-              <View style={styles.comment_header}>
-                <Text style={{ fontWeight: "bold" }}>Comments</Text>
+              <View style={[styles.comment_header,{backgroundColor:theme.background}]}>
+                <Text style={{ fontWeight: "bold" ,color:theme.text}}>Comments</Text>
                 <TouchableOpacity
                   onPress={() => {
-                    closeComment
-                      ? setCloseComment(false)
-                      : setCloseComment(true);
+                    setCloseComment(!closeComment);
                   }}
                 >
-                  <Icon name="close" size={width * 0.1} />
+                  <Icon name="close" size={width * 0.1} color={theme.text}/>
                 </TouchableOpacity>
               </View>
               <ScrollView
-                style={styles.comment_scroll}
+                style={[styles.comment_scroll,{backgroundColor:theme.background}]}
                 showsHorizontalScrollIndicator={false}
                 ref={scrollViewRef}
               >
@@ -224,8 +226,8 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                         style={styles.comment_profile}
                       />
                       <View style={styles.comment_con}>
-                        <Text style={{ fontWeight: "bold" }}>{e.name}</Text>
-                        <Text>{e.comment}</Text>
+                        <Text style={{ fontWeight: "bold",color:theme.text }}>{e.name}</Text>
+                        <Text style={{color:theme.text}}>{e.comment}</Text>
                         <Text style={styles.comment_txt}>{e.time}</Text>
                       </View>
                     </View>
@@ -233,22 +235,16 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 })}
               </ScrollView>
               <TextInput
-                style={{ backgroundColor: "white" }}
+                style={{ backgroundColor: theme.background, color:theme.text}}
                 placeholder="Message"
-                left={
-                  <TextInput.Icon
-                    icon={() => <Icon name="attachment" size={width * 0.06} />}
-                  />
-                }
                 right={
                   <TextInput.Icon
-                    icon={() => <Icon name="send" size={width * 0.06} />}
+                    icon={() => <Icon name="send" size={width * 0.06} color={theme.text}/>}
                   />
                 }
               />
             </View>
           </View>
-        </View>
       </View>
     </>
   );
@@ -257,10 +253,10 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   readscreen_container: { flex: 1 },
   readscreen_comment_section: {
-    position: "fixed",
+    position:"absolute",
     bottom: 0,
     left: 0,
-    right: 0,
+    right: 0
   },
   comment_con: {
     justifyContent: "space-evenly",
@@ -269,7 +265,7 @@ const styles = StyleSheet.create({
   comment_txt: { fontSize: width * 0.025, color: "#848484" },
   readscreen_dark_view: { flex: 0.5, backgroundColor: "#0000008c" },
   close_img: { width: width * 0.05, height: width * 0.05 },
-  comment_scroll: { padding: width * 0.02, backgroundColor: "white" },
+  comment_scroll: { padding: width * 0.02 },
   comment_card: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -283,11 +279,11 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.5,
   },
   comment_header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems:"center",
-    padding: "5%",
-    backgroundColor: "white",
+   flexDirection:"row",
+   width:"100%",
+   padding:width*0.02,
+   alignItems:"center",
+   justifyContent:"space-between"
   },
   readscreen_header: {
     flex: 0.3,
@@ -296,7 +292,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     justifyContent: "space-between",
-    // padding: width * 0.02,
   },
   readscreen_body: { flex: 0.7, padding: "5%" },
   readscreen_img2: { width: width * 0.05, height: width * 0.05 },
