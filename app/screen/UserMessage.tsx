@@ -47,6 +47,7 @@ const messageData = [
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
   
   type TestScreenProps = {
     navigation: NavigationProp<any>;
@@ -96,7 +97,7 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
                   },
                 ]}
               >
-                <Text style={{ fontWeight: "bold" }}>{e.messsage}</Text>
+                <Text style={styles.setting_txt_1}>{e.messsage}</Text>
                 <Text style={styles.message_txt}>{e.time}</Text>
               </View>
             </View>
@@ -116,43 +117,5 @@ const UserMessages: React.FC<TestScreenProps> = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  message_container: {
-    flex: 1,
-    backgroundColor:"white"
-  },
-  message_txt: { textAlign: "right", fontSize: width * 0.025, color: "gray" },
-  message_header: {
-    flex: 0.05,
-    padding: width * 0.03,
-    alignItems: "center",
-    flexDirection: "row",
-    gap: width * 0.02,
-  },
-  message_body: {
-    flex: 0.8,
-    overflowY: "scroll",
-    padding: "2%",
-  },
-  message_body_1: {
-    marginBottom: width * 0.02,
-  },
-  message_footer: {
-    backgroundColor:"white"
-  },
-  profile_back_button: {
-    width: width * 0.1,
-    height: width * 0.1,
-  },
-  header_name: {
-    fontWeight: "bold",
-    fontSize: width * 0.05,
-  },
-  message_card: {
-    borderBottomRightRadius: width * 0.02,
-    borderBottomLeftRadius: width * 0.02,
-    padding: width * 0.02,
-  },
-});
 
 export default UserMessages;

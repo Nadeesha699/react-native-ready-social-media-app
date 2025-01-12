@@ -62,6 +62,7 @@ const commentData = [
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -250,94 +251,5 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  readscreen_container: { flex: 1 },
-  readscreen_comment_section: {
-    position:"absolute",
-    bottom: 0,
-    left: 0,
-    right: 0
-  },
-  comment_con: {
-    justifyContent: "space-evenly",
-    width: width * 0.5,
-  },
-  comment_txt: { fontSize: width * 0.025, color: "#848484" },
-  readscreen_dark_view: { flex: 0.5, backgroundColor: "#0000008c" },
-  close_img: { width: width * 0.05, height: width * 0.05 },
-  comment_scroll: { padding: width * 0.02 },
-  comment_card: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    marginBottom: width * 0.02,
-    padding: width * 0.02,
-    gap: width * 0.02,
-  },
-  comment_profile: {
-    width: width * 0.15,
-    height: width * 0.15,
-    borderRadius: width * 0.5,
-  },
-  comment_header: {
-   flexDirection:"row",
-   width:"100%",
-   padding:width*0.02,
-   alignItems:"center",
-   justifyContent:"space-between"
-  },
-  readscreen_header: {
-    flex: 0.3,
-    width: "100%",
-    height: "100%",
-    alignItems: "flex-start",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  readscreen_body: { flex: 0.7, padding: "5%" },
-  readscreen_img2: { width: width * 0.05, height: width * 0.05 },
-  readscreen_txt1: {
-    fontWeight: "bold",
-  },
-  readscreen_txt3: {
-    fontSize: width * 0.035,
-    color: "#888888",
-    fontWeight: "light",
-    overflowY: "scroll",
-    paddingTop: width * 0.07,
-  },
-  readscreen_txt4: {
-    color: "#1178ff",
-    fontWeight: "bold",
-  },
-  profile_back_button: {
-    width: width * 0.1,
-    height: width * 0.1,
-  },
-  readscreen_con6: {
-    display: "flex",
-    flexDirection: "row",
-    gap: width * 0.05,
-    margin: width * 0.02,
-  },
-  readscreen_con7: {
-    justifyContent: "space-around",
-    width: width * 0.6,
-  },
-  readscreen_con8: {
-    flex: 0.09,
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
-  readscreen_con9: {
-    flex: 0.91,
-  },
-  readscreen_follow_button: {
-    backgroundColor: "#1178ff",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: width * 0.09,
-    width: width * 0.25,
-  },
-});
 
 export default ReadScreen;

@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import {
-  Dimensions,
   ImageBackground,
   Text,
   TouchableOpacity,
@@ -8,8 +7,7 @@ import {
 } from "react-native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
-
-const { width, height } = Dimensions.get("window");
+import { styles } from "@/css/main";
 
 const notificationData = [
   {
@@ -51,64 +49,50 @@ const Notifications = () => {
   const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <View
-      style={{
-        flex: 1,
-        padding: width * 0.02,
-        gap: width * 0.05,
-        backgroundColor: theme.background,
-      }}
+      style={[styles.notification_container,{backgroundColor: theme.background}]}
     >
-      <Text style={{flex: 0.1, fontSize: width * 0.075, fontWeight: "bold",color:theme.text }}>
+      <Text style={[styles.notification_txt_1,{color:theme.text }]}>
         Notification
       </Text>
-      <View style={{ flex: 0.9, gap: width * 0.02}}>
+      <View style={styles.notification_view_2}>
         {notificationData.map((e, index) => {
           return (
             <TouchableOpacity
               key={index}
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                gap: width * 0.02,
-              }}
+              style={styles.notification_card}
             >
               <ImageBackground
                 source={require("@/assets/images/40523.jpg")}
-                style={{
-                  width: width * 0.1,
-                  height: width * 0.1,
-                  overflow: "hidden",
-                  borderRadius: width * 0.1,
-                }}
+                style={styles.notification_img_1}
               />
-              <View style={{ width: "60%", flexDirection: "column" }}>
+              <View style={styles.notification_view_1}>
                 {e.notificationType.toLowerCase() === "follow" ? (
                   <Text style={{color:theme.text}}>
-                    <Text style={{ fontWeight: "bold" }}>
+                    <Text style={styles.notification_txt_2}>
                       {e.notificationSender}
                     </Text>
                     started following you
                   </Text>
                 ) : e.notificationType.toLowerCase() === "like" ? (
                   <Text style={{color:theme.text}}>
-                    <Text style={{ fontWeight: "bold" }}>
+                    <Text style={styles.notification_txt_2}>
                       {e.notificationSender}
-                    </Text>{" "}
+                    </Text>
                     liked your story: {e.uploadStoryName}
                   </Text>
                 ) : e.notificationType.toLowerCase() === "upload" ? (
                   <Text style={{color:theme.text}}>
-                    <Text style={{ fontWeight: "bold" }}>
+                    <Text style={styles.notification_txt_2}>
                       {e.notificationSender}
-                    </Text>{" "}
+                    </Text>
                     uploaded a new story: {e.uploadStoryName}
                   </Text>
                 ) : e.notificationType.toLowerCase() === "comment" ? (
                   <Text style={{color:theme.text}}>
-                    <Text style={{ fontWeight: "bold" }}>
+                    <Text style={styles.notification_txt_2}>
                       {e.notificationSender}
-                    </Text>{" "}
-                    commented on your story {e.uploadStoryName}:{" "}
+                    </Text>
+                    commented on your story {e.uploadStoryName}
                     {e.senderComent}
                   </Text>
                 ) : (
@@ -118,12 +102,7 @@ const Notifications = () => {
               {e.notificationType.toLowerCase() !== "follow" ? (
                 <ImageBackground
                   source={require("@/assets/images/4977116.jpg")}
-                  style={{
-                    width: width * 0.25,
-                    height: width * 0.1,
-                    overflow: "hidden",
-                    borderRadius: width * 0.01,
-                  }}
+                  style={styles.notification_img_2}
                 />
               ) : (
                 ""

@@ -9,6 +9,7 @@ import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
 
 const { width } = Dimensions.get("window");
 
@@ -164,71 +165,8 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  profile_update_container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-
-  profile_update_hearder: {
-    flex: 0.3,
-  },
-  profile_update_body: {
-    flex: 0.7,
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-    overflowY: "scroll",
-    padding: "5%",
-  },
-  profile_update_hearder_1: {
-    flex: 0.9,
-    width: "100%",
-    height: "100%",
-  },
-  profile_update_hearder_2: {
-    flex: 0.1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  profile_update_image: {
-    position: "absolute",
-    bottom: width * 0.005,
-    width: width * 0.3,
-    height: width * 0.3,
-    borderRadius: width * 0.5,
-    backgroundPosition: "center",
-    overflow: "hidden",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  input_field: {
-    borderRadius: width * 0.1,
-    borderTopRightRadius: width * 0.1,
-    borderTopLeftRadius: width * 0.1,
-    width: "100%",
-  },
-  btn_edit: {
-    backgroundColor: "#45ff25",
-    width: "80%",
-    borderRadius: width * 0.05,
-    padding: width * 0.02,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  profile_update_header_3: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    height: "100%",
-    padding: width * 0.02,
-  },
-  header_name: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: width * 0.05,
-  },
-});
+// const styles = StyleSheet.create({
+  
+// });
 
 export default UpdateProfile;

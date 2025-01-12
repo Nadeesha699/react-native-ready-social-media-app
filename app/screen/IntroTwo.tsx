@@ -19,6 +19,7 @@ const { width } = Dimensions.get("window");
 import { NavigationProp } from '@react-navigation/native';
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>; 
@@ -80,82 +81,82 @@ const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
   );
 }
 
-const styles = StyleSheet.create({
-  intro_container: {
-    flex: 1,
-    padding: "5%",
-    backgroundColor:"white"
-  },
-  intro_header: {
-    flex: 0.9,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: width * 0.05,
-  },
-  intro_body: {
-    flex: 0.1,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  img_intro: {
-    width: width * 0.7,
-    height: width * 0.7,
-    borderRadius:width*1
-  },
-  txt_1: {
-    fontSize: width * 0.07,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  txt_4: {
-    color: "white",
-    fontSize: width*0.05,
-  },
+// const styles = StyleSheet.create({
+//   intro_container: {
+//     flex: 1,
+//     padding: "5%",
+//     backgroundColor:"white"
+//   },
+//   intro_header: {
+//     flex: 0.9,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     gap: width * 0.05,
+//   },
+//   intro_body: {
+//     flex: 0.1,
+//     justifyContent: "space-between",
+//     flexDirection: "row",
+//     alignItems: "center",
+//   },
+//   img_intro: {
+//     width: width * 0.7,
+//     height: width * 0.7,
+//     borderRadius:width*1
+//   },
+//   txt_1: {
+//     fontSize: width * 0.07,
+//     fontWeight: "bold",
+//     textAlign: "center",
+//   },
+//   txt_4: {
+//     color: "white",
+//     fontSize: width*0.05,
+//   },
 
-  btn_2: {
-    backgroundColor: "#2b80ff",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: width*0.3,
-    borderRadius: width*0.05,
-    padding:width*0.02
-  },
-  dot_view: {
-    display: "flex",
-    flexDirection: "row",
-    width: width*0.07,
-    justifyContent: "space-between",
-  },
-  dot1: {
-    backgroundColor: "#1178ff",
-    width: width*0.015,
-    height: width*0.015,
-    borderRadius: width*0.05,
-  },
-  dot2: {
-    backgroundColor: "#b5b5b5",
-    width: width*0.015,
-    height: width*0.015,
-    borderRadius: width*0.05,
-  },
-  txt_2: {
-    textAlign: "center",
-    color: "#747474",
-    width:"80%",
-  },
-  txt_3: {
-    color: "#747474",
-    fontSize: width*0.05,
-  },
-  btn_1: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: width*0.3,
-    borderRadius: width*0.05,
-    padding:width*0.02,
-  },
-});
+//   btn_2: {
+//     backgroundColor: "#2b80ff",
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: width*0.3,
+//     borderRadius: width*0.05,
+//     padding:width*0.02
+//   },
+//   dot_view: {
+//     display: "flex",
+//     flexDirection: "row",
+//     width: width*0.07,
+//     justifyContent: "space-between",
+//   },
+//   dot1: {
+//     backgroundColor: "#1178ff",
+//     width: width*0.015,
+//     height: width*0.015,
+//     borderRadius: width*0.05,
+//   },
+//   dot2: {
+//     backgroundColor: "#b5b5b5",
+//     width: width*0.015,
+//     height: width*0.015,
+//     borderRadius: width*0.05,
+//   },
+//   txt_2: {
+//     textAlign: "center",
+//     color: "#747474",
+//     width:"80%",
+//   },
+//   txt_3: {
+//     color: "#747474",
+//     fontSize: width*0.05,
+//   },
+//   btn_1: {
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: width*0.3,
+//     borderRadius: width*0.05,
+//     padding:width*0.02,
+//   },
+// });
 
 export default IntroTwo;

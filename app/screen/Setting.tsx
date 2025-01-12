@@ -7,24 +7,21 @@ import { DrawerActions, NavigationProp } from "@react-navigation/native";
 import { useContext } from "react";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const Setting: React.FC<TestScreenProps> = ({ navigation }) => {
+  
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
+
   return (
     <View style={{ flex: 1, backgroundColor:theme.background }}>
       <View
-        style={{
-          flexDirection: "row",
-          width: "60%",
-          justifyContent: "space-between",
-          padding: "5%",
-          
-        }}
+        style={styles.setting_view_1}
       >
         <TouchableOpacity
           onPress={() => {
@@ -33,29 +30,20 @@ const Setting: React.FC<TestScreenProps> = ({ navigation }) => {
         >
           <Icon name="menu" size={width * 0.06} color={theme.text}/>
         </TouchableOpacity>
-        <Text style={{ fontWeight: "bold", color:theme.text}}>Setting</Text>
+        <Text style={[styles.setting_txt_1,{color:theme.text}]}>Setting</Text>
       </View>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("DarkTheme");
         }}
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "5%",
-        }}
+        style={styles.setting_card_1}
       >
         <Icon name={"cellphone"} size={width * 0.08} color={theme.text}/>
         <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "space-between",
-            width: "80%",
-          }}
+          style={styles.setting_view_2}
         >
-          <Text style={{ fontWeight: "bold",color:theme.text }}>Display</Text>
-          <Text style={{ color: "#8e8e8e", fontSize: width * 0.03 }}>
+          <Text style={[styles.setting_txt_1,{color:theme.text }]}>Display</Text>
+          <Text style={styles.setting_txt_2}>
             Dark theme
           </Text>
         </View>

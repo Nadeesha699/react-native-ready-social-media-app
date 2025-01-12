@@ -18,6 +18,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { styles } from "@/css/main";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>; 
@@ -127,82 +128,8 @@ const Register: React.FC<TestScreenProps> = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  sign_container: {
-    flex: 1,
-    padding: "5%",
-    backgroundColor:"white"
-  },
-  sign_txt1: {
-    fontSize: width * 0.035,
-    color: "#a3a3a3",
-    fontWeight: "bold",
-  },
-  login_img1: {
-    width: width * 0.1,
-    height: width * 0.1,
-  },
-  login_txt2: {
-    fontSize: width * 0.05,
-    fontWeight: "bold",
-  },
-  login_txt3: {
-    fontSize: width * 0.038,
-    color: "#a3a3a3",
-  },
-  login_txt4: {
-    fontSize: width * 0.038,
-    fontWeight: "bold",
-    color: "#2b80ff",
-  },
-  login_img: {
-    width: "80%",
-    height: "80%",
-  },
-  sign_1: {
-    fontSize: width * 0.1,
-    fontWeight: "bold",
-  },
-  sign_header: {
-    flex: 0.5,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  sign_body: {
-    paddingTop: "10%",
-    flex: 0.5,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    overflowY: "scroll",
-    gap: "5%",
-  },
-  btn_signup: {
-      backgroundColor: "#116cff",
-    width: "80%",
-    borderRadius: width * 0.05,
-    padding: width * 0.02,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  login_2: {
-    fontSize: width * 0.05,
-    fontWeight: "bold",
-    color: "white",
-  },
-  input_field: {
-    borderRadius: width * 0.1,
-    borderTopRightRadius: width * 0.1,
-    borderTopLeftRadius: width * 0.1,
-    width: "100%",
-  },
-  login_com1: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent:"center",
-    gap:width*0.02,
-    alignItems: "center",
-    width: "100%",
-  },
-});
+// const styles = StyleSheet.create({
+  
+// });
 
 export default Register;

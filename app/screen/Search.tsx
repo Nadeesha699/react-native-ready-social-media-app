@@ -16,6 +16,7 @@ import { useContext, useState } from "react";
 import { all } from "@/data/dumiData";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import { styles } from "@/css/main";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -50,12 +51,9 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
           <Icon name="chevron-left" size={width * 0.1} color={theme.text} />
         </TouchableOpacity>
         <TextInput
-          style={{
-            borderRadius: width * 0.1,
-            borderTopRightRadius: width * 0.1,
-            borderTopLeftRadius: width * 0.1,
+          style={[styles.search_txt,{
             width: "80%",
-          }}
+          }]}
           placeholder="Find by name, author, or type..."
           underlineColor="transparent"
           activeUnderlineColor="transparent"
@@ -127,47 +125,5 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  search_container: { flex: 1, backgroundColor: "white" },
-  search_header: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  profile_back_button: {
-    width: width * 0.1,
-    height: width * 0.1,
-  },
-  search_bar: {
-    width: "80%",
-  },
-  search_body: {
-    flex: 0.9,
-    padding: width * 0.02,
-    gap: width * 0.02,
-    overflowY: "scroll",
-  },
-  home_con6: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "5%",
-  },
-  home_txt_8: {
-    color: "#8e8e8e",
-  },
-  home_txt_7: {
-    fontWeight: "bold",
-  },
-  home_con10: {
-    flex: 1,
-    justifyContent: "space-evenly",
-  },
-  home_img3: {
-    width: width * 0.15,
-    height: width * 0.15,
-    overflow: "hidden",
-    borderRadius: width * 0.02,
-  },
-});
 
 export default Search;

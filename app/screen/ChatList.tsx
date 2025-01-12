@@ -81,29 +81,29 @@ const chatData = [
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
-  
-  type TestScreenProps = {
-    navigation: NavigationProp<any>;
-  };
+import { styles } from "@/css/main";
 
-const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
+type TestScreenProps = {
+  navigation: NavigationProp<any>;
+};
 
-    const { isDarkMode } = useContext(ThemeContext);
-    const theme = isDarkMode ? darkTheme : lightTheme;
-    
+const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const [searchIconChange, setSearchIconChange] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   return (
-    <View style={{ flex: 1, padding: width * 0.02, gap: width * 0.05,backgroundColor:theme.background }}>
-      <Text style={{ fontSize: width * 0.075, fontWeight: "bold",color:theme.text }}>Chat</Text>
+    <View
+      style={[styles.chatlist_container, { backgroundColor: theme.background }]}
+    >
+      <Text style={[styles.notification_txt_1, { color: theme.text }]}>
+        Chat
+      </Text>
       <TextInput
         value={searchText}
-        style={{
-          borderRadius: width * 0.1,
-          borderTopRightRadius: width * 0.1,
-          borderTopLeftRadius: width * 0.1,
-        }}
+        style={styles.search_txt}
         placeholder="Find by name..."
         underlineColor="transparent"
         activeUnderlineColor="transparent"
@@ -133,47 +133,39 @@ const ChatList: React.FC<TestScreenProps>  = ({navigation}) => {
       ></TextInput>
       <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
         {chatData
-          .filter((e) => e.name.toLowerCase().includes(searchText.toLowerCase()))
-          .map((e,index) => {
+          .filter((e) =>
+            e.name.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((e, index) => {
             return (
               <TouchableOpacity
-              key={index}
-              onPress={()=>{navigation.navigate('UserMessage')}}
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  padding: width * 0.02,
+                key={index}
+                onPress={() => {
+                  navigation.navigate("UserMessage");
                 }}
+                style={styles.chatlist_card}
               >
                 <Image
                   source={require("@/assets/images/40523.jpg")}
-                  style={{
-                    width: width * 0.15,
-                    height: width * 0.15,
-                    overflow: "hidden",
-                    borderRadius: width * 0.1,
-                  }}
+                  style={styles.chatlist_img_1}
                 />
-                <View
-                  style={{
-                    justifyContent: "space-around",
-                    width: "60%",
-                  }}
-                >
+                <View style={styles.chatlist_view_1}>
                   <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                    style={{ fontWeight: "bold",color:theme.text }}
+                    style={[styles.home_txt_7, { color: theme.text }]}
                   >
                     {e.name}
                   </Text>
-                  <Text numberOfLines={1} ellipsizeMode="tail" style={{color:theme.text}}>
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={{ color: theme.text }}
+                  >
                     {e.message}
                   </Text>
                 </View>
-                <Text style={{ fontSize: width * 0.025, color: "#848484" }}>
-                  {e.time}
-                </Text>
+                <Text style={styles.chatlist_txt_1}>{e.time}</Text>
               </TouchableOpacity>
             );
           })}
