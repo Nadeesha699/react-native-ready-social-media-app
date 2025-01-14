@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { all, horror, fantasy, thriller } from "@/data/dumiData";
+import { all } from "@/data/dumiData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
@@ -31,11 +31,13 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [clickButtonColor, setClickButtonColor] = useState("all");
 
   const setLocalData = async (
+    authorId: any,
     authorName: any,
     storyName: any,
     story: any,
     image: any
   ) => {
+    await AsyncStorage.setItem("author_id", authorId);
     await AsyncStorage.setItem("author_name", authorName);
     await AsyncStorage.setItem("story_name", storyName);
     await AsyncStorage.setItem("story", story);
@@ -96,6 +98,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   onPress={async () => {
                     try {
                       await setLocalData(
+                        e.author_id,
                         e.author,
                         e.storyName,
                         e.story,
@@ -182,6 +185,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   onPress={async () => {
                     try {
                       await setLocalData(
+                        e.author_id,
                         e.author,
                         e.storyName,
                         e.story,

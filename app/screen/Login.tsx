@@ -33,6 +33,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -49,7 +50,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     translateXValue.value = withSpring(0);
-    translateXValue1.value = withTiming(1, { duration: 2000 }); 
+    translateXValue1.value = withTiming(1, { duration: 2000 });
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -125,7 +126,10 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           />
           <TouchableOpacity
             style={styles.btn_sign}
-            onPress={() => {
+            onPress={async () => {
+              await AsyncStorage.setItem('userId','1');
+              await AsyncStorage.setItem("logged", "1");
+              await AsyncStorage.setItem("newComer", "1");
               navigation.navigate("Main");
             }}
           >
@@ -148,8 +152,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
 };
 
 // const styles = StyleSheet.create({
-  
+
 // });
 
 export default Login;
-

@@ -4,11 +4,12 @@ import Setting from "@/app/screen/Setting";
 import { TouchableOpacity, Text, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Login from "../screen/Login";
-import RootStack from "../Stack/RootStack";
+import RootStack from "../Stack/NewComerRootStack";
 import SettingStack from "../Stack/SettingStack";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { useContext } from "react";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Drawer = createDrawerNavigator();
 
@@ -59,7 +60,9 @@ const HomeDrawer = () => {
           ),
         }}
         listeners={({ navigation }) => ({
-          focus: () => {
+          focus: async () => {
+            await AsyncStorage.removeItem('logged');  // old comer came
+            // await AsyncStorage.clear();            // new comwer came
             navigation.reset({
               index: 0,
               routes: [{ name: "Login" }],

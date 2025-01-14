@@ -1,5 +1,6 @@
 export const all = [
   {
+    author_id: 1,
     imgs: require("@/assets/images/3d-fantasy-scene.jpg"),
     author: "Nadeesha Ruwndima",
     storyName: "The Crystal cave 🌛",
@@ -53,6 +54,7 @@ With that, the Keeper and the remains of the crystal tree vanished, leaving behi
 And though the grove was gone, some nights the air shimmered faintly, and a soft chime could be heard on the wind—a reminder of the magic they had lost.`,
   },
   {
+    author_id: 2,
     imgs: require("@/assets/images/0d28cc5c-3f7c-45ac-ac7b-9abc6bbf90f6.jpg"),
     author: "Saman Kumara",
     storyName: "The Whispering Library 📖",
@@ -108,6 +110,7 @@ A new name was written inside: Clara Hayes.
 No one dared to enter Whispering Hall again. And if you pass by late at night, you might hear her voice among the whispers, calling out for someone to save her.`,
   },
   {
+    author_id: 2,
     imgs: require("@/assets/images/young-man-city-bus-stop-generative-ai.jpg"),
     author: "Saman Kumari",
     storyName: "The Midnight Passenger 🏃‍♂️",
@@ -204,38 +207,6 @@ Jake got back into his car, his hands trembling as he started the engine. He did
   },
 ];
 
-export const horror = [
-  {
-    imgs: require("@/assets/images/0d28cc5c-3f7c-45ac-ac7b-9abc6bbf90f6.jpg"),
-    author: "Saman Kumara",
-    storyName: "The Whispering Library 📖",
-    type: "Horror",
-    story:
-      "In the heart of an old, abandoned town stood a crumbling library known as Whispering Hall",
-  },
-];
-
-export const fantasy = [
-  {
-    imgs: require("@/assets/images/3d-fantasy-scene.jpg"),
-    author: "Nadeesha Ruwndima",
-    storyName: "The Crystal cave 🌛",
-    type: "Fantasy",
-    story:
-      "In the heart of an old, abandoned town stood a crumbling library known as Whispering Hall",
-  },
-];
-export const thriller = [
-  {
-    imgs: require("@/assets/images/young-man-city-bus-stop-generative-ai.jpg"),
-    author: "Saman Kumari",
-    storyName: "The Midnight Passenger 🏃‍♂️",
-    type: "Thriller",
-    story:
-      "In the heart of an old, abandoned town stood a crumbling library known as Whispering Hall",
-  },
-];
-
 export const categories = [
   { name: "Horror" },
   { name: "Fantasy" },
@@ -245,4 +216,3 @@ export const categories = [
   { name: "Sci-Fi" },
   { name: "Thriller" },
 ];
-

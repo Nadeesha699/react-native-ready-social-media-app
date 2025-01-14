@@ -17,6 +17,7 @@ import { all } from "@/data/dumiData";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -37,11 +38,27 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
 
-   const { isDarkMode } = useContext(ThemeContext);
-      const theme = isDarkMode ? darkTheme : lightTheme;
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  const setLocalData = async (
+    authorId: any,
+    authorName: any,
+    storyName: any,
+    story: any,
+    image: any
+  ) => {
+    await AsyncStorage.setItem("author_id", authorId);
+    await AsyncStorage.setItem("author_name", authorName);
+    await AsyncStorage.setItem("story_name", storyName);
+    await AsyncStorage.setItem("story", story);
+    await AsyncStorage.setItem("story_img", JSON.stringify(image));
+  };
 
   return (
-    <View style={[styles.search_container,{backgroundColor:theme.background}]}>
+    <View
+      style={[styles.search_container, { backgroundColor: theme.background }]}
+    >
       <View style={styles.search_header}>
         <TouchableOpacity
           onPress={() => {
@@ -51,9 +68,12 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
           <Icon name="chevron-left" size={width * 0.1} color={theme.text} />
         </TouchableOpacity>
         <TextInput
-          style={[styles.search_txt,{
-            width: "80%",
-          }]}
+          style={[
+            styles.search_txt,
+            {
+              width: "80%",
+            },
+          ]}
           placeholder="Find by name, author, or type..."
           underlineColor="transparent"
           activeUnderlineColor="transparent"
@@ -95,7 +115,16 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
               <TouchableOpacity
                 key={index}
                 style={styles.home_con6}
-                onPress={async () => {}}
+                onPress={async () => {
+                  setLocalData(
+                    e.author_id,
+                    e.author,
+                    e.storyName,
+                    e.story,
+                    e.imgs
+                  );
+                  navigation.navigate("Story");
+                }}
               >
                 <ImageBackground
                   source={e.imgs}
@@ -103,7 +132,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                 ></ImageBackground>
                 <View style={styles.home_con10}>
                   <Text
-                    style={[styles.home_txt_7,{color:theme.text}]}
+                    style={[styles.home_txt_7, { color: theme.text }]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >
@@ -124,6 +153,5 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
     </View>
   );
 };
-
 
 export default Search;
