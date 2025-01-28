@@ -63,6 +63,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
+import axios from "axios";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -108,11 +109,12 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
       >
         <ImageBackground
           style={styles.readscreen_header}
-          source={
-            storyImg
-              ? storyImg
-              : require("@/assets/images/3d-fantasy-scene.jpg")
-          }
+          source={{ uri: `data:image/jpeg;base64,${storyImg}` }}
+          // source={
+          //   storyImg
+          //     ? storyImg
+          //     : require("@/assets/images/3d-fantasy-scene.jpg")
+          // }
         >
           <TouchableOpacity
             onPress={() => {
@@ -123,8 +125,15 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
-              onPress={() => {
+              onPress={async () => {
                 setLikeRed(!likeRed);
+                likeRed
+                  ? await axios.get(
+                      "http://192.168.1.82:4000/api/story/like/by-story-id/1?oppesite="
+                    )
+                  : await axios.get(
+                      "http://192.168.1.82:4000/api/story/like/by-story-id/1?oppesite=uyuyuy"
+                    );
               }}
             >
               <Icon
@@ -191,65 +200,78 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           </View>
         </View>
         <View
-            style={[
-              styles.readscreen_comment_section,
-              {
-                top:closeComment?0:width*20,
-              },
-            ]}
+          style={[
+            styles.readscreen_comment_section,
+            {
+              top: closeComment ? 0 : width * 20,
+            },
+          ]}
+        >
+          <View style={styles.readscreen_dark_view} />
+          <View
+            style={{
+              flex: 0.5,
+            }}
           >
-            <View style={styles.readscreen_dark_view} />
             <View
-              style={{
-                flex: 0.5,
-              }}
+              style={[
+                styles.comment_header,
+                { backgroundColor: theme.background },
+              ]}
             >
-              <View style={[styles.comment_header,{backgroundColor:theme.background}]}>
-                <Text style={{ fontWeight: "bold" ,color:theme.text}}>Comments</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    setCloseComment(!closeComment);
-                  }}
-                >
-                  <Icon name="close" size={width * 0.1} color={theme.text}/>
-                </TouchableOpacity>
-              </View>
-              <ScrollView
-                style={[styles.comment_scroll,{backgroundColor:theme.background}]}
-                showsHorizontalScrollIndicator={false}
-                ref={scrollViewRef}
+              <Text style={{ fontWeight: "bold", color: theme.text }}>
+                Comments
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setCloseComment(!closeComment);
+                }}
               >
-                {commentData.map((e, index) => {
-                  return (
-                    <View key={index} style={styles.comment_card}>
-                      <Image
-                        source={require("@/assets/images/40523.jpg")}
-                        style={styles.comment_profile}
-                      />
-                      <View style={styles.comment_con}>
-                        <Text style={{ fontWeight: "bold",color:theme.text }}>{e.name}</Text>
-                        <Text style={{color:theme.text}}>{e.comment}</Text>
-                        <Text style={styles.comment_txt}>{e.time}</Text>
-                      </View>
-                    </View>
-                  );
-                })}
-              </ScrollView>
-              <TextInput
-                style={{ backgroundColor: theme.background, color:theme.text}}
-                placeholder="Message"
-                right={
-                  <TextInput.Icon
-                    icon={() => <Icon name="send" size={width * 0.06} color={theme.text}/>}
-                  />
-                }
-              />
+                <Icon name="close" size={width * 0.1} color={theme.text} />
+              </TouchableOpacity>
             </View>
+            <ScrollView
+              style={[
+                styles.comment_scroll,
+                { backgroundColor: theme.background },
+              ]}
+              showsHorizontalScrollIndicator={false}
+              ref={scrollViewRef}
+            >
+              {commentData.map((e, index) => {
+                return (
+                  <View key={index} style={styles.comment_card}>
+                    <Image
+                      source={require("@/assets/images/40523.jpg")}
+                      style={styles.comment_profile}
+                    />
+                    <View style={styles.comment_con}>
+                      <Text style={{ fontWeight: "bold", color: theme.text }}>
+                        {e.name}
+                      </Text>
+                      <Text style={{ color: theme.text }}>{e.comment}</Text>
+                      <Text style={styles.comment_txt}>{e.time}</Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <TextInput
+              style={{ backgroundColor: theme.background, color: theme.text }}
+              placeholder="Message"
+              right={
+                <TextInput.Icon
+                  icon={() => (
+                    <Icon name="send" size={width * 0.06} color={theme.text} />
+                  )}
+                />
+              }
+            />
           </View>
+        </View>
       </View>
     </>
   );
 };
-
 
 export default ReadScreen;

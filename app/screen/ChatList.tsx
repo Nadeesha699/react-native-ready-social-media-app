@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Image, TouchableOpacity, View, Text, Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -82,6 +82,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
+import axios from "axios";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -93,6 +94,24 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
 
   const [searchIconChange, setSearchIconChange] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const [chatListData, setChatListData] = useState([
+    {
+      Id: 0,
+      UserId: 0,
+    },
+  ]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const resp = await axios.get(
+        "http://localhost:4000/api/messages/get-all-list/7"
+      );
+
+      setChatListData(resp.data.data);
+    };
+    loadData();
+  }, []);
 
   return (
     <View
@@ -132,8 +151,8 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
         }
       ></TextInput>
       <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
-        {chatData
-          .filter((e) =>
+        {chatListData.
+          filter((e) =>
             e.name.toLowerCase().includes(searchText.toLowerCase())
           )
           .map((e, index) => {

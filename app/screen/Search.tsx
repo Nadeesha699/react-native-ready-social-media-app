@@ -6,18 +6,20 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 import { NavigationProp } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { all } from "@/data/dumiData";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -54,6 +56,36 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
     await AsyncStorage.setItem("story", story);
     await AsyncStorage.setItem("story_img", JSON.stringify(image));
   };
+
+  const [storyData, setStoryData] = useState([
+    {
+      Id: 0,
+      Tittle: "",
+      Story: null,
+      LikeCount: 0,
+      Category: "All",
+      AuthorName: "",
+      AuthorId: 0,
+      Image: null,
+    },
+  ]);
+
+  const [waiting, setWaiting] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const resp = await axios.get(
+          "http://192.168.1.82:4000/api/story/get-all"
+        );
+        resp.data.data ? setWaiting(false) : setWaiting(true);
+        setStoryData(resp.data.data);
+      } catch (e) {
+        setWaiting(true);
+      }
+    };
+    loadData();
+  }, []);
 
   return (
     <View
@@ -102,54 +134,66 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
           }
         />
       </View>
-      <View style={styles.search_body}>
-        {all
-          .filter(
-            (e) =>
-              e.author.toLowerCase().includes(text.toLowerCase()) ||
-              e.storyName.toLowerCase().includes(text.toLowerCase()) ||
-              e.type.toLowerCase().includes(text.toLowerCase())
-          )
-          .map((e, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.home_con6}
-                onPress={async () => {
-                  setLocalData(
-                    e.author_id,
-                    e.author,
-                    e.storyName,
-                    e.story,
-                    e.imgs
-                  );
-                  navigation.navigate("Story");
-                }}
-              >
-                <ImageBackground
-                  source={e.imgs}
-                  style={styles.home_img3}
-                ></ImageBackground>
-                <View style={styles.home_con10}>
-                  <Text
-                    style={[styles.home_txt_7, { color: theme.text }]}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {e.storyName}
-                  </Text>
-                  <Text
-                    style={styles.home_txt_8}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {e.author}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-      </View>
+      {waiting ? (
+        <ActivityIndicator
+          color="blue"
+          size="large"
+          style={{ flex: 1 }}
+        ></ActivityIndicator>
+      ) : (
+        <View style={styles.search_body}>
+          {storyData
+            .filter(
+              (e) =>
+                e.AuthorName.toLowerCase().includes(text.toLowerCase()) ||
+                e.Tittle.toLowerCase().includes(text.toLowerCase()) ||
+                e.Category.toLowerCase().includes(text.toLowerCase())
+            )
+            .map((e, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.home_con6}
+                  onPress={async () => {
+                    try {
+                      await setLocalData(
+                        e.AuthorId,
+                        e.AuthorName,
+                        e.Tittle,
+                        e.Story,
+                        e.Image
+                      );
+                      navigation.navigate("Story");
+                    } catch (error) {
+                      console.error("Error saving to AsyncStorage:", error);
+                    }
+                  }}
+                >
+                  <ImageBackground
+                    source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
+                    style={styles.home_img3}
+                  ></ImageBackground>
+                  <View style={styles.home_con10}>
+                    <Text
+                      style={[styles.home_txt_7, { color: theme.text }]}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {e.Tittle}
+                    </Text>
+                    <Text
+                      style={styles.home_txt_8}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {e.AuthorName}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+      )}
     </View>
   );
 };

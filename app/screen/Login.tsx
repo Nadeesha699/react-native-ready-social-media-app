@@ -34,6 +34,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -47,6 +48,11 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
 
   const translateXValue = useSharedValue(-200);
   const translateXValue1 = useSharedValue(0);
+
+  const [loginData, setLoginData] = useState({
+    Email: "",
+    Password: "",
+  });
 
   useEffect(() => {
     translateXValue.value = withSpring(0);
@@ -90,6 +96,10 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
           <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
+            onChangeText={(e) => {
+              setLoginData((prev) => ({ ...prev, Email: e }));
+            }}
+            value={loginData.Email}
             left={
               <TextInput.Icon
                 icon={({ size }) => <Icon name="email" size={size} />}
@@ -102,6 +112,10 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.input_field}
           />
           <TextInput
+            onChangeText={(e) => {
+              setLoginData((prev) => ({ ...prev, Password: e }));
+            }}
+            value={loginData.Password}
             left={
               <TextInput.Icon
                 icon={({ size }) => <Icon name="lock" size={size} />}
@@ -127,10 +141,25 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           <TouchableOpacity
             style={styles.btn_sign}
             onPress={async () => {
-              await AsyncStorage.setItem('userId','1');
-              await AsyncStorage.setItem("logged", "1");
-              await AsyncStorage.setItem("newComer", "1");
-              navigation.navigate("Main");
+              try {
+                const resp = await axios.get(
+                  `http://192.168.1.82:4000/api/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
+                );
+                if (resp.data.success) {
+                  await AsyncStorage.setItem("Id", "7");
+                  const id = resp.data.data.Id
+                  await AsyncStorage.setItem("Id", id.toString());
+                  await AsyncStorage.setItem("userId", "1");
+                  await AsyncStorage.setItem("logged", "1");
+                  await AsyncStorage.setItem("newComer", "1");
+                  navigation.navigate("Main");
+                } else {
+                  navigation.navigate("Login");
+                }
+              } catch (e) {
+                console.log(e)
+                navigation.navigate("Login");
+              }
             }}
           >
             <Text style={styles.login_2}>Sign in</Text>

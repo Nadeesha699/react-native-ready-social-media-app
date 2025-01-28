@@ -1,5 +1,5 @@
 import { StatusBars } from "@/app/components/components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, ImageBackground, Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
@@ -10,6 +10,8 @@ import * as ImagePicker from "expo-image-picker";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get("window");
 
@@ -22,14 +24,51 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [hidePassword, setHidePassword] = useState(true);
 
-  
-     const { isDarkMode } = useContext(ThemeContext);
-        const theme = isDarkMode ? darkTheme : lightTheme;
-        
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  const [updateUser, setUpdateUser] = useState({
+    Name: "",
+    Email: "",
+    Password: "",
+    PhoneNumber: "",
+    ProfileImage: null,
+    CoverImage: null,
+    Bio: "",
+  });
+
+  const [uid, SetUId] = useState<string | null>("");
+
+  useEffect(() => {
+    const loadData = async () => {
+      let id = await AsyncStorage.getItem("Id");
+      console.log(id);
+      const user = await axios.get(
+        `http://192.168.1.82:4000/api/user/get-All/${id} `
+      );
+      setUpdateUser((prev) => ({
+        ...prev,
+        Name: user.data.data.Name,
+        Email: user.data.data.Email,
+        PhoneNumber: user.data.data.PhoneNumber,
+        ProfileImage: user.data.data.ProfileImage,
+        CoverImage: user.data.data.CoverImage,
+        Bio: user.data.data.Bio,
+      }));
+      // console.log(user.data.data);
+    };
+    loadData();
+  }, []);
+
   return (
     <>
       <StatusBars />
-      <View style={[styles.profile_update_container,{backgroundColor:theme.background}]}>
+      <View
+        style={[
+          styles.profile_update_container,
+          { backgroundColor: theme.background },
+        ]}
+      >
         <View style={styles.profile_update_hearder}>
           <ImageBackground
             style={styles.profile_update_hearder_1}
@@ -84,6 +123,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
         </View>
         <View style={styles.profile_update_body}>
           <TextInput
+            onChangeText={(e) => {
+              setUpdateUser((prev) => ({ ...prev, Email: e }));
+            }}
+            value={updateUser.Email}
             style={styles.input_field}
             label="Email"
             underlineColor="transparent"
@@ -96,6 +139,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             }
           />
           <TextInput
+            onChangeText={(e) => {
+              setUpdateUser((prev) => ({ ...prev, Password: e }));
+            }}
+            value={updateUser.Password}
             style={styles.input_field}
             label="Password"
             underlineColor="transparent"
@@ -124,6 +171,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             }
           />
           <TextInput
+            onChangeText={(e) => {
+              setUpdateUser((prev) => ({ ...prev, Name: e }));
+            }}
+            value={updateUser.Name}
             style={styles.input_field}
             label="Full Name"
             underlineColor="transparent"
@@ -136,6 +187,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             }
           />
           <TextInput
+            onChangeText={(e) => {
+              setUpdateUser((prev) => ({ ...prev, PhoneNumber: e }));
+            }}
+            value={updateUser.PhoneNumber}
             style={styles.input_field}
             label="Contact Numeber"
             underlineColor="transparent"
@@ -148,6 +203,10 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
             }
           />
           <TextInput
+            onChangeText={(e) => {
+              setUpdateUser((prev) => ({ ...prev, Bio: e }));
+            }}
+            value={updateUser.Bio}
             style={styles.input_field}
             label="Bio"
             underlineColor="transparent"
@@ -166,7 +225,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
 };
 
 // const styles = StyleSheet.create({
-  
+
 // });
 
 export default UpdateProfile;
