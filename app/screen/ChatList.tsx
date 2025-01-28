@@ -1,82 +1,89 @@
 import { useContext, useEffect, useState } from "react";
-import { Image, TouchableOpacity, View, Text, Dimensions } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  View,
+  Text,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width } = Dimensions.get("window");
 
-const chatData = [
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Nadeesha",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-  {
-    name: "Ruwan",
-    message: "Hello  tv v vbvtut uu vtubvutubtu",
-    time: "12:30",
-  },
-];
+// const chatData = [
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Nadeesha",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+//   {
+//     name: "Ruwan",
+//     message: "Hello  tv v vbvtut uu vtubvutubtu",
+//     time: "12:30",
+//   },
+// ];
 
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
@@ -89,6 +96,7 @@ type TestScreenProps = {
 };
 
 const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
+// const ChatList = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -98,14 +106,27 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [chatListData, setChatListData] = useState([
     {
       Id: 0,
-      UserId: 0,
+      ConversationName: "Nadeesha",
+      ConverstionProfile: null,
+      CreaterId: 0,
+      ForId: 0,
+      Message: [
+        {
+          Id: 0,
+          Message: "",
+          createAt: "",
+          updateAt: "",
+          UserId: 0,
+          ChatId: 0,
+        },
+      ],
     },
   ]);
 
   useEffect(() => {
     const loadData = async () => {
       const resp = await axios.get(
-        "http://localhost:4000/api/messages/get-all-list/7"
+        "http://localhost:4000/api/messages/get-all-converstion/7"
       );
 
       setChatListData(resp.data.data);
@@ -151,21 +172,23 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
         }
       ></TextInput>
       <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
-        {chatListData.
-          filter((e) =>
-            e.name.toLowerCase().includes(searchText.toLowerCase())
+        {chatListData
+          .filter((e) =>
+            e.ConversationName.toLowerCase().includes(searchText.toLowerCase())
           )
           .map((e, index) => {
             return (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  navigation.navigate("UserMessage");
+                  navigation.goBack()
                 }}
                 style={styles.chatlist_card}
               >
                 <Image
-                  source={require("@/assets/images/40523.jpg")}
+                  source={{
+                    uri: `data:image/jpeg;base64,${e.ConverstionProfile}`,
+                  }}
                   style={styles.chatlist_img_1}
                 />
                 <View style={styles.chatlist_view_1}>
@@ -174,17 +197,28 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                     ellipsizeMode="tail"
                     style={[styles.home_txt_7, { color: theme.text }]}
                   >
-                    {e.name}
+                    {e.ConversationName}
                   </Text>
                   <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
                     style={{ color: theme.text }}
                   >
-                    {e.message}
+                    {e.Message.map((e1) => e1.Message)}
                   </Text>
                 </View>
-                <Text style={styles.chatlist_txt_1}>{e.time}</Text>
+                <Text style={styles.chatlist_txt_1}>
+                  {e.Message.map((e1) => {
+                    const date = new Date(e1.createAt);
+                    const hours = date.getHours() % 12 || 12; 
+                    const minutes = date
+                      .getMinutes()
+                      .toString()
+                      .padStart(2, "0"); 
+                    const ampm = date.getHours() >= 12 ? "PM" : "AM";
+                    return `${hours}:${minutes} ${ampm}`;
+                  }).join(", ")}{" "}
+                </Text>
               </TouchableOpacity>
             );
           })}

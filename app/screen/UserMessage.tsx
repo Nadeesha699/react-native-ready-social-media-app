@@ -13,34 +13,34 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width, height } = Dimensions.get("window");
 
-const messageData = [
-  { messsage: "Hello Patiyo", time: "20:27", cid: 1 },
-  { messsage: "ow menika", time: "20:30", cid: 2 },
-  { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-  { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-  { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-  { messsage: "Hmm", time: "20:55", cid: 1 },
-  { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-  { messsage: "ne ne halo", time: "21:07", cid: 1 },
-  { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-  { messsage: "Hmm", time: "21.15", cid: 1 },
-  { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-  { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-  { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-  { messsage: "Hmm", time: "20:55", cid: 1 },
-  { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-  { messsage: "ne ne halo", time: "21:07", cid: 1 },
-  { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-  { messsage: "Hmm", time: "21.15", cid: 1 },
-  { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-  { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-  { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-  { messsage: "Hmm", time: "20:55", cid: 1 },
-  { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-  { messsage: "ne ne halo", time: "21:07", cid: 1 },
-  { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-  { messsage: "Hmm", time: "21.15", cid: 1 },
-];
+// const messageData = [
+//   { messsage: "Hello Patiyo", time: "20:27", cid: 1 },
+//   { messsage: "ow menika", time: "20:30", cid: 2 },
+//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
+//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
+//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
+//   { messsage: "Hmm", time: "20:55", cid: 1 },
+//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
+//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
+//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
+//   { messsage: "Hmm", time: "21.15", cid: 1 },
+//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
+//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
+//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
+//   { messsage: "Hmm", time: "20:55", cid: 1 },
+//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
+//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
+//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
+//   { messsage: "Hmm", time: "21.15", cid: 1 },
+//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
+//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
+//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
+//   { messsage: "Hmm", time: "20:55", cid: 1 },
+//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
+//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
+//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
+//   { messsage: "Hmm", time: "21.15", cid: 1 },
+// ];
 
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
@@ -52,8 +52,8 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-// const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
-  const UserMessages = () => {
+const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
+// const UserMessages = () => {
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   const { isDarkMode } = useContext(ThemeContext);
@@ -61,13 +61,21 @@ type TestScreenProps = {
 
   const [messageDatas, setMessageData] = useState([
     {
-      Id: 1,
-      SenderId: 0,
-      RecieverId: 0,
-      ListId: 0,
-      MessageText: "",
-      createAt: "",
-      updateAt: "",
+      Id: 0,
+      ConversationName: "Nadeesha",
+      ConverstionProfile: null,
+      CreaterId: 0,
+      ForId: 0,
+      Message: [
+        {
+          Id: 0,
+          Message: "",
+          createAt: "",
+          updateAt: "",
+          UserId: 0,
+          ChatId: 0,
+        },
+      ],
     },
   ]);
 
@@ -78,10 +86,10 @@ type TestScreenProps = {
 
     const loadData = async () => {
       const resp = await axios.get(
-        "http://localhost:4000/api/messages/get-single-chat/by-id/7/12"
+        "http://localhost:4000/api/messages/verifyConversation/7/12"
       );
 
-      setMessageData(resp.data.data)
+      setMessageData(resp.data.data);
     };
     loadData();
   }, []);
@@ -93,7 +101,7 @@ type TestScreenProps = {
       <View style={styles.message_header}>
         <TouchableOpacity
           onPress={() => {
-            // navigation.goBack();
+            navigation.goBack();
           }}
         >
           <Icon name="chevron-left" size={width * 0.1} color={theme.text} />
@@ -107,7 +115,47 @@ type TestScreenProps = {
         </Text>
       </View>
       <ScrollView style={styles.message_body} ref={scrollViewRef}>
-        {messageDatas.map((e, index) => {
+        {messageDatas.map((e) =>
+          e.Message.map((e1, index) => {
+            return (
+              <View
+                key={index}
+                style={[
+                  styles.message_body_1,
+                  { alignItems: e1.UserId === 7 ? "flex-end" : "flex-start" },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.message_card,
+                    {
+                      backgroundColor: e1.UserId === 7 ? "#d7d7d7" : "#b9d7ff",
+                      borderTopLeftRadius: e1.UserId === 7 ? width * 0.02 : 0,
+                      borderTopRightRadius: e1.UserId === 7 ? 0 : width * 0.02,
+                      marginLeft: e1.UserId === 7 ? width * 0.02 : 0,
+                      marginRight: e1.UserId === 7 ? 0 : width * 0.02,
+                    },
+                  ]}
+                >
+                  <Text style={styles.setting_txt_1}>{e1.Message}</Text>
+                  <Text style={styles.message_txt}>
+                    {e.Message.map((e1) => {
+                      const date = new Date(e1.createAt);
+                      const hours = date.getHours() % 12 || 12;
+                      const minutes = date
+                        .getMinutes()
+                        .toString()
+                        .padStart(2, "0");
+                      const ampm = date.getHours() >= 12 ? "PM" : "AM";
+                      return `${hours}:${minutes} ${ampm}`;
+                    }).join(", ")}{" "}
+                  </Text>
+                </View>
+              </View>
+            );
+          })
+        )}
+        {/* {messageDatas.map((e, index) => {
           return (
             <View
               key={index}
@@ -133,7 +181,7 @@ type TestScreenProps = {
               </View>
             </View>
           );
-        })}
+        })} */}
       </ScrollView>
       <TextInput
         style={[styles.message_footer, { backgroundColor: theme.background }]}

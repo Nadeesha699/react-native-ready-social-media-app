@@ -8,6 +8,7 @@ import OldComerRootStack from "./Stack/OldComerRootStack";
 import ExpressTest from "./Test/ExpressTest";
 import MessageTest from "./Test/ExpressTest";
 import UserMessages from "./screen/UserMessage";
+import ChatList from "./screen/ChatList";
 
 
 
@@ -28,8 +29,7 @@ const Index = () => {
   }, []);
   return (
     <>
-    <UserMessages/>
-      {/* <ThemeProvider>
+      <ThemeProvider>
         <StatusBars />
         {logged === "1" ? (
           <LoggedRootStack />
@@ -38,7 +38,7 @@ const Index = () => {
         ) : (
           <OldComerRootStack />
         )}
-      </ThemeProvider> */}
+      </ThemeProvider>
     </>
   );
 };
