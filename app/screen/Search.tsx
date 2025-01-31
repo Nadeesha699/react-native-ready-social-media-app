@@ -64,9 +64,17 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
       Story: null,
       LikeCount: 0,
       Category: "All",
-      AuthorName: "",
       AuthorId: 0,
       Image: null,
+      User: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
     },
   ]);
 
@@ -145,7 +153,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
           {storyData
             .filter(
               (e) =>
-                e.AuthorName.toLowerCase().includes(text.toLowerCase()) ||
+                e.User.Name.toLowerCase().includes(text.toLowerCase()) ||
                 e.Tittle.toLowerCase().includes(text.toLowerCase()) ||
                 e.Category.toLowerCase().includes(text.toLowerCase())
             )
@@ -158,7 +166,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                     try {
                       await setLocalData(
                         e.AuthorId,
-                        e.AuthorName,
+                        e.User.Name,
                         e.Tittle,
                         e.Story,
                         e.Image
@@ -186,7 +194,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                       numberOfLines={1}
                       ellipsizeMode="tail"
                     >
-                      {e.AuthorName}
+                      {e.User.Name}
                     </Text>
                   </View>
                 </TouchableOpacity>

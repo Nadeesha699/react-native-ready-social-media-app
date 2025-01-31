@@ -36,6 +36,7 @@ type TestScreenProps = {
 };
 
 const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
+  
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [profileData, setProfilData] = useState({
@@ -53,9 +54,17 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
       Story: null,
       LikeCount: 0,
       Category: "All",
-      AuthorName: null,
       AuthorId: 0,
       Image: null,
+      User: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
     },
   ]);
   const  [storyCount,setStoryCount] = useState(0)
@@ -76,7 +85,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
       setFollowerCount(resp3.data.data.length)
       
       const resp = await axios.get(
-        `http://localhost:4000/api/user//get-All/${id}`
+        `http://localhost:4000/api/user/get-All/${id}`
       );
       if (resp.data.success) {
         setProfilData((prev) => ({
@@ -116,7 +125,9 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
         <View style={styles.profile_hearder}>
           <ImageBackground
             style={styles.profile_hearder_1}
-            source={require("@/assets/images/3d-fantasy-scene.jpg")}
+            source={{
+              uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
+            }}
           >
             <TouchableOpacity
               onPress={() => {
@@ -132,7 +143,9 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
               <ImageBackground
-                source={require("@/assets/images/40523.jpg")}
+                source={{
+                  uri: `data:image/jpeg;base64,${profileData.ProfileImage}`,
+                }}
                 style={styles.profile_image}
               />
               <Text style={[styles.profile_txt_1, { color: theme.text }]}>
@@ -193,7 +206,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
                   try {
                     await setLocalData(
                       e.AuthorId,
-                      e.AuthorName,
+                      e.User.Name,
                       e.Tittle,
                       e.Story,
                       e.Image

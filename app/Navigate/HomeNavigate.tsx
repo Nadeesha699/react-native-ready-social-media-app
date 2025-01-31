@@ -7,7 +7,7 @@ import Notifications from "../screen/Notification";
 import Profile from "../screen/Profile";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { getFocusedRouteNameFromRoute, } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Dimensions, TouchableOpacity, Text } from "react-native";
 import Create from "../screen/Create";
 import ChatStack from "../Stack/ChatStack";
@@ -16,16 +16,22 @@ import ProfileStack from "../Stack/ProfileStack";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { useContext } from "react";
 import { darkTheme, lightTheme } from "../Theme/theme";
+import axios from "axios";
 
 const Tab = createBottomTabNavigator();
 
 const { width, height } = Dimensions.get("window");
 
 const HomeNaviagte = () => {
-    const { isDarkMode } = useContext(ThemeContext);
-    const theme = isDarkMode ? darkTheme : lightTheme;
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false,tabBarStyle:{backgroundColor:theme.background} }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: theme.background },
+      }}
+    >
       <Tab.Screen
         name="Homes"
         component={Home}
@@ -41,7 +47,9 @@ const HomeNaviagte = () => {
         options={({ route }) => ({
           tabBarStyle: {
             backgroundColor: theme.background,
-            ...(getFocusedRouteNameFromRoute(route) === "UserMessage" && { display: "none" })
+            ...(getFocusedRouteNameFromRoute(route) === "UserMessage" && {
+              display: "none",
+            }),
           },
           tabBarIcon: ({ color, size }) => (
             <Icon name="chat-outline" size={size} color={color} />
@@ -52,39 +60,48 @@ const HomeNaviagte = () => {
       <Tab.Screen
         name="Create story"
         component={Create}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerStyle: { backgroundColor: theme.background },
+        options={{
+          headerShown: false,
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Icon name="plus-circle-outline" size={size} color={color} />
           ),
-          headerTitleAlign: "center",
-          headerTintColor: theme.text,
-          headerTitleStyle: { fontWeight: "bold" },
-          headerLeft: () => (
-            <Icon
-              style={{ padding: width * 0.02 }}
-              name="close"
-              size={width * 0.05}
-              color="#ff005d"
-              onPress={() => navigation.goBack()}
-            />
-          ),
-          headerRight: () => (
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: "#1178ff",
-                  fontWeight: "bold",
-                  padding: width * 0.02,
-                }}
-              >
-                upload
-              </Text>
-            </TouchableOpacity>
-          ),
-        })}
+        }}
+        // options={({ navigation }) => ({
+        //   headerShown: false,
+        // headerStyle: { backgroundColor: theme.background },
+        // tabBarStyle: { display: "none" },
+        // tabBarIcon: ({ color, size }) => (
+        //   <Icon name="plus-circle-outline" size={size} color={color} />
+        // ),
+        // headerTitleAlign: "center",
+        // headerTintColor: theme.text,
+        // headerTitleStyle: { fontWeight: "bold" },
+        // headerLeft: () => (
+        //   <Icon
+        //     style={{ padding: width * 0.02 }}
+        //     name="close"
+        //     size={width * 0.05}
+        //     color="#ff005d"
+        //     onPress={() => navigation.goBack()}
+        //   />
+        // ),
+        // headerRight: () => (
+        //   <TouchableOpacity onPress={()=>{
+
+        //   }}>
+        //     <Text
+        //       style={{
+        //         color: "#1178ff",
+        //         fontWeight: "bold",
+        //         padding: width * 0.02,
+        //       }}
+        //     >
+        //       upload
+        //     </Text>
+        //   </TouchableOpacity>
+        // ),
+        // })}
       />
       <Tab.Screen
         name="Notification"
@@ -104,7 +121,9 @@ const HomeNaviagte = () => {
           return {
             tabBarStyle: {
               backgroundColor: theme.background,
-              ...(["Update Profile", "Story"].includes(focusedRoute) && { display: "none" }),
+              ...(["Update Profile", "Story"].includes(focusedRoute) && {
+                display: "none",
+              }),
             },
             tabBarIcon: ({ color, size }) => (
               <Icon name="account-outline" size={size} color={color} />

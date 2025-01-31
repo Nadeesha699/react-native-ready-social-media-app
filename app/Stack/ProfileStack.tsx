@@ -29,35 +29,37 @@ const ProfileStack = () => {
       <Stack.Screen
         name="Update Profile"
         component={UpdateProfile}
-        options={({ navigation }) => ({
-          animation: "slide_from_right",
-          headerTitleAlign: "center",
-          headerTintColor:theme.text,
-          headerStyle: { backgroundColor: theme.background },
-          headerTitleStyle: { fontWeight: "bold" },
-          headerLeft: () => (
-            <Icon
-              style={{ padding: width * 0.02 }}
-              name="close"
-              size={width * 0.05}
-              color="#ff005d"
-              onPress={() => navigation.goBack()}
-            />
-          ),
-          headerRight: () => (
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: "#1178ff",
-                  fontWeight: "bold",
-                  padding: width * 0.02,
-                }}
-              >
-                edit
-              </Text>
-            </TouchableOpacity>
-          ),
-        })}
+        options={{headerShown:false
+        }}
+        // options={({ navigation }) => ({
+        //   animation: "slide_from_right",
+        //   headerTitleAlign: "center",
+        //   headerTintColor:theme.text,
+        //   headerStyle: { backgroundColor: theme.background },
+        //   headerTitleStyle: { fontWeight: "bold" },
+        //   headerLeft: () => (
+        //     <Icon
+        //       style={{ padding: width * 0.02 }}
+        //       name="close"
+        //       size={width * 0.05}
+        //       color="#ff005d"
+        //       onPress={() => navigation.goBack()}
+        //     />
+        //   ),
+        //   headerRight: () => (
+        //     <TouchableOpacity>
+        //       <Text
+        //         style={{
+        //           color: "#1178ff",
+        //           fontWeight: "bold",
+        //           padding: width * 0.02,
+        //         }}
+        //       >
+        //         edit
+        //       </Text>
+        //     </TouchableOpacity>
+        //   ),
+        // })}
       />
       <Stack.Screen
         name="Story"

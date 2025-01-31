@@ -9,55 +9,13 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet,
   Dimensions,
   ScrollView,
-  TextComponent,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width } = Dimensions.get("window");
-
-const commentData = [
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment: "Eka Patta",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment: "Eka Patta",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment: "Eka Patta",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment: "Eka Patta",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment:
-      "Eka Pattaedhgd gedyg uugfeufgue fuufufueu feu feufue hfuhfuhu urhfu rufhru hgur ugr gurfughu",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-  {
-    profile: "@/assets/images/40523.jpg",
-    comment: "Eka Patta",
-    name: "Kusal Ahela Arachchi",
-    time: "5h",
-  },
-];
 
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
@@ -82,6 +40,28 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [storyImg, setStoryImg] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView | null>(null);
 
+  const [commentData, setCommentData] = useState([
+    {
+      Id: 0,
+      Comment: "",
+      SenderId: 0,
+      StoryId: 0,
+      createAt: "",
+      updateAt: "",
+      User: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        ProfileImage: null,
+        CoverImage: null,
+        Bio: "",
+        createAt: "",
+        updateAt: "",
+      },
+    },
+  ]);
+
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
@@ -93,10 +73,25 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
       const storyImg = storedImg ? JSON.parse(storedImg) : null;
       setStoryImg(storyImg);
       setStory(await AsyncStorage.getItem("story"));
+
+      const resp = await axios.get(
+        "http://localhost:4000/api/comment/all/by-id/1"
+      );
+      setCommentData(resp.data.data);
     };
 
     loadData();
   }, []);
+
+  const timeFormat = (time: any) => {
+    const date = new Date(time);
+    const hours = date.getHours() % 12 || 12;
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = date.getHours() >= 12 ? "PM" : "AM";
+    return `${hours}:${minutes} ${ampm}`;
+  };
+
+  const [commentTxt, setCommentTxt] = useState("");
 
   return (
     <>
@@ -110,11 +105,6 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
         <ImageBackground
           style={styles.readscreen_header}
           source={{ uri: `data:image/jpeg;base64,${storyImg}` }}
-          // source={
-          //   storyImg
-          //     ? storyImg
-          //     : require("@/assets/images/3d-fantasy-scene.jpg")
-          // }
         >
           <TouchableOpacity
             onPress={() => {
@@ -242,15 +232,19 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 return (
                   <View key={index} style={styles.comment_card}>
                     <Image
-                      source={require("@/assets/images/40523.jpg")}
+                      source={{
+                        uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
+                      }}
                       style={styles.comment_profile}
                     />
                     <View style={styles.comment_con}>
                       <Text style={{ fontWeight: "bold", color: theme.text }}>
-                        {e.name}
+                        {e.User.Name}
                       </Text>
-                      <Text style={{ color: theme.text }}>{e.comment}</Text>
-                      <Text style={styles.comment_txt}>{e.time}</Text>
+                      <Text style={{ color: theme.text }}>{e.Comment}</Text>
+                      <Text style={styles.comment_txt}>
+                        {timeFormat(e.createAt)}
+                      </Text>
                     </View>
                   </View>
                 );
@@ -259,8 +253,28 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
             <TextInput
               style={{ backgroundColor: theme.background, color: theme.text }}
               placeholder="Message"
+              value={commentTxt}
+              onChangeText={(e) => {
+                setCommentTxt(e);
+              }}
               right={
                 <TextInput.Icon
+                onPress={async () => {
+                  const resp = await axios.post(
+                    "http://localhost:4000/api/comment/create",
+                    {
+                      Comment: commentTxt,
+                      SenderId: 7,
+                      StoryId: 1,
+                    }
+                  );
+  
+                  resp.data.success === true
+                    ? console.log("send")
+                    : console.log("unsend");
+  
+                  setCommentTxt("")  
+                }}
                   icon={() => (
                     <Icon name="send" size={width * 0.06} color={theme.text} />
                   )}

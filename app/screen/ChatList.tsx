@@ -12,79 +12,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width } = Dimensions.get("window");
 
-// const chatData = [
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Nadeesha",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-//   {
-//     name: "Ruwan",
-//     message: "Hello  tv v vbvtut uu vtubvutubtu",
-//     time: "12:30",
-//   },
-// ];
-
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -96,7 +23,6 @@ type TestScreenProps = {
 };
 
 const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
-// const ChatList = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -106,8 +32,6 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [chatListData, setChatListData] = useState([
     {
       Id: 0,
-      ConversationName: "Nadeesha",
-      ConverstionProfile: null,
       CreaterId: 0,
       ForId: 0,
       Message: [
@@ -118,8 +42,29 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
           updateAt: "",
           UserId: 0,
           ChatId: 0,
+          read: false,
         },
       ],
+      Creator: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        ProfileImage:null,
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
+      Participant: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        ProfileImage:null,
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
     },
   ]);
 
@@ -174,20 +119,20 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
       <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
         {chatListData
           .filter((e) =>
-            e.ConversationName.toLowerCase().includes(searchText.toLowerCase())
+            e.Participant.Name.toLowerCase().includes(searchText.toLowerCase())
           )
           .map((e, index) => {
             return (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  navigation.goBack()
+                  navigation.navigate('UserMessage')
                 }}
                 style={styles.chatlist_card}
               >
                 <Image
                   source={{
-                    uri: `data:image/jpeg;base64,${e.ConverstionProfile}`,
+                    uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
                   }}
                   style={styles.chatlist_img_1}
                 />
@@ -197,7 +142,7 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                     ellipsizeMode="tail"
                     style={[styles.home_txt_7, { color: theme.text }]}
                   >
-                    {e.ConversationName}
+                    { e.Participant.Name}
                   </Text>
                   <Text
                     numberOfLines={1}

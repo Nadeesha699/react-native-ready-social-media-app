@@ -32,6 +32,7 @@ type TestScreenProps = {
 };
 
 const Register: React.FC<TestScreenProps> = ({ navigation }) => {
+  
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -168,7 +169,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             onPress={async () => {
               try {
                 const resp = await axios.post(
-                  `http://192.168.1.82:4000/api/user//register`,
+                  `http://192.168.1.82:4000/api/user/register`,
                   {
                     Name: registerData.Name,
                     Email: registerData.Email,
@@ -202,8 +203,5 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
   );
 };
 
-// const styles = StyleSheet.create({
-
-// });
 
 export default Register;

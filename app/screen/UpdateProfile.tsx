@@ -1,12 +1,12 @@
 import { StatusBars } from "@/app/components/components";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { View, ImageBackground, Dimensions } from "react-native";
+import { View, ImageBackground, Dimensions, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import * as ImagePicker from "expo-image-picker";
+import { launchImageLibrary } from "react-native-image-picker";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
@@ -19,7 +19,8 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const UpdateProfile: React.FC<TestScreenProps> = () => {
+const UpdateProfile: React.FC<TestScreenProps> = ({navigation}) => {
+
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [hidePassword, setHidePassword] = useState(true);
@@ -27,14 +28,19 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
+  const [coverimageUri, setCoverImageUri] = useState<string | null>(null);
+  const [coverbase64Image, setCoverBase64Image] = useState<string | null>(null);
+  const [profileimageUri, setProfileImageUri] = useState<string | null>(null);
+  const [profilebase64Image, setProfileBase64Image] = useState<string | null>(
+    null
+  );
+
   const [updateUser, setUpdateUser] = useState({
-    Name: "",
-    Email: "",
-    Password: "",
-    PhoneNumber: "",
-    ProfileImage: null,
-    CoverImage: null,
-    Bio: "",
+    Name: "Nadeesha",
+    Email: "bcdbcdhbdh@gmail.com",
+    Password: "bcfbhbfh",
+    PhoneNumber: "cbhbhc",
+    Bio: "cdbdbhbch",
   });
 
   const [uid, SetUId] = useState<string | null>("");
@@ -42,7 +48,6 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
   useEffect(() => {
     const loadData = async () => {
       let id = await AsyncStorage.getItem("Id");
-      console.log(id);
       const user = await axios.get(
         `http://192.168.1.82:4000/api/user/get-All/${id} `
       );
@@ -55,7 +60,7 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
         CoverImage: user.data.data.CoverImage,
         Bio: user.data.data.Bio,
       }));
-      // console.log(user.data.data);
+      
     };
     loadData();
   }, []);
@@ -69,26 +74,85 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
           { backgroundColor: theme.background },
         ]}
       >
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack()
+            }}
+          >
+            <Icon name={"close"} size={width * 0.06} color={"red"} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={async () => {
+              const resp = await axios.put(
+                "http://localhost:4000/api/user/update/15",
+                {
+                  Name: updateUser.Name,
+                  Email: updateUser.Email,
+                  Password: updateUser.Password,
+                  PhoneNumber: updateUser.PhoneNumber,
+                  ProfileImage: profilebase64Image,
+                  CoverImage: coverbase64Image,
+                  Bio: updateUser.Bio,
+                }
+              );
+              resp.data.success === true
+                ? console.log("edited")
+                : console.log("unedited");
+            }}
+          >
+            <Text
+              style={{
+                color: "#1178ff",
+                fontWeight: "bold",
+                padding: width * 0.02,
+              }}
+            >
+              edit
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.profile_update_hearder}>
           <ImageBackground
             style={styles.profile_update_hearder_1}
             source={
-              coverImage
-                ? { uri: coverImage }
+              coverimageUri
+                ? { uri: coverimageUri }
                 : require("@/assets/images/3d-fantasy-scene.jpg")
             }
           >
             <View style={styles.profile_update_header_3}>
               <TouchableOpacity
-                onPress={async () => {
-                  let result = await ImagePicker.launchImageLibraryAsync({
-                    quality: 1,
-                    allowsEditing: true,
-                    aspect: [6, 3],
-                  });
-                  if (!result.canceled) {
-                    setCoverImage(result.assets[0].uri);
-                  }
+                onPress={() => {
+                  launchImageLibrary(
+                    { mediaType: "photo" },
+                    (response: any) => {
+                      if (response.assets) {
+                        setCoverImageUri(response.assets[0].uri);
+                        // Convert image to base64
+                        const uri = response.assets[0].uri;
+                        fetch(uri)
+                          .then((res) => res.blob())
+                          .then((blob) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setCoverBase64Image(
+                                (reader.result as string)?.split(",")[1]
+                              );
+                            };
+                            reader.readAsDataURL(blob);
+                          });
+                      }
+                    }
+                  );
                 }}
               >
                 <Icon name="camera" color="white" size={width * 0.08} />
@@ -98,22 +162,35 @@ const UpdateProfile: React.FC<TestScreenProps> = () => {
           <View style={styles.profile_update_hearder_2}>
             <ImageBackground
               source={
-                profileImage
-                  ? { uri: profileImage }
+                profileimageUri
+                  ? { uri: profileimageUri }
                   : require("@/assets/images/40523.jpg")
               }
               style={styles.profile_update_image}
             >
               <TouchableOpacity
-                onPress={async () => {
-                  let result = await ImagePicker.launchImageLibraryAsync({
-                    quality: 1,
-                    allowsEditing: true,
-                    aspect: [3, 3],
-                  });
-                  if (!result.canceled) {
-                    setProfileImage(result.assets[0].uri);
-                  }
+                onPress={() => {
+                  launchImageLibrary(
+                    { mediaType: "photo" },
+                    (response: any) => {
+                      if (response.assets) {
+                        setProfileImageUri(response.assets[0].uri);
+                        // Convert image to base64
+                        const uri = response.assets[0].uri;
+                        fetch(uri)
+                          .then((res) => res.blob())
+                          .then((blob) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setProfileBase64Image(
+                                (reader.result as string)?.split(",")[1]
+                              );
+                            };
+                            reader.readAsDataURL(blob);
+                          });
+                      }
+                    }
+                  );
                 }}
               >
                 <Icon name="camera" color="white" size={width * 0.08} />

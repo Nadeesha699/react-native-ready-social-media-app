@@ -56,11 +56,26 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
       Story: null,
       LikeCount: 0,
       Category: "All",
-      AuthorName: null,
       AuthorId: 0,
       Image: null,
+      User: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
     },
   ]);
+
+const [userData, setuserData] = useState({
+      Name: "",
+      Email: "",
+      Password: "",
+      PhoneNumber: "",
+    });
 
   const [waiting, setWaiting] = useState(true);
 
@@ -69,6 +84,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
     const loadData = async () => {
       try{
       const resp = await axios.get("http://192.168.1.82:4000/api/story/get-all");
+      const resp1 = await axios.get('http://192.168.1.82:4000/api/user/get-All/7')
+      setuserData(resp1.data.data)
       resp.data.data ? setWaiting(false) : setWaiting(true);
       setStoryData(resp.data.data);
     }catch(e){
@@ -78,6 +95,16 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
     loadData();
   
   }, []);
+
+  const commentCount = async (count:any)=>{
+    try {
+      const resp = await axios.get(`http://localhost:4000/api/comment/all/by-id/1`);
+      return resp.data.length; // Assuming resp.data is an array of comments
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      return 0;
+    }
+  }
 
   return (
     <>
@@ -127,7 +154,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              Nadeesha Ruwandima
+              {userData.Name}
             </Text>
             <View style={styles.home_scroll_sub_view}>
               {storyData.map((e, index) => {
@@ -138,7 +165,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                       try {
                         await setLocalData(
                           e.AuthorId,
-                          e.AuthorName,
+                          e.User.Name,
                           e.Tittle,
                           e.Story,
                           e.Image
@@ -165,7 +192,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                       >
-                        {e.AuthorName}
+                        {e.User.Name}
                       </Text>
                     </ImageBackground>
                   </TouchableOpacity>
@@ -230,7 +257,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                       try {
                         await setLocalData(
                           e.AuthorId,
-                          e.AuthorName,
+                          e.User.Name,
                           e.Tittle,
                           e.Story,
                           e.Image
@@ -258,7 +285,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                       >
-                        {e.AuthorName}
+                        {e.User.Name}
                       </Text>
                       <View style={styles.home_con8}>
                         <View style={styles.home_con9}>
@@ -277,7 +304,9 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                             size={width * 0.04}
                             color={theme.text}
                           />
-                          <Text style={{ color: theme.text }}>14</Text>
+                          <Text style={{ color: theme.text }}>{
+                            0
+                            }</Text>
                         </View>
                       </View>
                     </View>

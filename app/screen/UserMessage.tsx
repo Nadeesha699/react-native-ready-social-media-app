@@ -13,35 +13,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { width, height } = Dimensions.get("window");
 
-// const messageData = [
-//   { messsage: "Hello Patiyo", time: "20:27", cid: 1 },
-//   { messsage: "ow menika", time: "20:30", cid: 2 },
-//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-//   { messsage: "Hmm", time: "20:55", cid: 1 },
-//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
-//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-//   { messsage: "Hmm", time: "21.15", cid: 1 },
-//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-//   { messsage: "Hmm", time: "20:55", cid: 1 },
-//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
-//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-//   { messsage: "Hmm", time: "21.15", cid: 1 },
-//   { messsage: "Oya Mata Adareida", time: "20:31", cid: 1 },
-//   { messsage: "Ne raththrane", time: "20:45", cid: 2 },
-//   { messsage: "api thama yaluwa withari", time: "20:45", cid: 2 },
-//   { messsage: "Hmm", time: "20:55", cid: 1 },
-//   { messsage: "ai mokoda awulen wage", time: "21:05", cid: 2 },
-//   { messsage: "ne ne halo", time: "21:07", cid: 1 },
-//   { messsage: "duka hithunath mama kiwwe aththa", time: "21.:10", cid: 2 },
-//   { messsage: "Hmm", time: "21.15", cid: 1 },
-// ];
-
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -59,11 +30,10 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
+  const [messageTxt, setMessageTxt] = useState("");
   const [messageDatas, setMessageData] = useState([
     {
       Id: 0,
-      ConversationName: "Nadeesha",
-      ConverstionProfile: null,
       CreaterId: 0,
       ForId: 0,
       Message: [
@@ -74,8 +44,27 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
           updateAt: "",
           UserId: 0,
           ChatId: 0,
+          read: false,
         },
       ],
+      Creator: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
+      Participant: {
+        Id: 0,
+        Name: "",
+        Email: "",
+        PhoneNumber: "",
+        Bio: "t",
+        createAt: "",
+        updateAt: "",
+      },
     },
   ]);
 
@@ -93,6 +82,14 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
     };
     loadData();
   }, []);
+
+  const formatTime = (time: any) => {
+    const date = new Date(time);
+    const hours = date.getHours() % 12 || 12;
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = date.getHours() >= 12 ? "PM" : "AM";
+    return `${hours}:${minutes} ${ampm}`;
+  };
 
   return (
     <View
@@ -139,55 +136,39 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
                 >
                   <Text style={styles.setting_txt_1}>{e1.Message}</Text>
                   <Text style={styles.message_txt}>
-                    {e.Message.map((e1) => {
-                      const date = new Date(e1.createAt);
-                      const hours = date.getHours() % 12 || 12;
-                      const minutes = date
-                        .getMinutes()
-                        .toString()
-                        .padStart(2, "0");
-                      const ampm = date.getHours() >= 12 ? "PM" : "AM";
-                      return `${hours}:${minutes} ${ampm}`;
-                    }).join(", ")}{" "}
+                    {formatTime(e1.createAt)}
                   </Text>
                 </View>
               </View>
             );
           })
         )}
-        {/* {messageDatas.map((e, index) => {
-          return (
-            <View
-              key={index}
-              style={[
-                styles.message_body_1,
-                { alignItems: e.SenderId ===7 ? "flex-end" : "flex-start" },
-              ]}
-            >
-              <View
-                style={[
-                  styles.message_card,
-                  {
-                    backgroundColor: e.SenderId === 7 ? "#d7d7d7" : "#b9d7ff",
-                    borderTopLeftRadius: e.SenderId === 7 ? width * 0.02 : 0,
-                    borderTopRightRadius: e.SenderId === 7 ? 0 : width * 0.02,
-                    marginLeft: e.SenderId === 7 ? width * 0.02 : 0,
-                    marginRight: e.SenderId === 7 ? 0 : width * 0.02,
-                  },
-                ]}
-              >
-                <Text style={styles.setting_txt_1}>{e.MessageText}</Text>
-                <Text style={styles.message_txt}>{e.createAt}</Text>
-              </View>
-            </View>
-          );
-        })} */}
       </ScrollView>
       <TextInput
         style={[styles.message_footer, { backgroundColor: theme.background }]}
         placeholder="Message"
+        value={messageTxt}
+        onChangeText={(e) => {
+          setMessageTxt(e);
+        }}
         right={
           <TextInput.Icon
+            onPress={async () => {
+              const resp = await axios.post(
+                "http://localhost:4000/api/messages/send",
+                
+                  {
+                    Message: messageTxt,
+                    UserId: 7,
+                    ChatId: 5,
+                  },
+                
+              );
+              resp.data.success === true
+                ? console.log("send")
+                : console.log("unsend");
+              setMessageTxt("")
+            }}
             icon={() => (
               <Icon name="send" size={width * 0.06} color={theme.text} />
             )}
