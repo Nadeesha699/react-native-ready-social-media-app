@@ -22,12 +22,16 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
+import { commanApi } from "../components/components";
+import commentJson from "../Json/commentJson.json";
+import followJson from "../Json/followJson.json";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
+// const ReadScreen = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -40,27 +44,11 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [storyImg, setStoryImg] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView | null>(null);
 
-  const [commentData, setCommentData] = useState([
-    {
-      Id: 0,
-      Comment: "",
-      SenderId: 0,
-      StoryId: 0,
-      createAt: "",
-      updateAt: "",
-      User: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        ProfileImage: null,
-        CoverImage: null,
-        Bio: "",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [commentData, setCommentData] = useState(commentJson);
+
+  const [followData, setFollowData] = useState(followJson);
+
+  const [newFollow, setNewFollow] = useState(false);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -74,10 +62,17 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
       setStoryImg(storyImg);
       setStory(await AsyncStorage.getItem("story"));
 
-      const resp = await axios.get(
-        "http://localhost:4000/api/comment/all/by-id/1"
-      );
+      const resp = await axios.get(`${commanApi}/comment/all/by-id/1`);
       setCommentData(resp.data.data);
+
+      const resp1 = await axios.get(
+        `${commanApi}/follower/verify-follower/12/7`
+      );
+      resp1.data.success
+        ? setFollowData(resp1.data.data[0])
+        : setNewFollow(true);
+      const resp2 = await axios.get(`${commanApi}/like/verify/1/7`);
+      resp2.data.success ? setLikeRed(true) : setLikeRed(false);
     };
 
     loadData();
@@ -116,14 +111,23 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
               onPress={async () => {
-                setLikeRed(!likeRed);
-                likeRed
-                  ? await axios.get(
-                      "http://192.168.1.82:4000/api/story/like/by-story-id/1?oppesite="
-                    )
-                  : await axios.get(
-                      "http://192.168.1.82:4000/api/story/like/by-story-id/1?oppesite=uyuyuy"
-                    );
+                // setLikeRed(!likeRed);
+                if (likeRed) {
+                  const resp = await axios.post(`${commanApi}/like/add`, {
+                    SenderId: 7,
+                    StoryId: 1,
+                  });
+                  resp.data.success ? setLikeRed(true) : setLikeRed(false);
+                } else {
+                  const resp = await axios.post(
+                    `${commanApi}/like/remove/1/7`,
+                    {
+                      SenderId: 7,
+                      StoryId: 1,
+                    }
+                  );
+                  resp.data.success ? setLikeRed(false) : setLikeRed(true);
+                }
               }}
             >
               <Icon
@@ -167,21 +171,53 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               style={[
                 styles.readscreen_follow_button,
                 {
-                  backgroundColor: followed ? "white" : "#1178ff",
-                  borderWidth: followed ? 2 : 0,
+                  backgroundColor: newFollow
+                    ? "red"
+                    : followData.FriendStatus
+                    ? "yellow"
+                    : "pink",
+                  // backgroundColor: "#1178ff",
+                  borderWidth: 0,
                 },
               ]}
-              onPress={() => {
-                followed ? setFollowed(false) : setFollowed(true);
+              onPress={async () => {
+                if (newFollow) {
+                  const resp = await axios.post(
+                    `${commanApi}/follower/follow`,
+                    {
+                      FollowerId: 12,
+                      UserId: 7,
+                      FriendStatus: false,
+                    }
+                  );
+                  resp.data.success ? console.log("followed") : "";
+                } else {
+                  if (followData.FriendStatus) {
+                    const resp = await axios.put(
+                      `${commanApi}/follower/follow-back-or-unfollow/3`,
+                      {
+                        FriendStatus: false,
+                      }
+                    );
+                    resp.data.success ? console.log("unfollowed") : "";
+                  } else {
+                    const resp = await axios.put(
+                      `${commanApi}/follower/follow-back-or-unfollow/3`,
+                      {
+                        FriendStatus: true,
+                      }
+                    );
+                    resp.data.success ? console.log("friend") : "";
+                  }
+                }
               }}
             >
-              <Text
-                style={[
-                  styles.readscreen_txt1,
-                  { color: followed ? "" : "white" },
-                ]}
-              >
-                {followed ? "Following" : "Follow"}
+              <Text style={[styles.readscreen_txt1, { color: "white" }]}>
+                {newFollow
+                  ? "Follow"
+                  : followData.FriendStatus
+                  ? "friend"
+                  : "follow back"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -259,22 +295,22 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               }}
               right={
                 <TextInput.Icon
-                onPress={async () => {
-                  const resp = await axios.post(
-                    "http://localhost:4000/api/comment/create",
-                    {
-                      Comment: commentTxt,
-                      SenderId: 7,
-                      StoryId: 1,
-                    }
-                  );
-  
-                  resp.data.success === true
-                    ? console.log("send")
-                    : console.log("unsend");
-  
-                  setCommentTxt("")  
-                }}
+                  onPress={async () => {
+                    const resp = await axios.post(
+                      `${commanApi}/comment/create`,
+                      {
+                        Comment: commentTxt,
+                        SenderId: 7,
+                        StoryId: 1,
+                      }
+                    );
+
+                    resp.data.success === true
+                      ? console.log("send")
+                      : console.log("unsend");
+
+                    setCommentTxt("");
+                  }}
                   icon={() => (
                     <Icon name="send" size={width * 0.06} color={theme.text} />
                   )}

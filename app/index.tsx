@@ -5,15 +5,7 @@ import { ThemeProvider } from "./Theme/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoggedRootStack from "./Stack/LoggedRootStack";
 import OldComerRootStack from "./Stack/OldComerRootStack";
-import ExpressTest from "./Test/ExpressTest";
-import MessageTest from "./Test/ExpressTest";
-import UserMessages from "./screen/UserMessage";
-import ChatList from "./screen/ChatList";
-import Notifications from "./screen/Notification";
-import Register from "./screen/Register";
-import Create from "./screen/Create";
-import ImageTest from "./Test/ImageeTest";
-import UpdateProfile from "./screen/UpdateProfile";
+
 
 const Index = () => {
   const [logged, setLogged] = useState<string | null>(null);

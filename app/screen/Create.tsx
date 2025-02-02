@@ -18,6 +18,7 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
+import { commanApi } from "../components/components";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -63,7 +64,7 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
         <TouchableOpacity
           onPress={async () => {
             const resp = await axios.post(
-              "http://localhost:4000/api/story/create",
+              `${commanApi}/story/create`,
               {
                 Tittle: titile,
                 Story: story,

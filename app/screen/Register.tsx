@@ -1,4 +1,4 @@
-import { StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
@@ -25,7 +25,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { styles } from "@/css/main";
 import axios from "axios";
-import { panHandlerName } from "react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -169,7 +168,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             onPress={async () => {
               try {
                 const resp = await axios.post(
-                  `http://192.168.1.82:4000/api/user/register`,
+                  `${commanApi}/user/register`,
                   {
                     Name: registerData.Name,
                     Email: registerData.Email,

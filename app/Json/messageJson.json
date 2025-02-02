@@ -1,0 +1,38 @@
+[
+    {
+      "Id": 0,
+      "CreaterId": 0,
+      "ForId": 0,
+      "Message": [
+        {
+          "Id": 0,
+          "Message": "",
+          "createAt": "",
+          "updateAt": "",
+          "UserId": 0,
+          "ChatId": 0,
+          "read": false
+        }
+      ],
+      "Creator": {
+        "Id": 0,
+        "Name": "",
+        "Email": "",
+        "ProfileImage":null,
+        "PhoneNumber": "",
+        "Bio": "",
+        "createAt": "",
+        "updateAt": ""
+      },
+      "Participant": {
+        "Id": 0,
+        "Name": "",
+        "Email": "",
+        "ProfileImage":null,
+        "PhoneNumber": "",
+        "Bio": "t",
+        "createAt": "",
+        "updateAt": ""
+      }
+    }
+  ]

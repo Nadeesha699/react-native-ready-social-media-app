@@ -1,4 +1,4 @@
-import { StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, ImageBackground, ScrollView } from "react-native";
@@ -6,23 +6,6 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-const uploadaData = [
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-  { name: "Story Name" },
-];
 
 import { NavigationProp } from "@react-navigation/native";
 import { styles } from "@/css/main";
@@ -30,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import axios from "axios";
+import storyJson from "../Json/storyJson.json"
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -47,26 +31,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
     CoverImage: null,
     Bio: null,
   });
-  const [storyData, setStoryData] = useState([
-    {
-      Id: 0,
-      Tittle: null,
-      Story: null,
-      LikeCount: 0,
-      Category: "All",
-      AuthorId: 0,
-      Image: null,
-      User: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [storyData, setStoryData] = useState(storyJson);
   const  [storyCount,setStoryCount] = useState(0)
   const [followerCount,setFollowerCount] = useState(0)
   const [followingCount,setFollowingCount] = useState(0)
@@ -74,18 +39,18 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
   useEffect(() => {
     const loadData = async () => {
       const id = await AsyncStorage.getItem("Id");
-      const resp1 = await axios.get("http://192.168.1.82:4000/api/story/get-all");
+      const resp1 = await axios.get(`${commanApi}/story/get-all`);
       setStoryData(resp1.data.data);
       setStoryCount(storyData.length)
 
-      const resp2 = await axios.get(`http://192.168.1.82:4000/api/following/get-all/by-id/${id}`)
+      const resp2 = await axios.get(`${commanApi}/following/get-all/by-id/${id}`)
       setFollowingCount(resp2.data.data.length)
 
-      const resp3 = await axios.get(`http://192.168.1.82:4000/api/follower/get-all/by-id/${id}`)
+      const resp3 = await axios.get(`${commanApi}/follower/get-all/by-id/${id}`)
       setFollowerCount(resp3.data.data.length)
       
       const resp = await axios.get(
-        `http://localhost:4000/api/user/get-All/${id}`
+        `${commanApi}/user/get-All/${id}`
       );
       if (resp.data.success) {
         setProfilData((prev) => ({

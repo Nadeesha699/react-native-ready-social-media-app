@@ -1,4 +1,4 @@
-import { StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import { validateEmail, validatePassword } from "@/scripts/scripts";
 import { router } from "expo-router";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -143,7 +143,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             onPress={async () => {
               try {
                 const resp = await axios.get(
-                  `http://192.168.1.82:4000/api/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
+                  `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
                 );
                 if (resp.data.success) {
                   await AsyncStorage.setItem("Id", "7");
@@ -180,8 +180,5 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
   );
 };
 
-// const styles = StyleSheet.create({
-
-// });
 
 export default Login;

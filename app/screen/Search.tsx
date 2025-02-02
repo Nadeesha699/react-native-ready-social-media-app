@@ -14,27 +14,17 @@ import { NavigationProp } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useContext, useEffect, useState } from "react";
-import { all } from "@/data/dumiData";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import storyJson from '../Json/storyJson.json'
+import { commanApi } from "../components/components";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
-
-const data = [
-  { name: "Nadeesha" },
-  { name: "Ruwan" },
-  { name: "Sadeepa" },
-  { name: "Kalum" },
-  { name: "Avinash" },
-  { name: "Tharusha" },
-  { name: "Sandamina" },
-  { name: "Nisal" },
-];
 
 const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
@@ -57,26 +47,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
     await AsyncStorage.setItem("story_img", JSON.stringify(image));
   };
 
-  const [storyData, setStoryData] = useState([
-    {
-      Id: 0,
-      Tittle: "",
-      Story: null,
-      LikeCount: 0,
-      Category: "All",
-      AuthorId: 0,
-      Image: null,
-      User: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [storyData, setStoryData] = useState(storyJson);
 
   const [waiting, setWaiting] = useState(true);
 
@@ -84,7 +55,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
     const loadData = async () => {
       try {
         const resp = await axios.get(
-          "http://192.168.1.82:4000/api/story/get-all"
+          `${commanApi}/story/get-all`
         );
         resp.data.data ? setWaiting(false) : setWaiting(true);
         setStoryData(resp.data.data);

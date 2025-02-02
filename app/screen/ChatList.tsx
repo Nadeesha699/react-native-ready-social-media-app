@@ -17,6 +17,8 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
+import { commanApi } from "../components/components";
+import messageJson from '../Json/messageJson.json'
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -29,49 +31,12 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [searchIconChange, setSearchIconChange] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const [chatListData, setChatListData] = useState([
-    {
-      Id: 0,
-      CreaterId: 0,
-      ForId: 0,
-      Message: [
-        {
-          Id: 0,
-          Message: "",
-          createAt: "",
-          updateAt: "",
-          UserId: 0,
-          ChatId: 0,
-          read: false,
-        },
-      ],
-      Creator: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        ProfileImage:null,
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-      Participant: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        ProfileImage:null,
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [chatListData, setChatListData] = useState(messageJson);
 
   useEffect(() => {
     const loadData = async () => {
       const resp = await axios.get(
-        "http://localhost:4000/api/messages/get-all-converstion/7"
+        `${commanApi}/messages/get-all-converstion/7`
       );
 
       setChatListData(resp.data.data);

@@ -1,4 +1,4 @@
-import { loadAuthor, StatusBars } from "@/app/components/components";
+import { commanApi, loadAuthor, StatusBars } from "@/app/components/components";
 
 import React, { useEffect, useState, useContext } from "react";
 import {
@@ -11,9 +11,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import { all } from "@/data/dumiData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
 
 import { DrawerActions, NavigationProp } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -21,6 +19,7 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { lightTheme, darkTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
+import storyJson from '../Json/storyJson.json'
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -29,7 +28,6 @@ type TestScreenProps = {
 const { width, height } = Dimensions.get("window");
 
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
-  const [data, setData] = useState(all);
   const [clickButtonColor, setClickButtonColor] = useState("all");
 
   const setLocalData = async (
@@ -49,26 +47,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
-  const [storyData, setStoryData] = useState([
-    {
-      Id: 0,
-      Tittle: null,
-      Story: null,
-      LikeCount: 0,
-      Category: "All",
-      AuthorId: 0,
-      Image: null,
-      User: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [storyData, setStoryData] = useState(storyJson);
 
 const [userData, setuserData] = useState({
       Name: "",
@@ -83,8 +62,8 @@ const [userData, setuserData] = useState({
     
     const loadData = async () => {
       try{
-      const resp = await axios.get("http://192.168.1.82:4000/api/story/get-all");
-      const resp1 = await axios.get('http://192.168.1.82:4000/api/user/get-All/7')
+      const resp = await axios.get(`${commanApi}/story/get-all`);
+      const resp1 = await axios.get(`${commanApi}/user/get-All/7`)
       setuserData(resp1.data.data)
       resp.data.data ? setWaiting(false) : setWaiting(true);
       setStoryData(resp.data.data);
@@ -96,15 +75,7 @@ const [userData, setuserData] = useState({
   
   }, []);
 
-  const commentCount = async (count:any)=>{
-    try {
-      const resp = await axios.get(`http://localhost:4000/api/comment/all/by-id/1`);
-      return resp.data.length; // Assuming resp.data is an array of comments
-    } catch (error) {
-      console.error("Error fetching comments:", error);
-      return 0;
-    }
-  }
+
 
   return (
     <>
@@ -212,7 +183,6 @@ const [userData, setuserData] = useState({
                 ]}
                 onPress={() => {
                   setClickButtonColor("all");
-                  // setType("All");
                 }}
               >
                 <Text style={styles.home_txt_6}>All</Text>
@@ -230,7 +200,6 @@ const [userData, setuserData] = useState({
                     ]}
                     onPress={() => {
                       setClickButtonColor(e.Category);
-                      // setType(e.type);
                     }}
                   >
                     <Text style={styles.home_txt_6}>{e.Category}</Text>
@@ -304,9 +273,9 @@ const [userData, setuserData] = useState({
                             size={width * 0.04}
                             color={theme.text}
                           />
-                          <Text style={{ color: theme.text }}>{
-                            0
-                            }</Text>
+                          <Text style={{ color: theme.text }}>
+                            {e.CommentCount}
+                          </Text>
                         </View>
                       </View>
                     </View>
@@ -319,5 +288,15 @@ const [userData, setuserData] = useState({
     </>
   );
 };
+
+// export const categories = [
+//   { name: "Horror" },
+//   { name: "Fantasy" },
+//   { name: "Romance" },
+//   { name: "Mystery" },
+//   { name: "Comedy" },
+//   { name: "Sci-Fi" },
+//   { name: "Thriller" },
+// ];
 
 export default Home;

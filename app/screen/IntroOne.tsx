@@ -81,8 +81,5 @@ const IntroOne: React.FC<TestScreenProps> = ({navigation})=> {
   );
 }
 
-// const styles = StyleSheet.create({
-  
-// });
 
 export default IntroOne;

@@ -18,55 +18,21 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
+import { commanApi } from "../components/components";
+import messageJson from '../Json/messageJson.json'
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
-// const UserMessages = () => {
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   const [messageTxt, setMessageTxt] = useState("");
-  const [messageDatas, setMessageData] = useState([
-    {
-      Id: 0,
-      CreaterId: 0,
-      ForId: 0,
-      Message: [
-        {
-          Id: 0,
-          Message: "",
-          createAt: "",
-          updateAt: "",
-          UserId: 0,
-          ChatId: 0,
-          read: false,
-        },
-      ],
-      Creator: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-      Participant: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [messageDatas, setMessageData] = useState(messageJson);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -75,7 +41,7 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
 
     const loadData = async () => {
       const resp = await axios.get(
-        "http://localhost:4000/api/messages/verifyConversation/7/12"
+        `${commanApi}/messages/verifyConversation/7/12`
       );
 
       setMessageData(resp.data.data);
@@ -155,7 +121,7 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
           <TextInput.Icon
             onPress={async () => {
               const resp = await axios.post(
-                "http://localhost:4000/api/messages/send",
+                `${commanApi}/messages/send`,
                 
                   {
                     Message: messageTxt,

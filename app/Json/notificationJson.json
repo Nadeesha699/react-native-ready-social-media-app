@@ -1,0 +1,43 @@
+[
+    {
+        "Id": 0,
+        "SenderId": 0,
+        "RecieverId": 0,
+        "StoryId": 0,
+        "NotificationType": "",
+        "CommentId": null,
+        "createAt": "",
+        "updateAt": "",
+        "read": false,
+        "User": {
+            "Id": 0,
+            "Name": "",
+            "Email": "",
+            "PhoneNumber": "",
+            "ProfileImage": null,
+            "CoverImage": null,
+            "Bio": null,
+            "createAt": "",
+            "updateAt": ""
+        },
+        "Story": {
+            "Id": 0,
+            "Tittle": "",
+            "Story": "",
+            "Image": null,
+            "LikeCount": 0,
+            "Category": "",
+            "AuthorId": 0,
+            "createAt": "",
+            "updateAt": ""
+        },
+        "Comment": {
+            "Id": 0,
+            "Comment": "",
+            "SenderId": 0,
+            "StoryId": 0,
+            "createAt": "",
+            "updateAt": ""
+        }
+    }
+]

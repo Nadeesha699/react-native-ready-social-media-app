@@ -18,6 +18,9 @@ export const StatusBars = () => {
 };
 
 export const loadAuthor = async (id: any) => {
-const authorData =  await axios.get(`http://localhost:4000/api/user/get-all/${id}`)
+const authorData =  await axios.get(`${commanApi}/user/get-all/${id}`)
   return authorData.data.data.Name
 };
+
+export const commanApi = 'http://localhost:4000/api'
+//http://192.168.1.82:4000

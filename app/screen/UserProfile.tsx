@@ -1,33 +1,17 @@
-import { StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useEffect, useState } from "react";
 import { Dimensions, ImageBackground, ScrollView } from "react-native";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-
+import storyJson from '../Json/storyJson.json'
 const { width, height } = Dimensions.get("window");
 
-// const uploadaData = [
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-//   { name: "Story Name" },
-// ];
 
 import { NavigationProp } from "@react-navigation/native";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import followJson from '../Json/followJson.json'
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -45,30 +29,17 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
     CoverImage: null,
     Bio: null,
   });
-  const [storyData, setStoryData] = useState([
-    {
-      Id: 0,
-      Tittle: null,
-      Story: null,
-      LikeCount: 0,
-      Category: "All",
-      AuthorId: 0,
-      Image: null,
-      User: {
-        Id: 0,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        Bio: "t",
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [storyData, setStoryData] = useState(storyJson);
 
   const [storyCount, setStoryCount] = useState(0);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+
+
+
+  const [followData, setFollowData] = useState(followJson);
+
+  const [newFollow, setNewFollow] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -76,38 +47,46 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
       // let authorIds = await AsyncStorage.getItem("author_id");
       // setUserId(userIds);
       // setAuthorId(authorIds);
-        const id = await AsyncStorage.getItem("Id");
-        const resp1 = await axios.get(
-          "http://192.168.1.82:4000/api/story/get-all"
-        );
-        setStoryData(resp1.data.data);
-        setStoryCount(storyData.length);
+      const id = await AsyncStorage.getItem("Id");
+      const resp1 = await axios.get(
+        `${commanApi}/story/get-all`
+      );
+      setStoryData(resp1.data.data);
+      setStoryCount(storyData.length);
 
-        const resp2 = await axios.get(
-          `http://192.168.1.82:4000/api/following/get-all/by-id/${id}`
-        );
-        setFollowingCount(resp2.data.data.length);
+      const resp2 = await axios.get(
+        `${commanApi}/following/get-all/by-id/${id}`
+      );
+      setFollowingCount(resp2.data.data.length);
 
-        const resp3 = await axios.get(
-          `http://192.168.1.82:4000/api/follower/get-all/by-id/${id}`
-        );
-        setFollowerCount(resp3.data.data.length);
+      const resp3 = await axios.get(
+        `${commanApi}/follower/get-all/by-id/${id}`
+      );
+      setFollowerCount(resp3.data.data.length);
 
-        const resp = await axios.get(
-          `http://localhost:4000/api/user/get-All/${id}`
-        );
-        if (resp.data.success) {
-          setProfilData((prev) => ({
-            ...prev,
-            Name: resp.data.data.Name,
-            Email: resp.data.data.Email,
-            PhoneNumber: resp.data.data.PhoneNumber,
-            Bio: resp.data.data.Bio,
-          }));
-        }
-      };
-      loadData();
-    
+      const resp = await axios.get(
+        `${commanApi}/user/get-All/${id}`
+      );
+      if (resp.data.success) {
+        setProfilData((prev) => ({
+          ...prev,
+          Name: resp.data.data.Name,
+          Email: resp.data.data.Email,
+          PhoneNumber: resp.data.data.PhoneNumber,
+          Bio: resp.data.data.Bio,
+        }));
+      }
+
+      const resp4 = await axios.get(
+        `${commanApi}/follower/verify-follower/12/7`
+      );
+      if (resp1.data.success) {
+        setFollowData(resp4.data.data[0]);
+      } else {
+        setNewFollow(true);
+      }
+    };
+    loadData();
   }, []);
 
   const setLocalData = async (
@@ -186,8 +165,58 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                 </>
               ) : userId !== authorId ? (
                 <>
-                  <TouchableOpacity style={styles.profile_edit_button}>
-                    <Text style={styles.profile_edit_button_text}>Follow</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.readscreen_follow_button,
+                      {
+                        backgroundColor: newFollow
+                          ? "red"
+                          : followData.FriendStatus
+                          ? "yellow"
+                          : "pink",
+                        // backgroundColor: "#1178ff",
+                        borderWidth: 0,
+                      },
+                    ]}
+                    onPress={async () => {
+                      if (newFollow) {
+                        const resp = await axios.post(
+                          `${commanApi}/follower/follow`,
+                          {
+                            FollowerId: 12,
+                            UserId: 7,
+                            FriendStatus: false,
+                          }
+                        );
+                        resp.data.success ? console.log("followed") : "";
+                      } else {
+                        if (followData.FriendStatus) {
+                          const resp = await axios.put(
+                            `${commanApi}/follower/follow-back-or-unfollow/3`,
+                            {
+                              FriendStatus: false,
+                            }
+                          );
+                          resp.data.success ? console.log("unfollowed") : "";
+                        } else {
+                          const resp = await axios.put(
+                            `${commanApi}/follower/follow-back-or-unfollow/3`,
+                            {
+                              FriendStatus: true,
+                            }
+                          );
+                          resp.data.success ? console.log("friend") : "";
+                        }
+                      }
+                    }}
+                  >
+                    <Text style={[styles.readscreen_txt1, { color: "white" }]}>
+                      {newFollow
+                        ? "Follow"
+                        : followData.FriendStatus
+                        ? "friend"
+                        : "follow back"}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.profile_message_button}

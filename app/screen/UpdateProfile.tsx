@@ -1,4 +1,4 @@
-import { StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, ImageBackground, Dimensions, Text } from "react-native";
@@ -21,8 +21,6 @@ type TestScreenProps = {
 
 const UpdateProfile: React.FC<TestScreenProps> = ({navigation}) => {
 
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [hidePassword, setHidePassword] = useState(true);
 
   const { isDarkMode } = useContext(ThemeContext);
@@ -43,13 +41,12 @@ const UpdateProfile: React.FC<TestScreenProps> = ({navigation}) => {
     Bio: "cdbdbhbch",
   });
 
-  const [uid, SetUId] = useState<string | null>("");
 
   useEffect(() => {
     const loadData = async () => {
       let id = await AsyncStorage.getItem("Id");
       const user = await axios.get(
-        `http://192.168.1.82:4000/api/user/get-All/${id} `
+        `${commanApi}/user/get-All/${id} `
       );
       setUpdateUser((prev) => ({
         ...prev,
@@ -93,7 +90,7 @@ const UpdateProfile: React.FC<TestScreenProps> = ({navigation}) => {
           <TouchableOpacity
             onPress={async () => {
               const resp = await axios.put(
-                "http://localhost:4000/api/user/update/15",
+                `${commanApi}/user/update/15`,
                 {
                   Name: updateUser.Name,
                   Email: updateUser.Email,
@@ -301,8 +298,5 @@ const UpdateProfile: React.FC<TestScreenProps> = ({navigation}) => {
   );
 };
 
-// const styles = StyleSheet.create({
-
-// });
 
 export default UpdateProfile;

@@ -1,0 +1,21 @@
+[
+    {
+        "Id": 0,
+        "Comment": "",
+        "SenderId": 0,
+        "StoryId": 0,
+        "createAt": "",
+        "updateAt": "",
+        "User": {
+            "Id": 0,
+            "Name": "",
+            "Email": "",
+            "PhoneNumber": "",
+            "ProfileImage": null,
+            "CoverImage": null,
+            "Bio": "",
+            "createAt": "",
+            "updateAt": ""
+        }
+    }
+]

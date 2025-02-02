@@ -4,59 +4,18 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
+import { commanApi } from "../components/components";
+import notificationJson from "../Json/notificationJson.json"
 
 const Notifications = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-  const [notificationData, setNotificationData] = useState([
-    {
-      Id: 0,
-      SenderId: 0,
-      RecieverId: 0,
-      StoryId: 0,
-      NotificationType: "",
-      CommentId: null,
-      createAt: "",
-      updateAt: "",
-      read: false,
-      User: {
-        Id: 12,
-        Name: "",
-        Email: "",
-        PhoneNumber: "",
-        ProfileImage: null,
-        CoverImage: null,
-        Bio: null,
-        createAt: "",
-        updateAt: "",
-      },
-      Story: {
-        Id: 0,
-        Tittle: "",
-        Story: "",
-        Image: null,
-        LikeCount: 0,
-        Category: "",
-        AuthorName: "",
-        AuthorId: 0,
-        createAt: "",
-        updateAt: "",
-      },
-      Comment: {
-        Id: 0,
-        Comment: "",
-        SenderId: 0,
-        StoryId: 0,
-        createAt: "",
-        updateAt: "",
-      },
-    },
-  ]);
+  const [notificationData, setNotificationData] = useState(notificationJson);
 
   useEffect(() => {
     const loadData = async () => {
       const resp = await axios.get(
-        "http://localhost:4000/api/notification/all/by-id/7"
+        `${commanApi}/notification/all/by-id/7`
       );
       setNotificationData(resp.data.data);
     };
