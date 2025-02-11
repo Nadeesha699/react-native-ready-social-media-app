@@ -14,6 +14,7 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import axios from "axios";
 import storyJson from "../Json/storyJson.json"
+import userJson from '../Json/userJson.json'
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -23,14 +24,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
   
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-  const [profileData, setProfilData] = useState({
-    Name: "",
-    Email: "",
-    PhoneNumber: "",
-    ProfileImage: null,
-    CoverImage: null,
-    Bio: null,
-  });
+  const [profileData, setProfilData] = useState(userJson);
   const [storyData, setStoryData] = useState(storyJson);
   const  [storyCount,setStoryCount] = useState(0)
   const [followerCount,setFollowerCount] = useState(0)
@@ -50,15 +44,18 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
       setFollowerCount(resp3.data.data.length)
       
       const resp = await axios.get(
-        `${commanApi}/user/get-All/${id}`
+        `${commanApi}/user/get-All/7`
       );
-      if (resp.data.success) {
+      console.log(resp.data.data.length)
+      if (resp.data.data) {
         setProfilData((prev) => ({
           ...prev,
           Name: resp.data.data.Name,
           Email: resp.data.data.Email,
           PhoneNumber: resp.data.data.PhoneNumber,
           Bio: resp.data.data.Bio,
+          ProfileImage:resp.data.data.ProfileImage,
+          CoverImage:resp.data.data.CoverImage
         }));
       }
     };
@@ -91,7 +88,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
           <ImageBackground
             style={styles.profile_hearder_1}
             source={{
-              uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
+              uri: `data:image/jpeg;base64,${profileData}`,
             }}
           >
             <TouchableOpacity

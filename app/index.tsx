@@ -5,7 +5,11 @@ import { ThemeProvider } from "./Theme/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoggedRootStack from "./Stack/LoggedRootStack";
 import OldComerRootStack from "./Stack/OldComerRootStack";
-
+import UpdateProfile from "./screen/UpdateProfile";
+import Test from "./Test/Test";
+import Notifications from "./screen/Notification";
+import ChatList from "./screen/ChatList";
+import Search from "./screen/Search";
 
 const Index = () => {
   const [logged, setLogged] = useState<string | null>(null);
@@ -23,6 +27,7 @@ const Index = () => {
   }, []);
   return (
     <>
+      {/* <Test /> */}
       <ThemeProvider>
         <StatusBars />
         {logged === "1" ? (

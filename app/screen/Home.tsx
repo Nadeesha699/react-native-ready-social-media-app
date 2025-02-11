@@ -85,7 +85,7 @@ const [userData, setuserData] = useState({
           color="blue"
           size="large"
           style={{ flex: 1 }}
-        ></ActivityIndicator>
+        />
       ) : (
         <View
           style={[styles.home_container, { backgroundColor: theme.background }]}

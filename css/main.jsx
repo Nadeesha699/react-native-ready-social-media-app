@@ -283,17 +283,18 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   sign_header: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",
   },
   sign_body: {
-    paddingTop: "10%",
-    flex: 0.5,
-    justifyContent: "space-evenly",
+    // paddingTop: "10%",
+    // flex:1,
+    justifyContent: "space-between",
     alignItems: "center",
-    overflowY: "scroll",
-    gap: "5%",
+    // overflowY: "scroll",
+    // gap: "5%",
+    backgroundColor: "red",
   },
   btn_signup: {
     backgroundColor: "#116cff",
@@ -730,14 +731,19 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   create_img_2: { backgroundColor: "white", borderRadius: width * 0.02 },
- darktheme_view_1: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "5%",
-          },darktheme_view_2:{
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      width: "70%",
-                    },
+  darktheme_view_1: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "5%",
+  },
+  darktheme_view_2: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    width: "70%",
+  },
+  error_message: {
+    fontWeight: "bold",
+    color: "red",
+  },
 });

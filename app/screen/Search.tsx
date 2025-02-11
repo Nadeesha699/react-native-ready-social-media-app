@@ -3,9 +3,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  StyleSheet,
   Dimensions,
-  ScrollView,
   ActivityIndicator,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
@@ -19,14 +17,20 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import storyJson from '../Json/storyJson.json'
-import { commanApi } from "../components/components";
+import storyJson from "../Json/storyJson.json";
+import {
+  ActivityIndicators,
+  commanApi,
+  NoDataView,
+  ServerErrorView,
+} from "../components/components";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const Search: React.FC<TestScreenProps> = ({ navigation }) => {
+// const Search = () => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
 
@@ -48,19 +52,24 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   };
 
   const [storyData, setStoryData] = useState(storyJson);
-
   const [waiting, setWaiting] = useState(true);
+  const [noDataFound, setNoDataFound] = useState(false);
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resp = await axios.get(
-          `${commanApi}/story/get-all`
-        );
-        resp.data.data ? setWaiting(false) : setWaiting(true);
-        setStoryData(resp.data.data);
+        const resp = await axios.get(`${commanApi}/story/get-all`);
+        if (resp.data.data.length !== 0) {
+          setStoryData(resp.data.data);
+          setWaiting(false);
+        } else {
+          setNoDataFound(true);
+          setWaiting(false);
+        }
       } catch (e) {
-        setWaiting(true);
+        setServerError(true);
+        setWaiting(false);
       }
     };
     loadData();
@@ -114,11 +123,11 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
         />
       </View>
       {waiting ? (
-        <ActivityIndicator
-          color="blue"
-          size="large"
-          style={{ flex: 1 }}
-        ></ActivityIndicator>
+        <ActivityIndicators />
+      ) : noDataFound ? (
+        <NoDataView />
+      ) : serverError ? (
+        <ServerErrorView />
       ) : (
         <View style={styles.search_body}>
           {storyData

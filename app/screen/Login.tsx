@@ -142,12 +142,13 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.btn_sign}
             onPress={async () => {
               try {
-                const resp = await axios.get(
-                  `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
-                );
-                if (resp.data.success) {
+                // const resp = await axios.get(
+                //   `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
+                // );
+                if (true) {
+                // if (resp.data.success) {
                   await AsyncStorage.setItem("Id", "7");
-                  const id = resp.data.data.Id
+                  const id = '7'
                   await AsyncStorage.setItem("Id", id.toString());
                   await AsyncStorage.setItem("userId", "1");
                   await AsyncStorage.setItem("logged", "1");
