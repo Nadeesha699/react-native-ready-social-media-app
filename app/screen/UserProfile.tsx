@@ -17,7 +17,8 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
+// const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
+  const UserProfile = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [authorId, setAuthorId] = useState<string | null>(null);
 
@@ -54,15 +55,10 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
       setStoryData(resp1.data.data);
       setStoryCount(storyData.length);
 
-      const resp2 = await axios.get(
-        `${commanApi}/following/get-all/by-id/${id}`
-      );
-      setFollowingCount(resp2.data.data.length);
-
-      const resp3 = await axios.get(
-        `${commanApi}/follower/get-all/by-id/${id}`
-      );
-      setFollowerCount(resp3.data.data.length);
+      const resp2 = await axios.get(`${commanApi}/follower/following-count/7`);
+      const resp3 = await axios.get(`${commanApi}/follower/follower-count/7`);
+      setFollowingCount(resp2.data.data);
+      setFollowerCount(resp3.data.data);
 
       const resp = await axios.get(
         `${commanApi}/user/get-All/${id}`
@@ -70,10 +66,12 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
       if (resp.data.success) {
         setProfilData((prev) => ({
           ...prev,
-          Name: resp.data.data.Name,
-          Email: resp.data.data.Email,
-          PhoneNumber: resp.data.data.PhoneNumber,
-          Bio: resp.data.data.Bio,
+          Name: resp.data.data[0].Name,
+          Email: resp.data.data[0].Email,
+          PhoneNumber: resp.data.data[0].PhoneNumber,
+          Bio: resp.data.data[0].Bio,
+          ProfileImage: resp.data.data[0].ProfileImage,
+          CoverImage: resp.data.data[0].CoverImage,
         }));
       }
 
@@ -110,11 +108,13 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
         <View style={styles.profile_hearder}>
           <ImageBackground
             style={styles.profile_hearder_1}
-            source={require("@/assets/images/3d-fantasy-scene.jpg")}
+            source={{
+              uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
+            }}
           >
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                // navigation.goBack();
               }}
             >
               <ImageBackground
@@ -126,7 +126,9 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
               <ImageBackground
-                source={require("@/assets/images/40523.jpg")}
+                source={{
+                  uri: `data:image/jpeg;base64,${profileData.ProfileImage}`,
+                }}
                 style={styles.profile_image}
               />
               <Text style={styles.profile_txt_1}>{profileData.Name}</Text>
@@ -152,7 +154,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                   <TouchableOpacity
                     style={styles.profile_edit_button}
                     onPress={() => {
-                      navigation.navigate("Update Profile");
+                      // navigation.navigate("Update Profile");
                     }}
                   >
                     <Text style={styles.profile_edit_button_text}>Edit</Text>
@@ -221,7 +223,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                   <TouchableOpacity
                     style={styles.profile_message_button}
                     onPress={() => {
-                      navigation.navigate("Message");
+                      // navigation.navigate("Message");
                     }}
                   >
                     <Text style={styles.profile_message_button_text}>Chat</Text>
@@ -232,7 +234,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                   <TouchableOpacity
                     style={styles.profile_edit_button}
                     onPress={() => {
-                      navigation.navigate("Update Profile");
+                      // navigation.navigate("Update Profile");
                     }}
                   >
                     <Text style={styles.profile_edit_button_text}>Edit</Text>
@@ -263,7 +265,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                       e.Story,
                       e.Image
                     );
-                    navigation.navigate("Story");
+                    // navigation.navigate("Story");
                   } catch (error) {
                     console.error("Error saving to AsyncStorage:", error);
                   }

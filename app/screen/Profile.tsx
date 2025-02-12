@@ -6,61 +6,55 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-
 import { NavigationProp } from "@react-navigation/native";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import axios from "axios";
-import storyJson from "../Json/storyJson.json"
-import userJson from '../Json/userJson.json'
+import storyJson from "../Json/storyJson.json";
+import userJson from "../Json/userJson.json";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
-  
+// const Profile = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [profileData, setProfilData] = useState(userJson);
   const [storyData, setStoryData] = useState(storyJson);
-  const  [storyCount,setStoryCount] = useState(0)
-  const [followerCount,setFollowerCount] = useState(0)
-  const [followingCount,setFollowingCount] = useState(0)
+  const [storyCount, setStoryCount] = useState(0);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       const id = await AsyncStorage.getItem("Id");
-      const resp1 = await axios.get(`${commanApi}/story/get-all`);
+      const resp1 = await axios.get(`${commanApi}/story/get-all`)
+      const resp2 = await axios.get(`${commanApi}/follower/following-count/7`);
+      const resp3 = await axios.get(`${commanApi}/follower/follower-count/7`);
+      const resp = await axios.get(`${commanApi}/user/get-All/7`);
       setStoryData(resp1.data.data);
-      setStoryCount(storyData.length)
-
-      const resp2 = await axios.get(`${commanApi}/following/get-all/by-id/${id}`)
-      setFollowingCount(resp2.data.data.length)
-
-      const resp3 = await axios.get(`${commanApi}/follower/get-all/by-id/${id}`)
-      setFollowerCount(resp3.data.data.length)
-      
-      const resp = await axios.get(
-        `${commanApi}/user/get-All/7`
-      );
-      console.log(resp.data.data.length)
+      setStoryCount(storyData.length);
+      setFollowingCount(resp2.data.data);
+      setFollowerCount(resp3.data.data);
+      console.log(resp.data.data.length);
       if (resp.data.data) {
         setProfilData((prev) => ({
           ...prev,
-          Name: resp.data.data.Name,
-          Email: resp.data.data.Email,
-          PhoneNumber: resp.data.data.PhoneNumber,
-          Bio: resp.data.data.Bio,
-          ProfileImage:resp.data.data.ProfileImage,
-          CoverImage:resp.data.data.CoverImage
+          Name: resp.data.data[0].Name,
+          Email: resp.data.data[0].Email,
+          PhoneNumber: resp.data.data[0].PhoneNumber,
+          Bio: resp.data.data[0].Bio,
+          ProfileImage: resp.data.data[0].ProfileImage,
+          CoverImage: resp.data.data[0].CoverImage,
         }));
       }
     };
     loadData();
-  });
+  }, []);
 
   const setLocalData = async (
     authorId: any,
@@ -88,12 +82,12 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
           <ImageBackground
             style={styles.profile_hearder_1}
             source={{
-              uri: `data:image/jpeg;base64,${profileData}`,
+              uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
             }}
           >
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                // navigation.goBack();
               }}
             >
               <ImageBackground
@@ -147,7 +141,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.profile_edit_button}
                 onPress={() => {
-                  navigation.navigate("Update Profile");
+                  // navigation.navigate("Update Profile");
                 }}
               >
                 <Text style={styles.profile_edit_button_text}>Edit</Text>
@@ -173,7 +167,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
                       e.Story,
                       e.Image
                     );
-                    navigation.navigate("Story");
+                    // navigation.navigate("Story");
                   } catch (error) {
                     console.error("Error saving to AsyncStorage:", error);
                   }

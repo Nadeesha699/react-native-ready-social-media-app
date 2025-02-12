@@ -53,7 +53,7 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
       >
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack()
+            navigation.goBack();
           }}
         >
           <Icon name={"close"} size={width * 0.06} color={"red"} />
@@ -63,19 +63,32 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
         </Text>
         <TouchableOpacity
           onPress={async () => {
-            const resp = await axios.post(
-              `${commanApi}/story/create`,
-              {
-                Tittle: titile,
-                Story: story,
-                Image: base64Image,
-                Category: selectCategory,
-                AuthorId: 7,
+            try {
+              if (
+                titile.length !== 0 &&
+                story.length !== 0 &&
+                base64Image?.length !== 0 &&
+                selectCategory.length !== 0
+              ) {
+                const resp = await axios.post(`${commanApi}/story/create`, {
+                  Tittle: titile,
+                  Story: story,
+                  Image: base64Image,
+                  Category: selectCategory,
+                  AuthorId: 7,
+                });
+                if (resp.data.success) {
+                  ToastAndroid.show("Upload Successful", 2000);
+                } else {
+                  ToastAndroid.show("Upload Failed. Please Try Again", 2000);
+                }
+              } else {
+                ToastAndroid.show("Please fill all fields correctly", 2000);
               }
-            );
-            resp.data.success === true
-              ? console.log("uploaded")
-              : console.log("unuploaded");
+            } catch (e) {
+              console.log(e);
+              ToastAndroid.show("Network Error. Please Try Again", 2000);
+            }
           }}
         >
           <Text
@@ -153,7 +166,6 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
         <TouchableOpacity
           style={styles.create_card_1}
           onPress={() => {
-
             launchImageLibrary({ mediaType: "photo" }, (response: any) => {
               if (response.assets) {
                 setImageUri(response.assets[0].uri);

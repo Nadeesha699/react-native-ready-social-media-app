@@ -10,6 +10,8 @@ import Test from "./Test/Test";
 import Notifications from "./screen/Notification";
 import ChatList from "./screen/ChatList";
 import Search from "./screen/Search";
+import Profile from "./screen/Profile";
+import UserProfile from "./screen/UserProfile";
 
 const Index = () => {
   const [logged, setLogged] = useState<string | null>(null);
@@ -27,8 +29,8 @@ const Index = () => {
   }, []);
   return (
     <>
-      {/* <Test /> */}
-      <ThemeProvider>
+      <UserProfile/>
+      {/* <ThemeProvider>
         <StatusBars />
         {logged === "1" ? (
           <LoggedRootStack />
@@ -37,7 +39,7 @@ const Index = () => {
         ) : (
           <OldComerRootStack />
         )}
-      </ThemeProvider>
+      </ThemeProvider> */}
     </>
   );
 };
