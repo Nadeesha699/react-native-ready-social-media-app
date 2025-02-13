@@ -56,12 +56,14 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
 
   const [waiting, setWaiting] = useState(true);
+  const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        let id = await AsyncStorage.getItem("Id");
-        const user = await axios.get(`${commanApi}/user/get-All/7 `);
+        const id = await AsyncStorage.getItem("Id");
+      setUid(parseInt(id ?? "0"));
+        const user = await axios.get(`${commanApi}/user/get-All/${uid}`);
         user.data.data ? setWaiting(false) : setWaiting(true);
         if (user.data.success) {
           setUpdateUser((prev) => ({
@@ -127,7 +129,7 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                     coverbase64Image?.length !== 0
                   ) {
                     const resp = await axios.put(
-                      `${commanApi}/user/update/15`,
+                      `${commanApi}/user/update/${uid}`,
                       {
                         Name: updateUser.Name,
                         Email: updateUser.Email,

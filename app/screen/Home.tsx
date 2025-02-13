@@ -62,8 +62,9 @@ const [userData, setuserData] = useState({
     
     const loadData = async () => {
       try{
+       const id =  await AsyncStorage.getItem("Id");
       const resp = await axios.get(`${commanApi}/story/get-all`);
-      const resp1 = await axios.get(`${commanApi}/user/get-All/7`)
+      const resp1 = await axios.get(`${commanApi}/user/get-All/${id}`)
       setuserData(resp1.data.data)
       resp.data.data ? setWaiting(false) : setWaiting(true);
       setStoryData(resp.data.data);

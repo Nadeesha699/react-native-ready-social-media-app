@@ -11,7 +11,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { Button, Menu, TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -19,7 +19,7 @@ import { styles } from "@/css/main";
 import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
 import { commanApi } from "../components/components";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
@@ -34,9 +34,18 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+  const [uid, setUid] = useState(0);
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
+
+  useEffect(() => {
+    const loadData = async () => {
+      const id = await AsyncStorage.getItem("Id");
+      setUid(parseInt(id ?? "0"));
+    };
+    loadData();
+  }, []);
 
   return (
     <View
@@ -64,6 +73,11 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
         <TouchableOpacity
           onPress={async () => {
             try {
+              // console.log(id)
+              // console.log(titile)
+              // console.log(story)
+              // console.log(base64Image)
+              console.log(selectCategory);
               if (
                 titile.length !== 0 &&
                 story.length !== 0 &&
@@ -75,19 +89,22 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
                   Story: story,
                   Image: base64Image,
                   Category: selectCategory,
-                  AuthorId: 7,
+                  AuthorId: uid,
                 });
                 if (resp.data.success) {
-                  ToastAndroid.show("Upload Successful", 2000);
+                  console.log("1");
+                  // ToastAndroid.show("Upload Successful", 2000);
                 } else {
-                  ToastAndroid.show("Upload Failed. Please Try Again", 2000);
+                  console.log("2");
+                  // ToastAndroid.show("Upload Failed. Please Try Again", 2000);
                 }
               } else {
-                ToastAndroid.show("Please fill all fields correctly", 2000);
+                console.log("3");
+                // ToastAndroid.show("Please fill all fields correctly", 2000);
               }
             } catch (e) {
               console.log(e);
-              ToastAndroid.show("Network Error. Please Try Again", 2000);
+              // ToastAndroid.show("Network Error. Please Try Again", 2000);
             }
           }}
         >
@@ -131,7 +148,7 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
           { label: "Sci-Fi", value: "Sci-Fi" },
           { label: "Thriller", value: "Thriller" },
         ]}
-        placeholder={{}}
+        placeholder={{ label: "Select a category...", value: "" }}
         style={pickerSelectStyles}
       />
 

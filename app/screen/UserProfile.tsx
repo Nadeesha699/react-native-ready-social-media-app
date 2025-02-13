@@ -31,16 +31,12 @@ type TestScreenProps = {
     Bio: null,
   });
   const [storyData, setStoryData] = useState(storyJson);
-
   const [storyCount, setStoryCount] = useState(0);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
-
-
-
   const [followData, setFollowData] = useState(followJson);
-
   const [newFollow, setNewFollow] = useState(false);
+  const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
@@ -49,19 +45,20 @@ type TestScreenProps = {
       // setUserId(userIds);
       // setAuthorId(authorIds);
       const id = await AsyncStorage.getItem("Id");
+      setUid(parseInt(id ?? "0"));
       const resp1 = await axios.get(
         `${commanApi}/story/get-all`
       );
       setStoryData(resp1.data.data);
       setStoryCount(storyData.length);
 
-      const resp2 = await axios.get(`${commanApi}/follower/following-count/7`);
-      const resp3 = await axios.get(`${commanApi}/follower/follower-count/7`);
+      const resp2 = await axios.get(`${commanApi}/follower/following-count/${uid}`);
+      const resp3 = await axios.get(`${commanApi}/follower/follower-count/${uid}`);
       setFollowingCount(resp2.data.data);
       setFollowerCount(resp3.data.data);
 
       const resp = await axios.get(
-        `${commanApi}/user/get-All/${id}`
+        `${commanApi}/user/get-All/${uid}`
       );
       if (resp.data.success) {
         setProfilData((prev) => ({

@@ -18,6 +18,7 @@ import {
   ServerErrorView,
 } from "../components/components";
 import notificationJson from "../Json/notificationJson.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Notifications = () => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -26,10 +27,14 @@ const Notifications = () => {
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
+  const [uid, setUid] = useState(0);
+
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resp = await axios.get(`${commanApi}/notification/all/by-id/7`);
+        const id = await AsyncStorage.getItem("Id");
+      setUid(parseInt(id ?? "0")); 
+        const resp = await axios.get(`${commanApi}/notification/all/by-id/${uid}`);
         if (resp.data.data.length !== 0) {
           setNotificationData(resp.data.data);
           setWaiting(false);

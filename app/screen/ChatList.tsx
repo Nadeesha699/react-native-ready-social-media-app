@@ -25,6 +25,7 @@ import {
   ServerErrorView,
 } from "../components/components";
 import messageJson from "../Json/messageJson.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -42,12 +43,15 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
+   const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        const id = await AsyncStorage.getItem("Id");
+        setUid(parseInt(id ?? "0"));
         const resp = await axios.get(
-          `${commanApi}/messages/get-all-converstion/7`
+          `${commanApi}/messages/get-all-converstion/${uid}`
         );
         if (resp.data.data.length !== 0) {
           setChatListData(resp.data.data);

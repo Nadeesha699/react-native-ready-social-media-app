@@ -29,7 +29,7 @@ const Index = () => {
   }, []);
   return (
     <>
-      <UserProfile/>
+    <NewComerRootStack />
       {/* <ThemeProvider>
         <StatusBars />
         {logged === "1" ? (

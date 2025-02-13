@@ -28,14 +28,16 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [storyCount, setStoryCount] = useState(0);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [uid,setUid] = useState(0)
 
   useEffect(() => {
     const loadData = async () => {
       const id = await AsyncStorage.getItem("Id");
+      setUid(parseInt(id ?? "0"));
       const resp1 = await axios.get(`${commanApi}/story/get-all`)
-      const resp2 = await axios.get(`${commanApi}/follower/following-count/7`);
-      const resp3 = await axios.get(`${commanApi}/follower/follower-count/7`);
-      const resp = await axios.get(`${commanApi}/user/get-All/7`);
+      const resp2 = await axios.get(`${commanApi}/follower/following-count/${uid}`);
+      const resp3 = await axios.get(`${commanApi}/follower/follower-count/${uid}`);
+      const resp = await axios.get(`${commanApi}/user/get-All/${uid}`);
       setStoryData(resp1.data.data);
       setStoryCount(storyData.length);
       setFollowingCount(resp2.data.data);
@@ -85,16 +87,6 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                // navigation.goBack();
-              }}
-            >
-              <ImageBackground
-                source={require("@/assets/images/arrow1.png")}
-                style={styles.profile_back_button}
-              />
-            </TouchableOpacity>
           </ImageBackground>
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
