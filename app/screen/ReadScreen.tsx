@@ -22,9 +22,10 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
-import { commanApi } from "../components/components";
+import { commanApi, NoDataCommentView } from "../components/components";
 import commentJson from "../Json/commentJson.json";
 import followJson from "../Json/followJson.json";
+import storySingleJson from "../Json/storySingleJson.json";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -38,40 +39,34 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
-  const [authorName, setAuthorName] = useState<string | null>(null);
-  const [storyName, setStoryName] = useState<string | null>(null);
-  const [story, setStory] = useState<string | null>(null);
-  const [storyImg, setStoryImg] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   const [commentData, setCommentData] = useState(commentJson);
-
+  const [storyData, setStoryData] = useState(storySingleJson);
   const [followData, setFollowData] = useState(followJson);
-
   const [newFollow, setNewFollow] = useState(false);
+  const [noDataFound, setNoDataFound] = useState(false);
 
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
     const loadData = async () => {
-      setAuthorName(await AsyncStorage.getItem("author_name"));
-      setStoryName(await AsyncStorage.getItem("story_name"));
-      const storedImg = await AsyncStorage.getItem("story_img");
-      const storyImg = storedImg ? JSON.parse(storedImg) : null;
-      setStoryImg(storyImg);
-      setStory(await AsyncStorage.getItem("story"));
-
-      const resp = await axios.get(`${commanApi}/comment/all/by-id/1`);
-      setCommentData(resp.data.data);
+      const sid =  await AsyncStorage.getItem("SId");
+      console.log(sid)
+      const resp3 = await axios.get(`${commanApi}/story/get-all/by-id/${sid}`);
+      console.log(resp3.data.data)
+      setStoryData(resp3.data.data);
+      const resp = await axios.get(`${commanApi}/comment/all/by-id/17`);
+      resp.data.data ? setCommentData(resp.data.data) : setNoDataFound(true);
 
       const resp1 = await axios.get(
-        `${commanApi}/follower/verify-follower/12/7`
+        `${commanApi}/follower/verify-follower/17/18`
       );
-      resp1.data.success
+      resp1.data.data.length !== 0
         ? setFollowData(resp1.data.data[0])
         : setNewFollow(true);
-      const resp2 = await axios.get(`${commanApi}/like/verify/1/7`);
+      const resp2 = await axios.get(`${commanApi}/like/verify/1/17`);
       resp2.data.success ? setLikeRed(true) : setLikeRed(false);
     };
 
@@ -99,7 +94,8 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
       >
         <ImageBackground
           style={styles.readscreen_header}
-          source={{ uri: `data:image/jpeg;base64,${storyImg}` }}
+          // source={require('@/assets/images/4977116.jpg')}
+          source={{ uri: `data:image/jpeg;base64,${storyData.Image}` }}
         >
           <TouchableOpacity
             onPress={() => {
@@ -157,14 +153,17 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                {storyName}
+                {storyData.Tittle}
               </Text>
               <TouchableOpacity
-                onPress={() => {
+                onPress={async () => {
+                  await AsyncStorage.setItem("UId", storyData.AuthorId.toString());
                   navigation.navigate("User Profile");
                 }}
               >
-                <Text style={styles.readscreen_txt4}>{authorName}</Text>
+                <Text style={styles.readscreen_txt4}>
+                  {storyData.User.Name}
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -222,7 +221,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={[styles.readscreen_con9, {}]}>
-            <Text style={styles.readscreen_txt3}>{story}</Text>
+            <Text style={styles.readscreen_txt3}>{storyData.Story}</Text>
           </View>
         </View>
         <View
@@ -256,36 +255,40 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                 <Icon name="close" size={width * 0.1} color={theme.text} />
               </TouchableOpacity>
             </View>
-            <ScrollView
-              style={[
-                styles.comment_scroll,
-                { backgroundColor: theme.background },
-              ]}
-              showsHorizontalScrollIndicator={false}
-              ref={scrollViewRef}
-            >
-              {commentData.map((e, index) => {
-                return (
-                  <View key={index} style={styles.comment_card}>
-                    <Image
-                      source={{
-                        uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
-                      }}
-                      style={styles.comment_profile}
-                    />
-                    <View style={styles.comment_con}>
-                      <Text style={{ fontWeight: "bold", color: theme.text }}>
-                        {e.User.Name}
-                      </Text>
-                      <Text style={{ color: theme.text }}>{e.Comment}</Text>
-                      <Text style={styles.comment_txt}>
-                        {timeFormat(e.createAt)}
-                      </Text>
+            {noDataFound ? (
+              <NoDataCommentView />
+            ) : (
+              <ScrollView
+                style={[
+                  styles.comment_scroll,
+                  { backgroundColor: theme.background },
+                ]}
+                showsHorizontalScrollIndicator={false}
+                ref={scrollViewRef}
+              >
+                {commentData.map((e, index) => {
+                  return (
+                    <View key={index} style={styles.comment_card}>
+                      <Image
+                        source={{
+                          uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
+                        }}
+                        style={styles.comment_profile}
+                      />
+                      <View style={styles.comment_con}>
+                        <Text style={{ fontWeight: "bold", color: theme.text }}>
+                          {e.User.Name}
+                        </Text>
+                        <Text style={{ color: theme.text }}>{e.Comment}</Text>
+                        <Text style={styles.comment_txt}>
+                          {timeFormat(e.createAt)}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
+                  );
+                })}
+              </ScrollView>
+            )}
             <TextInput
               style={{ backgroundColor: theme.background, color: theme.text }}
               placeholder="Message"

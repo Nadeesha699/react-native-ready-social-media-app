@@ -14,7 +14,7 @@ import axios from "axios";
 import {
   ActivityIndicators,
   commanApi,
-  NoDataView,
+  NoDataNotificationView,
   ServerErrorView,
 } from "../components/components";
 import notificationJson from "../Json/notificationJson.json";
@@ -65,7 +65,7 @@ const Notifications = () => {
       ) : serverError ? (
         <ServerErrorView />
       ) : noDataFound ? (
-        <NoDataView />
+        <NoDataNotificationView />
       ) : (
          <ScrollView
                   style={{ flex: 1 }}

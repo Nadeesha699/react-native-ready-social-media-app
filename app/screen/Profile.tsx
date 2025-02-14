@@ -1,7 +1,10 @@
-import { commanApi, StatusBars } from "@/app/components/components";
+import {
+  commanApi,
+  NoDataPostView,
+} from "@/app/components/components";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, ImageBackground, ScrollView } from "react-native";
+import { Dimensions, ImageBackground, Linking, ScrollView } from "react-native";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 const { width, height } = Dimensions.get("window");
@@ -20,7 +23,6 @@ type TestScreenProps = {
 };
 
 const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
-// const Profile = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [profileData, setProfilData] = useState(userJson);
@@ -28,22 +30,31 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [storyCount, setStoryCount] = useState(0);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
-  const [uid,setUid] = useState(0)
+  const [noDataFound, setNoDataFound] = useState(false);
+  const shareText = "Check out this awesome app!";
+  const shareUrl = "https://example.com";
 
   useEffect(() => {
     const loadData = async () => {
       const id = await AsyncStorage.getItem("Id");
-      setUid(parseInt(id ?? "0"));
-      const resp1 = await axios.get(`${commanApi}/story/get-all`)
-      const resp2 = await axios.get(`${commanApi}/follower/following-count/${uid}`);
-      const resp3 = await axios.get(`${commanApi}/follower/follower-count/${uid}`);
-      const resp = await axios.get(`${commanApi}/user/get-All/${uid}`);
-      setStoryData(resp1.data.data);
+      let ids = Number(id);
+      const resp1 = await axios.get(
+        `${commanApi}/story/get-all/by-user-id/${ids}`
+      );
+      const resp2 = await axios.get(
+        `${commanApi}/follower/following-count/${ids}`
+      );
+      const resp3 = await axios.get(
+        `${commanApi}/follower/follower-count/${ids}`
+      );
+      const resp = await axios.get(`${commanApi}/user/get-All/${ids}`);
+      resp1.data.data.length !== 0
+        ? setStoryData(resp1.data.data)
+        : setNoDataFound(true);
       setStoryCount(storyData.length);
       setFollowingCount(resp2.data.data);
       setFollowerCount(resp3.data.data);
-      console.log(resp.data.data.length);
-      if (resp.data.data) {
+      if (resp.data.data[0].length !== 0) {
         setProfilData((prev) => ({
           ...prev,
           Name: resp.data.data[0].Name,
@@ -57,23 +68,8 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
     };
     loadData();
   }, []);
-
-  const setLocalData = async (
-    authorId: any,
-    authorName: any,
-    storyName: any,
-    story: any,
-    image: any
-  ) => {
-    await AsyncStorage.setItem("author_id", authorId);
-    await AsyncStorage.setItem("author_name", authorName);
-    await AsyncStorage.setItem("story_name", storyName);
-    await AsyncStorage.setItem("story", story);
-    await AsyncStorage.setItem("story_img", JSON.stringify(image));
-  };
   return (
     <>
-      <StatusBars />
       <View
         style={[
           styles.profile_container,
@@ -83,17 +79,24 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
         <View style={styles.profile_hearder}>
           <ImageBackground
             style={styles.profile_hearder_1}
-            source={{
-              uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
-            }}
-          >
-          </ImageBackground>
+            source={
+              profileData.CoverImage
+                ? {
+                    uri: `data:image/jpeg;base64,${profileData.CoverImage}`,
+                  }
+                : require("@/assets/images/nophoto.png")
+            }
+          ></ImageBackground>
           <View style={styles.profile_hearder_2}>
             <View style={styles.profile_hearder_2_2}>
               <ImageBackground
-                source={{
-                  uri: `data:image/jpeg;base64,${profileData.ProfileImage}`,
-                }}
+                source={
+                  profileData.ProfileImage
+                    ? {
+                        uri: `data:image/jpeg;base64,${profileData.ProfileImage}`,
+                      }
+                    : require("@/assets/images/21666259.jpg")
+                }
                 style={styles.profile_image}
               />
               <Text style={[styles.profile_txt_1, { color: theme.text }]}>
@@ -133,54 +136,62 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.profile_edit_button}
                 onPress={() => {
-                  // navigation.navigate("Update Profile");
+                  navigation.navigate("Update Profile");
                 }}
               >
                 <Text style={styles.profile_edit_button_text}>Edit</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profile_message_button}>
+              <TouchableOpacity
+                style={styles.profile_message_button}
+                onPress={() => {
+                  const intentUrl = `https://wa.me/?text=${encodeURIComponent(
+                    shareText + " " + shareUrl
+                  )}`;
+                  Linking.openURL(intentUrl).catch((err) =>
+                    console.error("Error opening URL:", err)
+                  );
+                }}
+              >
                 <Text style={styles.profile_message_button_text}>Share</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View style={styles.profile_body}>
-          {storyData.map((e, Index) => {
-            return (
-              <TouchableOpacity
-                style={styles.profile_story_card}
-                key={Index}
-                onPress={async () => {
-                  try {
-                    await setLocalData(
-                      e.AuthorId,
-                      e.User.Name,
-                      e.Tittle,
-                      e.Story,
-                      e.Image
-                    );
-                    // navigation.navigate("Story");
-                  } catch (error) {
-                    console.error("Error saving to AsyncStorage:", error);
-                  }
-                }}
-              >
-                <ImageBackground
-                  source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
-                  style={styles.profile_story_card_background}
+        {noDataFound ? (
+          <NoDataPostView />
+        ) : (
+          <View style={styles.profile_body}>
+            {storyData.map((e, Index) => {
+              return (
+                <TouchableOpacity
+                  style={styles.profile_story_card}
+                  key={Index}
+                  onPress={async () => {
+                    try {
+                      await AsyncStorage.setItem("SId", e.Id.toString());
+                      navigation.navigate("Story");
+                    } catch (error) {
+                      console.error("Error saving to AsyncStorage:", error);
+                    }
+                  }}
                 >
-                  <Text
-                    style={styles.profile_txt_3}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
+                  <ImageBackground
+                    source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
+                    style={styles.profile_story_card_background}
                   >
-                    {e.Tittle}
-                  </Text>
-                </ImageBackground>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+                    <Text
+                      style={styles.profile_txt_3}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {e.Tittle}
+                    </Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
       </View>
     </>
   );

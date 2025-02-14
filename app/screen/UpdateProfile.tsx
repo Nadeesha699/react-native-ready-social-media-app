@@ -29,7 +29,7 @@ type TestScreenProps = {
 };
 
 const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
-// const UpdateProfile = () => {
+  // const UpdateProfile = () => {
   const [hidePassword, setHidePassword] = useState(true);
 
   const { isDarkMode } = useContext(ThemeContext);
@@ -56,24 +56,23 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
 
   const [waiting, setWaiting] = useState(true);
-  const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const id = await AsyncStorage.getItem("Id");
-      setUid(parseInt(id ?? "0"));
-        const user = await axios.get(`${commanApi}/user/get-All/${uid}`);
-        user.data.data ? setWaiting(false) : setWaiting(true);
-        if (user.data.success) {
+        let ids = Number(id);
+        const user = await axios.get(`${commanApi}/user/get-All/${ids}`);
+        user.data.data[0].length !== 0 ? setWaiting(false) : setWaiting(true);
+        if (user.data.data[0].length !== 0) {
           setUpdateUser((prev) => ({
             ...prev,
-            Name: user.data.data.Name,
-            Email: user.data.data.Email,
-            PhoneNumber: user.data.data.PhoneNumber,
-            ProfileImage: user.data.data.ProfileImage,
-            CoverImage: user.data.data.CoverImage,
-            Bio: user.data.data.Bio,
+            Name: user.data.data[0].Name,
+            Email: user.data.data[0].Email,
+            PhoneNumber: user.data.data[0].PhoneNumber,
+            ProfileImage: user.data.data[0].ProfileImage,
+            CoverImage: user.data.data[0].CoverImage,
+            Bio: user.data.data[0].Bio,
           }));
         }
       } catch (e) {
@@ -115,6 +114,8 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
             <TouchableOpacity
               onPress={async () => {
                 try {
+                  const id = await AsyncStorage.getItem("Id");
+                  let ids = Number(id);
                   if (
                     emailError === false &&
                     passwordError === false &&
@@ -129,7 +130,7 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                     coverbase64Image?.length !== 0
                   ) {
                     const resp = await axios.put(
-                      `${commanApi}/user/update/${uid}`,
+                      `${commanApi}/user/update/${ids}`,
                       {
                         Name: updateUser.Name,
                         Email: updateUser.Email,
@@ -170,7 +171,11 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
           )}
         </View>
         {waiting ? (
-          <ActivityIndicator color="blue" size="large" style={{ flex: 1,backgroundColor:theme.background }} />
+          <ActivityIndicator
+            color="blue"
+            size="large"
+            style={{ flex: 1, backgroundColor: theme.background }}
+          />
         ) : (
           <>
             <View style={styles.profile_update_hearder}>

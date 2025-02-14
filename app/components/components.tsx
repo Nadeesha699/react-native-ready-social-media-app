@@ -8,7 +8,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const StatusBars = () => {
   const { isDarkMode } = useContext(ThemeContext);
-const theme = isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <StatusBar
       backgroundColor={theme.background}
@@ -33,12 +33,12 @@ export const phoneNumberRegex = /^\d{10}$/;
 
 export const ActivityIndicators = () => {
   const { isDarkMode } = useContext(ThemeContext);
-const theme = isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <ActivityIndicator
       color="blue"
       size="large"
-      style={{ flex: 1, backgroundColor:theme.background }}
+      style={{ flex: 1, backgroundColor: theme.background }}
     />
   );
 };
@@ -54,16 +54,16 @@ export const ServerErrorView = () => {
       }}
     >
       <Icon name="flash-alert" color={"red"} size={100} />
-      <Text style={{ color: "red", fontSize: 20, fontWeight: "bold" }}>
+      <Text style={{ color: "red", fontSize: 10 }}>
         Oops! Internal server error
       </Text>
     </View>
   );
 };
 
-export const NoDataView = () => {
+export const NoDataNotificationView = () => {
   const { isDarkMode } = useContext(ThemeContext);
-const theme = isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <View
       style={{
@@ -74,8 +74,68 @@ const theme = isDarkMode ? darkTheme : lightTheme;
       }}
     >
       <Icon name="bell-off-outline" color={theme.text} size={100} />
-      <Text style={{ color: theme.text, fontSize: 20, fontWeight: "bold" }}>
+      <Text style={{ color: theme.text, fontSize: 10 }}>
         No notifications found
+      </Text>
+    </View>
+  );
+};
+
+export const NoDataChatView = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  return (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <Icon name="message-off-outline" color={theme.text} size={100} />
+      <Text style={{ color: theme.text, fontSize: 10 }}>
+        No Message found
+      </Text>
+    </View>
+  );
+};
+
+export const NoDataCommentView = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  return (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <Icon name="comment-off-outline" color={theme.text} size={100} />
+      <Text style={{ color: theme.text, fontSize: 10 }}>
+        No Message found
+      </Text>
+    </View>
+  );
+};
+
+export const NoDataPostView = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  return (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <Icon name="note-off-outline" color={theme.text} size={100} />
+      <Text style={{ color: theme.text, fontSize: 10 }}>
+        No Story found
       </Text>
     </View>
   );

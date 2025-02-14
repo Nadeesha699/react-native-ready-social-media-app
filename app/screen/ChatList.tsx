@@ -21,7 +21,7 @@ import axios from "axios";
 import {
   ActivityIndicators,
   commanApi,
-  NoDataView,
+  NoDataChatView,
   ServerErrorView,
 } from "../components/components";
 import messageJson from "../Json/messageJson.json";
@@ -43,15 +43,14 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
-   const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const id = await AsyncStorage.getItem("Id");
-        setUid(parseInt(id ?? "0"));
+        const id = await AsyncStorage.getItem('Id')
+        let ids =  Number(id)
         const resp = await axios.get(
-          `${commanApi}/messages/get-all-converstion/${uid}`
+          `${commanApi}/messages/get-all-converstion/${ids}`
         );
         if (resp.data.data.length !== 0) {
           setChatListData(resp.data.data);
@@ -110,7 +109,7 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
       {waiting ? (
         <ActivityIndicators />
       ) : noDataFound ? (
-        <NoDataView />
+        <NoDataChatView />
       ) : serverError ? (
         <ServerErrorView />
       ) : (
@@ -137,9 +136,9 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                   style={styles.chatlist_card}
                 >
                   <Image
-                    source={{
+                    source={e.Participant.ProfileImage?{
                       uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
-                    }}
+                    }: require("@/assets/images/21666259.jpg")}
                     style={styles.chatlist_img_1}
                   />
                   <View style={styles.chatlist_view_1}>

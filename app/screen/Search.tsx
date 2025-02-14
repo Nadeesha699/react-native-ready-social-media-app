@@ -21,7 +21,7 @@ import storyJson from "../Json/storyJson.json";
 import {
   ActivityIndicators,
   commanApi,
-  NoDataView,
+  NoDataPostView,
   ServerErrorView,
 } from "../components/components";
 
@@ -30,26 +30,12 @@ type TestScreenProps = {
 };
 
 const Search: React.FC<TestScreenProps> = ({ navigation }) => {
-// const Search = () => {
+  // const Search = () => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
-  const setLocalData = async (
-    authorId: any,
-    authorName: any,
-    storyName: any,
-    story: any,
-    image: any
-  ) => {
-    await AsyncStorage.setItem("author_id", authorId);
-    await AsyncStorage.setItem("author_name", authorName);
-    await AsyncStorage.setItem("story_name", storyName);
-    await AsyncStorage.setItem("story", story);
-    await AsyncStorage.setItem("story_img", JSON.stringify(image));
-  };
 
   const [storyData, setStoryData] = useState(storyJson);
   const [waiting, setWaiting] = useState(true);
@@ -125,7 +111,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
       {waiting ? (
         <ActivityIndicators />
       ) : noDataFound ? (
-        <NoDataView />
+        <NoDataPostView />
       ) : serverError ? (
         <ServerErrorView />
       ) : (
@@ -144,13 +130,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                   style={styles.home_con6}
                   onPress={async () => {
                     try {
-                      await setLocalData(
-                        e.AuthorId,
-                        e.User.Name,
-                        e.Tittle,
-                        e.Story,
-                        e.Image
-                      );
+                      await AsyncStorage.setItem("SId", e.Id.toString());
                       navigation.navigate("Story");
                     } catch (error) {
                       console.error("Error saving to AsyncStorage:", error);

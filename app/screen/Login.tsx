@@ -147,10 +147,8 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
                 );
                 if (true) {
                   if (resp.data.success) {
-                    await AsyncStorage.setItem("Id", resp.data.data.Id);
-                    // const id = "7";
-                    // await AsyncStorage.setItem("Id", id.toString());
-                    console.log(resp.data.data.Id)
+                    const id = resp.data.data.Id
+                    await AsyncStorage.setItem("Id",id);
                     await AsyncStorage.setItem("userId", "1");
                     await AsyncStorage.setItem("logged", "1");
                     await AsyncStorage.setItem("newComer", "1");

@@ -19,7 +19,7 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { lightTheme, darkTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
-import storyJson from '../Json/storyJson.json'
+import storyJson from "../Json/storyJson.json";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -30,63 +30,57 @@ const { width, height } = Dimensions.get("window");
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [clickButtonColor, setClickButtonColor] = useState("all");
 
-  const setLocalData = async (
-    authorId: any,
-    authorName: any,
-    storyName: any,
-    story: any,
-    image: any
-  ) => {
-    await AsyncStorage.setItem("author_id", authorId);
-    await AsyncStorage.setItem("author_name", authorName);
-    await AsyncStorage.setItem("story_name", storyName);
-    await AsyncStorage.setItem("story", story);
-    await AsyncStorage.setItem("story_img", JSON.stringify(image));
-  };
+  // const setLocalData = async (
+  //   authorId: any,
+  //   authorName: any,
+  //   storyName: any,
+  //   story: any,
+  //   image: any
+  // ) => {
+  //   await AsyncStorage.setItem("author_id", authorId);
+  //   await AsyncStorage.setItem("author_name", authorName);
+  //   await AsyncStorage.setItem("story_name", storyName);
+  //   await AsyncStorage.setItem("story", story);
+  //   await AsyncStorage.setItem("story_img", JSON.stringify(image));
+  // };
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   const [storyData, setStoryData] = useState(storyJson);
 
-const [userData, setuserData] = useState({
-      Name: "",
-      Email: "",
-      Password: "",
-      PhoneNumber: "",
-    });
+  const [userData, setuserData] = useState({
+    Name: "",
+    Email: "",
+    Password: "",
+    PhoneNumber: "",
+  });
 
   const [waiting, setWaiting] = useState(true);
 
   useEffect(() => {
-    
     const loadData = async () => {
-      try{
-       const id =  await AsyncStorage.getItem("Id");
-      const resp = await axios.get(`${commanApi}/story/get-all`);
-      const resp1 = await axios.get(`${commanApi}/user/get-All/${id}`)
-      setuserData(resp1.data.data)
-      resp.data.data ? setWaiting(false) : setWaiting(true);
-      setStoryData(resp.data.data);
-    }catch(e){
-      setWaiting(true)
-    }
+      try {
+        const id = await AsyncStorage.getItem('Id')
+        let ids =  Number(id)
+        const resp = await axios.get(`${commanApi}/story/get-all`);
+        const resp1 = await axios.get(`${commanApi}/user/get-All/${ids}`);
+        console.log(resp1.data.data);
+        setuserData(resp1.data.data[0]);
+        resp.data.data ? setWaiting(false) : setWaiting(true);
+        setStoryData(resp.data.data);
+      } catch (e) {
+        setWaiting(true);
+      }
     };
     loadData();
-  
   }, []);
-
-
 
   return (
     <>
       <StatusBars />
       {waiting ? (
-        <ActivityIndicator
-          color="blue"
-          size="large"
-          style={{ flex: 1 }}
-        />
+        <ActivityIndicator color="blue" size="large" style={{ flex: 1 }} />
       ) : (
         <View
           style={[styles.home_container, { backgroundColor: theme.background }]}
@@ -135,13 +129,7 @@ const [userData, setuserData] = useState({
                     key={index}
                     onPress={async () => {
                       try {
-                        await setLocalData(
-                          e.AuthorId,
-                          e.User.Name,
-                          e.Tittle,
-                          e.Story,
-                          e.Image
-                        );
+                        await AsyncStorage.setItem("SId", e.Id.toString());
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);
@@ -225,13 +213,7 @@ const [userData, setuserData] = useState({
                     style={styles.home_con6}
                     onPress={async () => {
                       try {
-                        await setLocalData(
-                          e.AuthorId,
-                          e.User.Name,
-                          e.Tittle,
-                          e.Story,
-                          e.Image
-                        );
+                        await AsyncStorage.setItem("SId", e.Id.toString());
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);

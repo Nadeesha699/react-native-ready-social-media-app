@@ -1,0 +1,19 @@
+{
+    "Id": 0,
+    "Tittle": "",
+    "Story": "",
+    "LikeCount": 0,
+    "CommentCount":0,
+    "Category": "All",
+    "AuthorId": 0,
+    "Image": null,
+    "User": {
+        "Id": 0,
+        "Name": "",
+        "Email": "",
+        "PhoneNumber": "",
+        "Bio": "",
+        "createAt": "",
+        "updateAt": ""
+    }
+}

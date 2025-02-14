@@ -36,7 +36,8 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const Register: React.FC<TestScreenProps> = ({ navigation }) => {
+// const Register: React.FC<TestScreenProps> = ({ navigation }) => {
+  const Register = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [passwordHide, setPasswordHide] = useState(true);
@@ -259,7 +260,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             <Text style={[styles.login_txt3]}>back to</Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                // navigation.goBack();
               }}
             >
               <Text style={[styles.login_txt4]}>Login</Text>
