@@ -557,8 +557,10 @@ export const styles = StyleSheet.create({
     backgroundColor: "#1178ff",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: width * 0.09,
-    width: width * 0.25,
+    // borderRadius: width * 0.09,
+    width:"30%",
+    padding: width * 0.02,
+    borderRadius: width * 0.05,
   },
   search_container: { flex: 1, backgroundColor: "white" },
   search_header: {

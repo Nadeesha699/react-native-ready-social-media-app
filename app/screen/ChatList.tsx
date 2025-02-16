@@ -43,12 +43,14 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
+  const [ccid, setCCId] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const id = await AsyncStorage.getItem('Id')
-        let ids =  Number(id)
+        const id = await AsyncStorage.getItem("Id");
+        let ids = Number(id);
+        setCCId(ids);
         const resp = await axios.get(
           `${commanApi}/messages/get-all-converstion/${ids}`
         );
@@ -130,15 +132,25 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => {
+                  onPress={async () => {
+                    const cid = e.CreaterId;
+                    await AsyncStorage.setItem("CId", cid.toString());
+                    const fid = e.ForId;
+                    await AsyncStorage.setItem("FId", fid.toString());
+                    await AsyncStorage.setItem("change", "1");
+                    await axios.put(`${commanApi}/messages/read/by-id/${e.Id}`);
                     navigation.navigate("UserMessage");
                   }}
                   style={styles.chatlist_card}
                 >
                   <Image
-                    source={e.Participant.ProfileImage?{
-                      uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
-                    }: require("@/assets/images/21666259.jpg")}
+                    source={
+                      e.Participant.ProfileImage
+                        ? {
+                            uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
+                          }
+                        : require("@/assets/images/21666259.jpg")
+                    }
                     style={styles.chatlist_img_1}
                   />
                   <View style={styles.chatlist_view_1}>
@@ -147,7 +159,9 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                       ellipsizeMode="tail"
                       style={[styles.home_txt_7, { color: theme.text }]}
                     >
-                      {e.Participant.Name}
+                      {e.Creator.Id === ccid
+                        ? e.Participant.Name
+                        : e.Creator.Name}
                     </Text>
                     <Text
                       numberOfLines={1}

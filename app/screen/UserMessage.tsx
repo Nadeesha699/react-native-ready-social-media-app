@@ -19,7 +19,8 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
 import { commanApi } from "../components/components";
-import messageJson from '../Json/messageJson.json'
+import messageJson from "../Json/messageJson.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -33,6 +34,7 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
 
   const [messageTxt, setMessageTxt] = useState("");
   const [messageDatas, setMessageData] = useState(messageJson);
+  const [messageName, setMessageName] = useState("");
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -40,11 +42,22 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
     }
 
     const loadData = async () => {
+      const cid = await AsyncStorage.getItem("CId");
+      const fid = await AsyncStorage.getItem("FId");
       const resp = await axios.get(
-        `${commanApi}/messages/verifyConversation/7/12`
+        `${commanApi}/messages/verifyConversation/${cid}/${fid}`
       );
 
+      
+      const change = await AsyncStorage.getItem("change");
       setMessageData(resp.data.data);
+      if (change === "0") {
+        setMessageName(resp.data.data[0].Participant.Name);
+      } else if (change === "1") {
+        resp.data.data[0].Creator.Id === cid
+          ? setMessageName(resp.data.data[0].Participant.Name)
+          : setMessageName(resp.data.data[0].Creator.Name);
+      }
     };
     loadData();
   }, []);
@@ -74,7 +87,7 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
           numberOfLines={1}
           ellipsizeMode="tail"
         >
-          Nadeesha Rwuandima
+          {messageName}
         </Text>
       </View>
       <ScrollView style={styles.message_body} ref={scrollViewRef}>
@@ -122,18 +135,17 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
             onPress={async () => {
               const resp = await axios.post(
                 `${commanApi}/messages/send`,
-                
-                  {
-                    Message: messageTxt,
-                    UserId: 7,
-                    ChatId: 5,
-                  },
-                
+
+                {
+                  Message: messageTxt,
+                  UserId: 7,
+                  ChatId: 5,
+                }
               );
               resp.data.success === true
                 ? console.log("send")
                 : console.log("unsend");
-              setMessageTxt("")
+              setMessageTxt("");
             }}
             icon={() => (
               <Icon name="send" size={width * 0.06} color={theme.text} />

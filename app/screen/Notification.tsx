@@ -27,14 +27,16 @@ const Notifications = () => {
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
-  const [uid, setUid] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const id = await AsyncStorage.getItem("Id");
-      setUid(parseInt(id ?? "0")); 
-        const resp = await axios.get(`${commanApi}/notification/all/by-id/${uid}`);
+
+        const resp = await axios.get(
+          `${commanApi}/notification/all/by-id/${id}`
+        );
+        console.log(resp.data.data)
         if (resp.data.data.length !== 0) {
           setNotificationData(resp.data.data);
           setWaiting(false);
@@ -67,20 +69,20 @@ const Notifications = () => {
       ) : noDataFound ? (
         <NoDataNotificationView />
       ) : (
-         <ScrollView
-                  style={{ flex: 1 }}
-                  contentContainerStyle={{
-                    flexGrow: 1,
-                    gap:"1%"
-                  }}
-                >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            gap: "1%",
+          }}
+        >
           {notificationData.map((e, index) => {
             return (
               <TouchableOpacity key={index} style={styles.notification_card}>
                 <ImageBackground
-                  source={{
+                  source={e.User.ProfileImage?{
                     uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
-                  }}
+                  }:require("@/assets/images/21666259.jpg")}
                   style={styles.notification_img_1}
                 />
                 <View style={styles.notification_view_1}>
@@ -128,7 +130,7 @@ const Notifications = () => {
               </TouchableOpacity>
             );
           })}
-          </ScrollView>
+        </ScrollView>
       )}
     </View>
   );

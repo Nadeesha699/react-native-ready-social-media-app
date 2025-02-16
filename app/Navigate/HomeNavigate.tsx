@@ -14,9 +14,11 @@ import ChatStack from "../Stack/ChatStack";
 import NotificationStack from "../Stack/NotificationStack";
 import ProfileStack from "../Stack/ProfileStack";
 import { ThemeContext } from "../Theme/ThemeContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { commanApi } from "../components/components";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +27,24 @@ const { width, height } = Dimensions.get("window");
 const HomeNaviagte = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(0);
+  useEffect(() => {
+    const loadData = async () => {
+      const id = await AsyncStorage.getItem("Id");
+
+      const resp = await axios.get(
+        `${commanApi}/notification/all-count/by-id/${id}`
+      );
+      setNotificationCount(resp.data.data);
+
+      const resp1 = await axios.get(
+        `${commanApi}/messages//get-all-messages/${id}`
+      );
+      setMessageCount(resp1.data.data);
+    };
+    loadData();
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -54,7 +74,7 @@ const HomeNaviagte = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="chat-outline" size={size} color={color} />
           ),
-          tabBarBadge: 2,
+          tabBarBadge: messageCount,
         })}
       />
       <Tab.Screen
@@ -67,49 +87,22 @@ const HomeNaviagte = () => {
             <Icon name="plus-circle-outline" size={size} color={color} />
           ),
         }}
-        // options={({ navigation }) => ({
-        //   headerShown: false,
-        // headerStyle: { backgroundColor: theme.background },
-        // tabBarStyle: { display: "none" },
-        // tabBarIcon: ({ color, size }) => (
-        //   <Icon name="plus-circle-outline" size={size} color={color} />
-        // ),
-        // headerTitleAlign: "center",
-        // headerTintColor: theme.text,
-        // headerTitleStyle: { fontWeight: "bold" },
-        // headerLeft: () => (
-        //   <Icon
-        //     style={{ padding: width * 0.02 }}
-        //     name="close"
-        //     size={width * 0.05}
-        //     color="#ff005d"
-        //     onPress={() => navigation.goBack()}
-        //   />
-        // ),
-        // headerRight: () => (
-        //   <TouchableOpacity onPress={()=>{
-
-        //   }}>
-        //     <Text
-        //       style={{
-        //         color: "#1178ff",
-        //         fontWeight: "bold",
-        //         padding: width * 0.02,
-        //       }}
-        //     >
-        //       upload
-        //     </Text>
-        //   </TouchableOpacity>
-        // ),
-        // })}
       />
       <Tab.Screen
         name="Notification"
         component={NotificationStack}
         options={{
-          tabBarBadge: 10,
+          tabBarBadge: notificationCount,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="bell-outline" size={size} color={color} />
+            <Icon
+              name="bell-outline"
+              size={size}
+              color={color}
+              onPress={async () => {
+                const id = await AsyncStorage.getItem("Id");
+                await axios.put(`${commanApi}/notification/read/by-id/${id}`);
+              }}
+            />
           ),
         }}
       />

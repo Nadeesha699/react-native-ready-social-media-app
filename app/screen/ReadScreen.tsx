@@ -32,11 +32,9 @@ type TestScreenProps = {
 };
 
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
-// const ReadScreen = () => {
+  // const ReadScreen = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
-  const [followed, setFollowed] = useState(false);
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
   const scrollViewRef = useRef<ScrollView | null>(null);
@@ -44,30 +42,45 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [commentData, setCommentData] = useState(commentJson);
   const [storyData, setStoryData] = useState(storySingleJson);
   const [followData, setFollowData] = useState(followJson);
-  const [newFollow, setNewFollow] = useState(false);
   const [noDataFound, setNoDataFound] = useState(false);
+  const [followStatus, setFollowStatus] = useState("FOLLOW");
+  const [followButtonShow, setFollowButtonShow] = useState(true);
 
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
     const loadData = async () => {
-      const sid =  await AsyncStorage.getItem("SId");
-      console.log(sid)
-      const resp3 = await axios.get(`${commanApi}/story/get-all/by-id/${sid}`);
-      console.log(resp3.data.data)
-      setStoryData(resp3.data.data);
-      const resp = await axios.get(`${commanApi}/comment/all/by-id/17`);
-      resp.data.data ? setCommentData(resp.data.data) : setNoDataFound(true);
+      const sid = await AsyncStorage.getItem("SId");
+      const aid = await AsyncStorage.getItem("AId");
 
-      const resp1 = await axios.get(
-        `${commanApi}/follower/verify-follower/17/18`
+      const id = await AsyncStorage.getItem("Id");
+
+      const resp3 = await axios.get(`${commanApi}/story/get-all/by-id/${sid}`);
+
+      setStoryData(resp3.data.data);
+      const resp = await axios.get(`${commanApi}/comment/all/by-id/${sid}`);
+      resp.data.data ? setCommentData(resp.data.data) : setNoDataFound(true);
+      const resp4 = await axios.get(
+        `${commanApi}/follower/verify-follower/${id}/${aid}`
       );
-      resp1.data.data.length !== 0
-        ? setFollowData(resp1.data.data[0])
-        : setNewFollow(true);
-      const resp2 = await axios.get(`${commanApi}/like/verify/1/17`);
+      if (resp4.data.data[0]) {
+        setFollowData(resp4.data.data[0]);
+        if (resp4.data.data[0].FriendStatus) {
+          setFollowStatus("FRIEND");
+        } else {
+          if (resp4.data.data[0].UserId === Number(id)) {
+            setFollowStatus("FOLLOWING");
+          } else {
+            setFollowStatus("FOLLOW BACK");
+          }
+        }
+      } else {
+        setFollowStatus("FOLLOW");
+      }
+      const resp2 = await axios.get(`${commanApi}/like/verify/${sid}/${id}`);
       resp2.data.success ? setLikeRed(true) : setLikeRed(false);
+      id === aid ? setFollowButtonShow(true) : setFollowButtonShow(false);
     };
 
     loadData();
@@ -94,7 +107,6 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
       >
         <ImageBackground
           style={styles.readscreen_header}
-          // source={require('@/assets/images/4977116.jpg')}
           source={{ uri: `data:image/jpeg;base64,${storyData.Image}` }}
         >
           <TouchableOpacity
@@ -107,22 +119,39 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View style={styles.readscreen_con6}>
             <TouchableOpacity
               onPress={async () => {
-                // setLikeRed(!likeRed);
+                const sid = await AsyncStorage.getItem("SId");
+                let a = Number(sid);
+                console.log(a);
+                const id = await AsyncStorage.getItem("Id");
+                let b = Number(id);
+                const aid = await AsyncStorage.getItem("AId");
+                let c = Number(aid);
+                console.log(b);
                 if (likeRed) {
-                  const resp = await axios.post(`${commanApi}/like/add`, {
-                    SenderId: 7,
-                    StoryId: 1,
-                  });
-                  resp.data.success ? setLikeRed(true) : setLikeRed(false);
-                } else {
-                  const resp = await axios.post(
-                    `${commanApi}/like/remove/1/7`,
-                    {
-                      SenderId: 7,
-                      StoryId: 1,
-                    }
+                  const resp = await axios.delete(
+                    `${commanApi}/like/remove/${a}/${b}`
                   );
                   resp.data.success ? setLikeRed(false) : setLikeRed(true);
+                } else {
+                  const resp = await axios.post(`${commanApi}/like/add`, {
+                    SenderId: b,
+                    StoryId: a,
+                  });
+                  if (resp.data.success) {
+                   const resp = await axios.post(
+                      `${commanApi}/notification/create`,
+                      {
+                        SenderId: b,
+                        RecieverId: c,
+                        StoryId: a,
+                        NotificationType: "LIKE",
+                      }
+                    );
+                    console.log(resp.data.data)
+                    setLikeRed(true);
+                  } else {
+                    setLikeRed(false);
+                  }
                 }
               }}
             >
@@ -157,7 +186,6 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               </Text>
               <TouchableOpacity
                 onPress={async () => {
-                  await AsyncStorage.setItem("UId", storyData.AuthorId.toString());
                   navigation.navigate("User Profile");
                 }}
               >
@@ -169,54 +197,42 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
             <TouchableOpacity
               style={[
                 styles.readscreen_follow_button,
-                {
-                  backgroundColor: newFollow
-                    ? "red"
-                    : followData.FriendStatus
-                    ? "yellow"
-                    : "pink",
-                  // backgroundColor: "#1178ff",
-                  borderWidth: 0,
-                },
+                { display: followButtonShow ? "none" : "flex" },
               ]}
               onPress={async () => {
-                if (newFollow) {
-                  const resp = await axios.post(
-                    `${commanApi}/follower/follow`,
+                const aid = await AsyncStorage.getItem("AId");
+                let a = Number(aid);
+                const id = await AsyncStorage.getItem("Id");
+                let b = Number(id);
+                if (followStatus === "FOLLOW") {
+                  await axios.post(`${commanApi}/follower/follow`, {
+                    FollowerId: a,
+                    UserId: b,
+                    FriendStatus: false,
+                  });
+                } else if (followStatus === "FOLLOWING") {
+                  await axios.delete(
+                    `${commanApi}/follower/unfollow/${followData.Id}`
+                  );
+                } else if (followStatus === "FRIEND") {
+                  await axios.put(
+                    `${commanApi}/follower/follow-back/${followData.Id}`,
                     {
-                      FollowerId: 12,
-                      UserId: 7,
                       FriendStatus: false,
                     }
                   );
-                  resp.data.success ? console.log("followed") : "";
-                } else {
-                  if (followData.FriendStatus) {
-                    const resp = await axios.put(
-                      `${commanApi}/follower/follow-back-or-unfollow/3`,
-                      {
-                        FriendStatus: false,
-                      }
-                    );
-                    resp.data.success ? console.log("unfollowed") : "";
-                  } else {
-                    const resp = await axios.put(
-                      `${commanApi}/follower/follow-back-or-unfollow/3`,
-                      {
-                        FriendStatus: true,
-                      }
-                    );
-                    resp.data.success ? console.log("friend") : "";
-                  }
+                } else if (followStatus === "FOLLOW BACK") {
+                  await axios.put(
+                    `${commanApi}/follower/follow-back/${followData.Id}`,
+                    {
+                      FriendStatus: true,
+                    }
+                  );
                 }
               }}
             >
               <Text style={[styles.readscreen_txt1, { color: "white" }]}>
-                {newFollow
-                  ? "Follow"
-                  : followData.FriendStatus
-                  ? "friend"
-                  : "follow back"}
+                {followStatus.toLocaleLowerCase()}
               </Text>
             </TouchableOpacity>
           </View>
@@ -270,9 +286,13 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                   return (
                     <View key={index} style={styles.comment_card}>
                       <Image
-                        source={{
-                          uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
-                        }}
+                        source={
+                          e.User.ProfileImage
+                            ? {
+                                uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
+                              }
+                            : require("@/assets/images/21666259.jpg")
+                        }
                         style={styles.comment_profile}
                       />
                       <View style={styles.comment_con}>
@@ -299,12 +319,16 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               right={
                 <TextInput.Icon
                   onPress={async () => {
+                    const sid = await AsyncStorage.getItem("SId");
+                    let a = Number(sid);
+                    const id = await AsyncStorage.getItem("Id");
+                    let b = Number(id);
                     const resp = await axios.post(
                       `${commanApi}/comment/create`,
                       {
                         Comment: commentTxt,
-                        SenderId: 7,
-                        StoryId: 1,
+                        SenderId: b,
+                        StoryId: a,
                       }
                     );
 

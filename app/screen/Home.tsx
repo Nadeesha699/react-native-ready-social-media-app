@@ -1,4 +1,9 @@
-import { commanApi, loadAuthor, StatusBars } from "@/app/components/components";
+import {
+  ActivityIndicators,
+  commanApi,
+  loadAuthor,
+  StatusBars,
+} from "@/app/components/components";
 
 import React, { useEffect, useState, useContext } from "react";
 import {
@@ -61,8 +66,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const id = await AsyncStorage.getItem('Id')
-        let ids =  Number(id)
+        const id = await AsyncStorage.getItem("Id");
+        let ids = Number(id);
         const resp = await axios.get(`${commanApi}/story/get-all`);
         const resp1 = await axios.get(`${commanApi}/user/get-All/${ids}`);
         console.log(resp1.data.data);
@@ -80,7 +85,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
     <>
       <StatusBars />
       {waiting ? (
-        <ActivityIndicator color="blue" size="large" style={{ flex: 1 }} />
+        <ActivityIndicators />
       ) : (
         <View
           style={[styles.home_container, { backgroundColor: theme.background }]}
@@ -130,6 +135,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                     onPress={async () => {
                       try {
                         await AsyncStorage.setItem("SId", e.Id.toString());
+                        await AsyncStorage.setItem("AId", e.AuthorId.toString());
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);
@@ -214,6 +220,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                     onPress={async () => {
                       try {
                         await AsyncStorage.setItem("SId", e.Id.toString());
+                        await AsyncStorage.setItem("AId", e.AuthorId.toString());
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);
