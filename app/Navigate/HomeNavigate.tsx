@@ -74,7 +74,7 @@ const HomeNaviagte = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="chat-outline" size={size} color={color} />
           ),
-          tabBarBadge: messageCount,
+          tabBarBadge: messageCount !== 0 ? messageCount : undefined,
         })}
       />
       <Tab.Screen
@@ -92,7 +92,7 @@ const HomeNaviagte = () => {
         name="Notification"
         component={NotificationStack}
         options={{
-          tabBarBadge: notificationCount,
+          tabBarBadge: notificationCount !== 0 ? notificationCount : undefined,
           tabBarIcon: ({ color, size }) => (
             <Icon
               name="bell-outline"

@@ -15,6 +15,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -25,6 +26,7 @@ import { lightTheme, darkTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
 import storyJson from "../Json/storyJson.json";
+import { ScrollView } from "react-native-gesture-handler";
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -70,10 +72,10 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
         let ids = Number(id);
         const resp = await axios.get(`${commanApi}/story/get-all`);
         const resp1 = await axios.get(`${commanApi}/user/get-All/${ids}`);
-        console.log(resp1.data.data);
         setuserData(resp1.data.data[0]);
-        resp.data.data ? setWaiting(false) : setWaiting(true);
+        resp.data.data[0] ? setWaiting(false) : setWaiting(true);
         setStoryData(resp.data.data);
+        ToastAndroid.show("Hello " + userData.Name, 2000);
       } catch (e) {
         setWaiting(true);
       }
@@ -127,7 +129,14 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
             >
               {userData.Name}
             </Text>
-            <View style={styles.home_scroll_sub_view}>
+            {/* <View style={styles.home_scroll_sub_view}> */}
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={{
+                flexGrow: 1,
+                gap: "5%",
+              }}
+            >
               {storyData.map((e, index) => {
                 return (
                   <TouchableOpacity
@@ -135,7 +144,10 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                     onPress={async () => {
                       try {
                         await AsyncStorage.setItem("SId", e.Id.toString());
-                        await AsyncStorage.setItem("AId", e.AuthorId.toString());
+                        await AsyncStorage.setItem(
+                          "AId",
+                          e.AuthorId.toString()
+                        );
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);
@@ -164,7 +176,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </ScrollView>
+            {/* </View> */}
             <View style={styles.home_category_view}>
               <TouchableOpacity
                 style={[
@@ -203,7 +216,15 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               })}
             </View>
           </View>
-          <View style={styles.home_body}>
+          {/* <View style={styles.home_body}> */}
+          <ScrollView
+            contentContainerStyle={{
+              flex: 1, // Allows the scroll view to take available space
+              justifyContent: "flex-start", // Aligns the content from the top
+              marginBottom: width * 0.02, // Ensures spacing between items (instead of gap)
+              width: "100%",
+            }}
+          >
             {storyData
               .filter((e) =>
                 clickButtonColor.toLowerCase() !== "all"
@@ -220,7 +241,10 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                     onPress={async () => {
                       try {
                         await AsyncStorage.setItem("SId", e.Id.toString());
-                        await AsyncStorage.setItem("AId", e.AuthorId.toString());
+                        await AsyncStorage.setItem(
+                          "AId",
+                          e.AuthorId.toString()
+                        );
                         navigation.navigate("Story");
                       } catch (error) {
                         console.error("Error saving to AsyncStorage:", error);
@@ -230,7 +254,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                     <ImageBackground
                       source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
                       style={styles.home_img3}
-                    ></ImageBackground>
+                    />
                     <View style={styles.home_con10}>
                       <Text
                         style={[styles.home_txt_7, { color: theme.text }]}
@@ -272,21 +296,12 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>
                 );
               })}
-          </View>
+          </ScrollView>
         </View>
       )}
     </>
   );
 };
 
-// export const categories = [
-//   { name: "Horror" },
-//   { name: "Fantasy" },
-//   { name: "Romance" },
-//   { name: "Mystery" },
-//   { name: "Comedy" },
-//   { name: "Sci-Fi" },
-//   { name: "Thriller" },
-// ];
 
 export default Home;

@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Dimensions,
   Easing,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 
@@ -35,6 +36,8 @@ import Animated, {
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+
+
 
 type TestScreenProps = {
   navigation: NavigationProp<any>;
@@ -85,16 +88,6 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
           <Text style={[styles.login_1, { color: theme.text }]}>Login</Text>
         </Animated.View>
         <Animated.View style={[styles.login_body, animatedStyle1]}>
-          <TouchableOpacity style={styles.login_com1}>
-            <Image
-              source={require("@/assets/images/google_2504914.png")}
-              style={styles.login_img1}
-            />
-            <Text style={[styles.login_txt2, { color: theme.text }]}>
-              Login with google
-            </Text>
-          </TouchableOpacity>
-          <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
             onChangeText={(e) => {
               setLoginData((prev) => ({ ...prev, Email: e }));
@@ -142,25 +135,32 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
             style={styles.btn_sign}
             onPress={async () => {
               try {
-                const resp = await axios.get(
-                  `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
-                );
-                if (true) {
+                if (loginData.Email.length !== 0 && loginData.Password.length !== 0) {
+                  const resp = await axios.get(
+                    `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
+                  );
+              
                   if (resp.data.success) {
-                    const id = resp.data.data.Id
-                    await AsyncStorage.setItem("Id",id);
+                    const id = resp.data.data.Id.toString();
+                    await AsyncStorage.setItem("Id", id);
                     await AsyncStorage.setItem("userId", "1");
                     await AsyncStorage.setItem("logged", "1");
                     await AsyncStorage.setItem("newComer", "1");
                     navigation.navigate("Main");
                   } else {
+                    Alert.alert("Oops!", "We couldn't find an account with those details. Please check your email and password.");
                     navigation.navigate("Login");
                   }
+                } else {
+                  Alert.alert("Oops!", "Please enter both your email and password to log in.");
                 }
               } catch (e) {
                 console.log(e);
+                Alert.alert("Something went wrong!", "It seems we're having trouble connecting. Please try again later.");
                 navigation.navigate("Login");
               }
+              
+              
             }}
           >
             <Text style={styles.login_2}>Sign in</Text>

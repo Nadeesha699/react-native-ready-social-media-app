@@ -36,12 +36,12 @@ function LoggedRootStack() {
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false, animation: "fade_from_bottom" }}
+        options={{ headerShown: false, animation:"flip" }}
       />
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: false, animation: "fade_from_bottom" }}
+        options={{ headerShown: false, animation:"flip" }}
       />
       <Stack.Screen
         name="Story"

@@ -6,11 +6,12 @@ import {
   View,
   Text,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { Button, Menu, TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import { useContext, useEffect, useState } from "react";
 import React from "react";
 import { ThemeContext } from "../Theme/ThemeContext";
@@ -20,6 +21,7 @@ import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
 import { commanApi } from "../components/components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
@@ -27,11 +29,9 @@ type TestScreenProps = {
 const { width } = Dimensions.get("window");
 
 const Create: React.FC<TestScreenProps> = ({ navigation }) => {
-  // const Create = () => {
   const [selectCategory, setSelectCategory] = useState("");
   const [titile, setTittle] = useState("");
   const [story, setStory] = useState("");
-
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [uid, setUid] = useState(0);
@@ -47,43 +47,46 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
     loadData();
   }, []);
 
+  // Function to pick an image
+  const pickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.status !== "granted") {
+      Alert.alert("Permission Required", "You need to grant access to your gallery.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // allowsEditing: true,
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+      setBase64Image(result.assets[0].base64?? null);
+    }
+  };
+
   return (
-    <View
-      style={[styles.create_container, { backgroundColor: theme.background }]}
-    >
+    <View style={[styles.create_container, { backgroundColor: theme.background }]}>
       <View
         style={{
           width: "100%",
           justifyContent: "space-between",
           alignItems: "center",
-          display: "flex",
           flexDirection: "row",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name={"close"} size={width * 0.06} color={"red"} />
         </TouchableOpacity>
-        <Text style={{ fontWeight: "bold", color: theme.text }}>
-          Create Story
-        </Text>
+        <Text style={{ fontWeight: "bold", color: theme.text }}>Create Story</Text>
         <TouchableOpacity
           onPress={async () => {
+           
             try {
-              // console.log(id)
-              // console.log(titile)
-              // console.log(story)
-              // console.log(base64Image)
-              console.log(selectCategory);
-              if (
-                titile.length !== 0 &&
-                story.length !== 0 &&
-                base64Image?.length !== 0 &&
-                selectCategory.length !== 0
-              ) {
+              if (titile && story && base64Image && selectCategory) {
                 const resp = await axios.post(`${commanApi}/story/create`, {
                   Tittle: titile,
                   Story: story,
@@ -91,54 +94,38 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
                   Category: selectCategory,
                   AuthorId: uid,
                 });
+
                 if (resp.data.success) {
-                  console.log("1");
-                  // ToastAndroid.show("Upload Successful", 2000);
+                  ToastAndroid.show("Your story has been uploaded successfully!", ToastAndroid.LONG);
                 } else {
-                  console.log("2");
-                  // ToastAndroid.show("Upload Failed. Please Try Again", 2000);
+                  Alert.alert("Oops!", "Something went wrong with the upload. Please try again.");
                 }
               } else {
-                console.log("3");
-                // ToastAndroid.show("Please fill all fields correctly", 2000);
+                Alert.alert("Incomplete Fields", "Please make sure all fields are filled out correctly.");
               }
             } catch (e) {
-              console.log(e);
-              // ToastAndroid.show("Network Error. Please Try Again", 2000);
+              console.error(e);
+              Alert.alert("Error", "It seems we're having trouble connecting. Please try again later.");
             }
           }}
         >
-          <Text
-            style={{
-              color: "#1178ff",
-              fontWeight: "bold",
-              padding: width * 0.02,
-            }}
-          >
-            upload
-          </Text>
+          <Text style={{ color: "#1178ff", fontWeight: "bold", padding: width * 0.02 }}>Upload</Text>
         </TouchableOpacity>
       </View>
+
       <TextInput
         value={titile}
-        onChangeText={(e) => {
-          setTittle(e);
-        }}
-        left={
-          <TextInput.Icon
-            icon={({ size }) => <Icon name="format-title" size={size} />}
-          />
-        }
+        onChangeText={setTittle}
+        left={<TextInput.Icon icon={({ size }) => <Icon name="format-title" size={size} />} />}
         underlineColor="transparent"
         activeUnderlineColor="transparent"
         mode="flat"
-        label="titile"
+        label="Title"
         style={styles.input_field1}
       />
+
       <RNPickerSelect
-        onValueChange={(e) => {
-          setSelectCategory(e);
-        }}
+        onValueChange={setSelectCategory}
         items={[
           { label: "Horror", value: "Horror" },
           { label: "Fantasy", value: "Fantasy" },
@@ -154,71 +141,30 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
 
       <TextInput
         value={story}
-        onChangeText={(e) => {
-          setStory(e);
-        }}
-        left={
-          <TextInput.Icon
-            icon={({ size }) => (
-              <Icon name="book-open-page-variant" size={size} />
-            )}
-          />
-        }
+        onChangeText={setStory}
+        left={<TextInput.Icon icon={({ size }) => <Icon name="book-open-page-variant" size={size} />} />}
         underlineColor="transparent"
         activeUnderlineColor="transparent"
         mode="flat"
-        label="story"
-        multiline={true}
+        label="Story"
+        multiline
         numberOfLines={15}
         style={styles.input_field1}
       />
+
       <ImageBackground
         style={styles.create_img_1}
-        source={
-          imageUri
-            ? { uri: imageUri }
-            : require("@/assets/images/placeholder.png")
-        }
+        source={imageUri ? { uri: imageUri } : require("@/assets/images/placeholder.png")}
       >
-        <TouchableOpacity
-          style={styles.create_card_1}
-          onPress={() => {
-            launchImageLibrary({ mediaType: "photo" }, (response: any) => {
-              if (response.assets) {
-                setImageUri(response.assets[0].uri);
-                // Convert image to base64
-                const uri = response.assets[0].uri;
-                fetch(uri)
-                  .then((res) => res.blob())
-                  .then((blob) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setBase64Image((reader.result as string)?.split(",")[1]);
-                    };
-                    reader.readAsDataURL(blob);
-                  });
-              }
-            });
-          }}
-        >
+        <TouchableOpacity style={styles.create_card_1} onPress={pickImage}>
           {!imageUri ? (
             <>
               <Icon name={"upload"} size={width * 0.15} />
-              <Text style={styles.home_txt_7}>Select the cover Image</Text>
+              <Text style={styles.home_txt_7}>Select the Cover Image</Text>
             </>
           ) : (
-            <TouchableOpacity
-              onPress={() => {
-                // setCoverImage(null);
-                setImageUri(null);
-              }}
-            >
-              <Icon
-                style={styles.create_img_2}
-                name={"delete"}
-                size={width * 0.1}
-                color={"black"}
-              />
+            <TouchableOpacity onPress={() => setImageUri(null)}>
+              <Icon style={styles.create_img_2} name={"delete"} size={width * 0.1} color={"black"} />
             </TouchableOpacity>
           )}
         </TouchableOpacity>

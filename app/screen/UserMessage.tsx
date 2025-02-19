@@ -7,6 +7,8 @@ import {
   Text,
   Dimensions,
   ScrollView,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -35,6 +37,8 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
   const [messageTxt, setMessageTxt] = useState("");
   const [messageDatas, setMessageData] = useState(messageJson);
   const [messageName, setMessageName] = useState("");
+  const [chatId, setChatId] = useState(0);
+  const [userId,setUserId] = useState(0)
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -42,13 +46,15 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
     }
 
     const loadData = async () => {
+      const id = await AsyncStorage.getItem("Id");
+        let ids = Number(id);
+setUserId(ids)
       const cid = await AsyncStorage.getItem("CId");
       const fid = await AsyncStorage.getItem("FId");
       const resp = await axios.get(
         `${commanApi}/messages/verifyConversation/${cid}/${fid}`
       );
 
-      
       const change = await AsyncStorage.getItem("change");
       setMessageData(resp.data.data);
       if (change === "0") {
@@ -58,6 +64,8 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
           ? setMessageName(resp.data.data[0].Participant.Name)
           : setMessageName(resp.data.data[0].Creator.Name);
       }
+
+      setChatId(resp.data.data[0].Id);
     };
     loadData();
   }, []);
@@ -98,18 +106,18 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
                 key={index}
                 style={[
                   styles.message_body_1,
-                  { alignItems: e1.UserId === 7 ? "flex-end" : "flex-start" },
+                  { alignItems: e1.UserId === userId ? "flex-end" : "flex-start" },
                 ]}
               >
                 <View
                   style={[
                     styles.message_card,
                     {
-                      backgroundColor: e1.UserId === 7 ? "#d7d7d7" : "#b9d7ff",
-                      borderTopLeftRadius: e1.UserId === 7 ? width * 0.02 : 0,
-                      borderTopRightRadius: e1.UserId === 7 ? 0 : width * 0.02,
-                      marginLeft: e1.UserId === 7 ? width * 0.02 : 0,
-                      marginRight: e1.UserId === 7 ? 0 : width * 0.02,
+                      backgroundColor: e1.UserId === userId ? "#d7d7d7" : "#b9d7ff",
+                      borderTopLeftRadius: e1.UserId === userId ? width * 0.02 : 0,
+                      borderTopRightRadius: e1.UserId === userId ? 0 : width * 0.02,
+                      marginLeft: e1.UserId === userId ? width * 0.02 : 0,
+                      marginRight: e1.UserId === userId ? 0 : width * 0.02,
                     },
                   ]}
                 >
@@ -133,19 +141,28 @@ const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
         right={
           <TextInput.Icon
             onPress={async () => {
-              const resp = await axios.post(
-                `${commanApi}/messages/send`,
+              try {
+                const id = await AsyncStorage.getItem("Id");
+                let ids = Number(id);
 
-                {
+                const resp = await axios.post(`${commanApi}/messages/send`, {
                   Message: messageTxt,
-                  UserId: 7,
-                  ChatId: 5,
+                  UserId: ids,
+                  ChatId: chatId,
+                });
+                if (resp.data.success) {
+                  ToastAndroid.show("Message sent successfully!", 2000);
+                } else {
+                  Alert.alert("Failed to send the message. Please try again.");
                 }
-              );
-              resp.data.success === true
-                ? console.log("send")
-                : console.log("unsend");
-              setMessageTxt("");
+
+                setMessageTxt("");
+              } catch (e) {
+                console.log(e);
+                Alert.alert(
+                  "There was an issue sending your message. Please try again later."
+                );
+              }
             }}
             icon={() => (
               <Icon name="send" size={width * 0.06} color={theme.text} />

@@ -9,6 +9,7 @@ import {
   Dimensions,
   ScrollView,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -36,8 +37,7 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-// const Register: React.FC<TestScreenProps> = ({ navigation }) => {
-  const Register = () => {
+const Register: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [passwordHide, setPasswordHide] = useState(true);
@@ -87,16 +87,6 @@ type TestScreenProps = {
           }}
         >
           {/* <Animated.View style={[styles.sign_body, animatedStyle1]}> */}
-          <TouchableOpacity style={styles.login_com1}>
-            <Image
-              source={require("@/assets/images/google_2504914.png")}
-              style={styles.login_img1}
-            />
-            <Text style={[styles.login_txt2, { color: theme.text }]}>
-              Register with google
-            </Text>
-          </TouchableOpacity>
-          <Text style={styles.sign_txt1}>OR</Text>
           <TextInput
             onChangeText={(e) => {
               setRegisterData((prev) => ({ ...prev, Email: e }));
@@ -237,21 +227,21 @@ type TestScreenProps = {
                     Password: registerData.Password,
                     PhoneNumber: registerData.PhoneNumber,
                   });
+              
                   if (resp.data.success) {
-                    ToastAndroid.show("Registration Successful", 2000);
+                    ToastAndroid.show("You're all set! Registration Successful!", 2000);
                   } else {
-                    ToastAndroid.show(
-                      "Registration Failed. Please Try Again",
-                      2000
-                    );
+                    Alert.alert("Oops! Something went wrong. Please try again later.");
+                    
                   }
                 } else {
-                  ToastAndroid.show("Please fill all fields correctly", 2000);
+                  Alert.alert("Please make sure all fields are filled out correctly.");
                 }
               } catch (e) {
                 console.log(e);
-                ToastAndroid.show("Network Error. Please Try Again", 2000);
+                 Alert.alert("Something went wrong!", "It seems we're having trouble connecting. Please try again later.");
               }
+              
             }}
           >
             <Text style={styles.login_2}>Sign up</Text>
@@ -260,7 +250,7 @@ type TestScreenProps = {
             <Text style={[styles.login_txt3]}>back to</Text>
             <TouchableOpacity
               onPress={() => {
-                // navigation.goBack();
+                navigation.goBack();
               }}
             >
               <Text style={[styles.login_txt4]}>Login</Text>

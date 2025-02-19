@@ -11,6 +11,8 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -138,7 +140,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                     StoryId: a,
                   });
                   if (resp.data.success) {
-                   const resp = await axios.post(
+                    const resp = await axios.post(
                       `${commanApi}/notification/create`,
                       {
                         SenderId: b,
@@ -147,7 +149,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                         NotificationType: "LIKE",
                       }
                     );
-                    console.log(resp.data.data)
+                    console.log(resp.data.data);
                     setLikeRed(true);
                   } else {
                     setLikeRed(false);
@@ -319,24 +321,37 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
               right={
                 <TextInput.Icon
                   onPress={async () => {
-                    const sid = await AsyncStorage.getItem("SId");
-                    let a = Number(sid);
-                    const id = await AsyncStorage.getItem("Id");
-                    let b = Number(id);
-                    const resp = await axios.post(
-                      `${commanApi}/comment/create`,
-                      {
-                        Comment: commentTxt,
-                        SenderId: b,
-                        StoryId: a,
+                    try {
+                      const sid = await AsyncStorage.getItem("SId");
+                      let a = Number(sid);
+                      const id = await AsyncStorage.getItem("Id");
+                      let b = Number(id);
+                      const resp = await axios.post(
+                        `${commanApi}/comment/create`,
+                        {
+                          Comment: commentTxt,
+                          SenderId: b,
+                          StoryId: a,
+                        }
+                      );
+
+                      if (resp.data.success) {
+                        ToastAndroid.show("Comment successfully posted!", 2000);
+                      } else {
+                        ToastAndroid.show(
+                          "Failed to post comment. Please try again.",
+                          2000
+                        );
                       }
-                    );
 
-                    resp.data.success === true
-                      ? console.log("send")
-                      : console.log("unsend");
-
-                    setCommentTxt("");
+                      setCommentTxt("");
+                    } catch (e) {
+                      console.log(e);
+                      Alert.alert(
+                        "Something went wrong!",
+                        "It seems we're having trouble connecting. Please try again later."
+                      );
+                    }
                   }}
                   icon={() => (
                     <Icon name="send" size={width * 0.06} color={theme.text} />

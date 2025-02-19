@@ -22,8 +22,8 @@ export const loadAuthor = async (id: any) => {
   return authorData.data.data.Name;
 };
 
-// export const commanApi = "http://192.168.1.82:4000/api";
-export const commanApi = 'http://localhost:4000/api'
+export const commanApi = "http://192.168.1.82:4000/api";
+// export const commanApi = 'http://localhost:4000/api'
 //http://192.168.1.82:4000
 
 export const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;

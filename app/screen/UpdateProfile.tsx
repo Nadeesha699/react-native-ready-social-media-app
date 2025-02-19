@@ -2,6 +2,7 @@ import { commanApi, StatusBars } from "@/app/components/components";
 import { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   ToastAndroid,
   TouchableOpacity,
 } from "react-native";
@@ -10,7 +11,7 @@ import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
@@ -116,6 +117,7 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                 try {
                   const id = await AsyncStorage.getItem("Id");
                   let ids = Number(id);
+
                   if (
                     emailError === false &&
                     passwordError === false &&
@@ -141,20 +143,25 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                         Bio: updateUser.Bio,
                       }
                     );
+
                     if (resp.data.success) {
-                      ToastAndroid.show("Update Successful", 2000);
-                    } else {
                       ToastAndroid.show(
-                        "Update Failed. Please Try Again",
+                        "Your profile has been updated successfully!",
                         2000
                       );
+                    } else {
+                      Alert.alert("Oops! Update failed. Please try again.");
                     }
                   } else {
-                    ToastAndroid.show("Please fill all fields correctly", 2000);
+                    Alert.alert(
+                      "Please fill out all fields correctly and completely."
+                    );
                   }
                 } catch (e) {
                   console.log(e);
-                  ToastAndroid.show("Network Error. Please Try Again", 2000);
+                  Alert.alert(
+                    "There was an error connecting. Please try again later."
+                  );
                 }
               }}
             >
@@ -184,33 +191,54 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                 source={
                   coverimageUri
                     ? { uri: coverimageUri }
-                    : require("@/assets/images/3d-fantasy-scene.jpg")
+                    : require("@/assets/images/nophoto.png")
                 }
               >
                 <View style={styles.profile_update_header_3}>
                   <TouchableOpacity
-                    onPress={() => {
-                      launchImageLibrary(
-                        { mediaType: "photo" },
-                        (response: any) => {
-                          if (response.assets) {
-                            setCoverImageUri(response.assets[0].uri);
-                            // Convert image to base64
-                            const uri = response.assets[0].uri;
-                            fetch(uri)
-                              .then((res) => res.blob())
-                              .then((blob) => {
-                                const reader = new FileReader();
-                                reader.onloadend = () => {
-                                  setCoverBase64Image(
-                                    (reader.result as string)?.split(",")[1]
-                                  );
-                                };
-                                reader.readAsDataURL(blob);
-                              });
-                          }
-                        }
-                      );
+                    onPress={async () => {
+                      const permissionResult =
+                        await ImagePicker.requestMediaLibraryPermissionsAsync();
+                      if (permissionResult.status !== "granted") {
+                        Alert.alert(
+                          "Permission Required",
+                          "You need to grant access to your gallery."
+                        );
+                        return;
+                      }
+
+                      const result = await ImagePicker.launchImageLibraryAsync({
+                        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                        // allowsEditing: true,
+                        base64: true,
+                        quality: 1,
+                      });
+
+                      if (!result.canceled) {
+                        setCoverImageUri(result.assets[0].uri);
+                        setCoverBase64Image(result.assets[0].base64 ?? null);
+                      }
+                      // launchImageLibrary(
+                      //   { mediaType: "photo" },
+                      //   (response: any) => {
+                      //     if (response.assets) {
+                      //       setCoverImageUri(response.assets[0].uri);
+                      //       // Convert image to base64
+                      //       const uri = response.assets[0].uri;
+                      //       fetch(uri)
+                      //         .then((res) => res.blob())
+                      //         .then((blob) => {
+                      //           const reader = new FileReader();
+                      //           reader.onloadend = () => {
+                      //             setCoverBase64Image(
+                      //               (reader.result as string)?.split(",")[1]
+                      //             );
+                      //           };
+                      //           reader.readAsDataURL(blob);
+                      //         });
+                      //     }
+                      //   }
+                      // );
                     }}
                   >
                     <Icon name="camera" color="white" size={width * 0.08} />
@@ -222,33 +250,53 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                   source={
                     profileimageUri
                       ? { uri: profileimageUri }
-                      : require("@/assets/images/40523.jpg")
+                      : require("@/assets/images/21666259.jpg")
                   }
                   style={styles.profile_update_image}
                 >
                   <TouchableOpacity
-                    onPress={() => {
-                      launchImageLibrary(
-                        { mediaType: "photo" },
-                        (response: any) => {
-                          if (response.assets) {
-                            setProfileImageUri(response.assets[0].uri);
-                            // Convert image to base64
-                            const uri = response.assets[0].uri;
-                            fetch(uri)
-                              .then((res) => res.blob())
-                              .then((blob) => {
-                                const reader = new FileReader();
-                                reader.onloadend = () => {
-                                  setProfileBase64Image(
-                                    (reader.result as string)?.split(",")[1]
-                                  );
-                                };
-                                reader.readAsDataURL(blob);
-                              });
-                          }
-                        }
-                      );
+                    onPress={async () => {
+                      const permissionResult =
+                        await ImagePicker.requestMediaLibraryPermissionsAsync();
+                      if (permissionResult.status !== "granted") {
+                        Alert.alert(
+                          "Permission Required",
+                          "You need to grant access to your gallery."
+                        );
+                        return;
+                      }
+
+                      const result = await ImagePicker.launchImageLibraryAsync({
+                        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                        // allowsEditing: true,
+                        base64: true,
+                        quality: 1,
+                      });
+                      if (!result.canceled) {
+                        setProfileImageUri(result.assets[0].uri);
+                        setProfileBase64Image(result.assets[0].base64 ?? null);
+                      }
+                      // launchImageLibrary(
+                      //   { mediaType: "photo" },
+                      //   (response: any) => {
+                      //     if (response.assets) {
+                      //       setProfileImageUri(response.assets[0].uri);
+                      //       // Convert image to base64
+                      //       const uri = response.assets[0].uri;
+                      //       fetch(uri)
+                      //         .then((res) => res.blob())
+                      //         .then((blob) => {
+                      //           const reader = new FileReader();
+                      //           reader.onloadend = () => {
+                      //             setProfileBase64Image(
+                      //               (reader.result as string)?.split(",")[1]
+                      //             );
+                      //           };
+                      //           reader.readAsDataURL(blob);
+                      //         });
+                      //     }
+                      //   }
+                      // );
                     }}
                   >
                     <Icon name="camera" color="white" size={width * 0.08} />
