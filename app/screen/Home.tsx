@@ -37,19 +37,6 @@ const { width, height } = Dimensions.get("window");
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [clickButtonColor, setClickButtonColor] = useState("all");
 
-  // const setLocalData = async (
-  //   authorId: any,
-  //   authorName: any,
-  //   storyName: any,
-  //   story: any,
-  //   image: any
-  // ) => {
-  //   await AsyncStorage.setItem("author_id", authorId);
-  //   await AsyncStorage.setItem("author_name", authorName);
-  //   await AsyncStorage.setItem("story_name", storyName);
-  //   await AsyncStorage.setItem("story", story);
-  //   await AsyncStorage.setItem("story_img", JSON.stringify(image));
-  // };
 
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
@@ -86,9 +73,9 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   return (
     <>
       <StatusBars />
-      {waiting ? (
+      {/* {waiting ? (
         <ActivityIndicators />
-      ) : (
+      ) : ( */}
         <View
           style={[styles.home_container, { backgroundColor: theme.background }]}
         >
@@ -129,7 +116,6 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
             >
               {userData.Name}
             </Text>
-            {/* <View style={styles.home_scroll_sub_view}> */}
             <ScrollView
               horizontal={true}
               contentContainerStyle={{
@@ -177,8 +163,13 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                 );
               })}
             </ScrollView>
-            {/* </View> */}
-            <View style={styles.home_category_view}>
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={{
+                flexGrow: 1,
+                gap: "5%",
+              }}
+            >
               <TouchableOpacity
                 style={[
                   styles.home_category_button,
@@ -214,15 +205,13 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+              </ScrollView>
           </View>
-          {/* <View style={styles.home_body}> */}
+          <View style={styles.home_body}>
           <ScrollView
             contentContainerStyle={{
-              flex: 1, // Allows the scroll view to take available space
-              justifyContent: "flex-start", // Aligns the content from the top
-              marginBottom: width * 0.02, // Ensures spacing between items (instead of gap)
-              width: "100%",
+              flexGrow: 1,
+              gap: "2%",
             }}
           >
             {storyData
@@ -297,11 +286,12 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                 );
               })}
           </ScrollView>
+          </View>
         </View>
-      )}
+      {/* )} */}
     </>
   );
 };
 
-
 export default Home;
+

@@ -4,7 +4,6 @@ const { width, height } = Dimensions.get("window");
 export const styles = StyleSheet.create({
   home_container: {
     flex: 1,
-    gap: "2%",
     paddingTop: "5%",
     paddingLeft: "5%",
   },
@@ -317,7 +316,6 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    overflowX: "scroll",
   },
   profile_hearder_1: {
     flex: 0.5,

@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Dimensions,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
 
@@ -115,7 +116,12 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
       ) : serverError ? (
         <ServerErrorView />
       ) : (
-        <View style={styles.search_body}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            gap: "1%",
+          }}
+        >
           {storyData
             .filter(
               (e) =>
@@ -160,7 +166,7 @@ const Search: React.FC<TestScreenProps> = ({ navigation }) => {
                 </TouchableOpacity>
               );
             })}
-        </View>
+        </ScrollView>
       )}
     </View>
   );

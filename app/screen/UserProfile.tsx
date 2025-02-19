@@ -235,7 +235,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                       const id = await AsyncStorage.getItem("Id");
                       let b = Number(id);
                       await AsyncStorage.setItem("CId", a.toString());
-                      await AsyncStorage.setItem("change","0");
+                      await AsyncStorage.setItem("change", "0");
                       await AsyncStorage.setItem("FId", b.toString());
                       navigation.navigate("Message");
                     }}
@@ -251,7 +251,19 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
         {noDataFound ? (
           <NoDataPostView />
         ) : (
-          <View style={styles.profile_body}>
+          <ScrollView
+            horizontal={true}
+            style={{
+              flex: 0.5,
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
             {storyData.map((e, Index) => {
               return (
                 <TouchableOpacity
@@ -281,7 +293,7 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                 </TouchableOpacity>
               );
             })}
-          </View>
+          </ScrollView>
         )}
       </View>
     </>

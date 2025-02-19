@@ -1,7 +1,4 @@
-import {
-  commanApi,
-  NoDataPostView,
-} from "@/app/components/components";
+import { commanApi, NoDataPostView } from "@/app/components/components";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, ImageBackground, Linking, ScrollView } from "react-native";
@@ -160,11 +157,25 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
         {noDataFound ? (
           <NoDataPostView />
         ) : (
-          <View style={styles.profile_body}>
+          <ScrollView
+            horizontal={true}
+            style={{
+              flex: 0.5,
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
             {storyData.map((e, Index) => {
               return (
                 <TouchableOpacity
-                  style={styles.profile_story_card}
+                  style={[
+                    styles.profile_story_card
+                  ]}
                   key={Index}
                   onPress={async () => {
                     try {
@@ -190,7 +201,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
                 </TouchableOpacity>
               );
             })}
-          </View>
+          </ScrollView>
         )}
       </View>
     </>
