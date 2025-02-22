@@ -6,8 +6,6 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-const { width} = Dimensions.get("window");
-
 import { NavigationProp } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -29,36 +27,38 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
+const { width } = Dimensions.get("window");
+
 const Search: React.FC<TestScreenProps> = ({ navigation }) => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
-
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
   const [storyData, setStoryData] = useState(storyJson);
   const [waiting, setWaiting] = useState(true);
   const [noDataFound, setNoDataFound] = useState(false);
   const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const resp = await axios.get(`${commanApi}/story/get-all`);
-        if (resp.data.data.length !== 0) {
-          setStoryData(resp.data.data);
-          setWaiting(false);
-        } else {
-          setNoDataFound(true);
-          setWaiting(false);
-        }
-      } catch (e) {
-        setServerError(true);
-        setWaiting(false);
-      }
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    try {
+      const resp = await axios.get(`${commanApi}/story/get-all`);
+      if (resp.data.data.length !== 0) {
+        setStoryData(resp.data.data);
+        setWaiting(false);
+      } else {
+        setNoDataFound(true);
+        setWaiting(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setServerError(true);
+      setWaiting(false);
+    }
+  };
 
   return (
     <View

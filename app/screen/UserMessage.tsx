@@ -10,9 +10,6 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-const { width, height } = Dimensions.get("window");
-
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -26,47 +23,45 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
+const { width } = Dimensions.get("window");
+
 const UserMessages: React.FC<TestScreenProps> = ({ navigation }) => {
   const scrollViewRef = useRef<ScrollView | null>(null);
-
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
   const [messageTxt, setMessageTxt] = useState("");
   const [messageDatas, setMessageData] = useState(messageJson);
   const [messageName, setMessageName] = useState("");
   const [chatId, setChatId] = useState(0);
-  const [userId,setUserId] = useState(0)
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
-
-    const loadData = async () => {
-      const id = await AsyncStorage.getItem("Id");
-        let ids = Number(id);
-setUserId(ids)
-      const cid = await AsyncStorage.getItem("CId");
-      const fid = await AsyncStorage.getItem("FId");
-      const resp = await axios.get(
-        `${commanApi}/messages/verifyConversation/${cid}/${fid}`
-      );
-
-      const change = await AsyncStorage.getItem("change");
-      setMessageData(resp.data.data);
-      if (change === "0") {
-        setMessageName(resp.data.data[0].Participant.Name);
-      } else if (change === "1") {
-        resp.data.data[0].Creator.Id === cid
-          ? setMessageName(resp.data.data[0].Participant.Name)
-          : setMessageName(resp.data.data[0].Creator.Name);
-      }
-
-      setChatId(resp.data.data[0].Id);
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const id = await AsyncStorage.getItem("Id");
+    let ids = Number(id);
+    setUserId(ids);
+    const cid = await AsyncStorage.getItem("CId");
+    const fid = await AsyncStorage.getItem("FId");
+    const resp = await axios.get(
+      `${commanApi}/messages/verifyConversation/${cid}/${fid}`
+    );
+    const change = await AsyncStorage.getItem("change");
+    setMessageData(resp.data.data);
+    if (change === "0") {
+      setMessageName(resp.data.data[0].Participant.Name);
+    } else if (change === "1") {
+      resp.data.data[0].Creator.Id === cid
+        ? setMessageName(resp.data.data[0].Participant.Name)
+        : setMessageName(resp.data.data[0].Creator.Name);
+    }
+    setChatId(resp.data.data[0].Id);
+  };
 
   const formatTime = (time: any) => {
     const date = new Date(time);
@@ -104,16 +99,22 @@ setUserId(ids)
                 key={index}
                 style={[
                   styles.message_body_1,
-                  { alignItems: e1.UserId === userId ? "flex-end" : "flex-start" },
+                  {
+                    alignItems:
+                      e1.UserId === userId ? "flex-end" : "flex-start",
+                  },
                 ]}
               >
                 <View
                   style={[
                     styles.message_card,
                     {
-                      backgroundColor: e1.UserId === userId ? "#d7d7d7" : "#b9d7ff",
-                      borderTopLeftRadius: e1.UserId === userId ? width * 0.02 : 0,
-                      borderTopRightRadius: e1.UserId === userId ? 0 : width * 0.02,
+                      backgroundColor:
+                        e1.UserId === userId ? "#d7d7d7" : "#b9d7ff",
+                      borderTopLeftRadius:
+                        e1.UserId === userId ? width * 0.02 : 0,
+                      borderTopRightRadius:
+                        e1.UserId === userId ? 0 : width * 0.02,
                       marginLeft: e1.UserId === userId ? width * 0.02 : 0,
                       marginRight: e1.UserId === userId ? 0 : width * 0.02,
                     },

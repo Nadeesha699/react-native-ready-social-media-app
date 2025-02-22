@@ -15,8 +15,11 @@ import {
   BackHandler,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { DrawerActions, NavigationProp, useFocusEffect } from "@react-navigation/native";
+import {
+  DrawerActions,
+  NavigationProp,
+  useFocusEffect,
+} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { lightTheme, darkTheme } from "../Theme/theme";
@@ -29,24 +32,19 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const { width} = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [clickButtonColor, setClickButtonColor] = useState("all");
-
-
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
   const [storyData, setStoryData] = useState(storyJson);
-
   const [userData, setuserData] = useState({
     Name: "",
     Email: "",
     Password: "",
     PhoneNumber: "",
   });
-
   const [waiting, setWaiting] = useState(true);
 
   useFocusEffect(
@@ -61,14 +59,14 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
           {
             text: "YES",
             onPress: async () => {
-              await AsyncStorage.removeItem('logged'); 
+              await AsyncStorage.removeItem("logged");
               navigation.navigate("Login");
             },
           },
         ]);
         return true;
       };
-  
+
       const backHandler = BackHandler.addEventListener(
         "hardwareBackPress",
         backAction
@@ -76,25 +74,23 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
       return () => backHandler.remove();
     }, [navigation])
   );
-  
-  
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const id = await AsyncStorage.getItem("Id");
-        let ids = Number(id);
-        const resp = await axios.get(`${commanApi}/story/get-all`);
-        const resp1 = await axios.get(`${commanApi}/user/get-All/${ids}`);
-        setuserData(resp1.data.data[0]);
-        resp.data.data[0] ? setWaiting(false) : setWaiting(true);
-        setStoryData(resp.data.data);
-      } catch (e) {
-        setWaiting(true);
-      }
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    try {
+      const id = await AsyncStorage.getItem("Id");
+      const resp = await axios.get(`${commanApi}/story/get-all`);
+      const resp1 = await axios.get(`${commanApi}/user/get-All/${id}`);
+      setuserData(resp1.data.data[0]);
+      resp.data.data[0] ? setWaiting(false) : setWaiting(true);
+      setStoryData(resp.data.data);
+    } catch (e) {
+      setWaiting(true);
+    }
+  };
 
   return (
     <>
@@ -230,87 +226,87 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>
                 );
               })}
-              </ScrollView>
+            </ScrollView>
           </View>
           <View style={styles.home_body}>
-          <ScrollView
-            contentContainerStyle={{
-              flexGrow: 1,
-              gap: "2%",
-            }}
-          >
-            {storyData
-              .filter((e) =>
-                clickButtonColor.toLowerCase() !== "all"
-                  ? e.Category.toLowerCase().includes(
-                      clickButtonColor.toLowerCase()
-                    )
-                  : true
-              )
-              .map((e, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.home_con6}
-                    onPress={async () => {
-                      try {
-                        await AsyncStorage.setItem("SId", e.Id.toString());
-                        await AsyncStorage.setItem(
-                          "AId",
-                          e.AuthorId.toString()
-                        );
-                        navigation.navigate("Story");
-                      } catch (error) {
-                        console.error("Error saving to AsyncStorage:", error);
-                      }
-                    }}
-                  >
-                    <ImageBackground
-                      source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
-                      style={styles.home_img3}
-                    />
-                    <View style={styles.home_con10}>
-                      <Text
-                        style={[styles.home_txt_7, { color: theme.text }]}
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                      >
-                        {e.Tittle}
-                      </Text>
-                      <Text
-                        style={styles.home_txt_8}
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                      >
-                        {e.User.Name}
-                      </Text>
-                      <View style={styles.home_con8}>
-                        <View style={styles.home_con9}>
-                          <Icon
-                            name={"thumb-up-outline"}
-                            size={width * 0.04}
-                            color={theme.text}
-                          />
-                          <Text style={{ color: theme.text }}>
-                            {e.LikeCount}
-                          </Text>
-                        </View>
-                        <View style={styles.home_con9}>
-                          <Icon
-                            name={"comment-outline"}
-                            size={width * 0.04}
-                            color={theme.text}
-                          />
-                          <Text style={{ color: theme.text }}>
-                            {e.CommentCount}
-                          </Text>
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                gap: "2%",
+              }}
+            >
+              {storyData
+                .filter((e) =>
+                  clickButtonColor.toLowerCase() !== "all"
+                    ? e.Category.toLowerCase().includes(
+                        clickButtonColor.toLowerCase()
+                      )
+                    : true
+                )
+                .map((e, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.home_con6}
+                      onPress={async () => {
+                        try {
+                          await AsyncStorage.setItem("SId", e.Id.toString());
+                          await AsyncStorage.setItem(
+                            "AId",
+                            e.AuthorId.toString()
+                          );
+                          navigation.navigate("Story");
+                        } catch (error) {
+                          console.error("Error saving to AsyncStorage:", error);
+                        }
+                      }}
+                    >
+                      <ImageBackground
+                        source={{ uri: `data:image/jpeg;base64,${e.Image}` }}
+                        style={styles.home_img3}
+                      />
+                      <View style={styles.home_con10}>
+                        <Text
+                          style={[styles.home_txt_7, { color: theme.text }]}
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                        >
+                          {e.Tittle}
+                        </Text>
+                        <Text
+                          style={styles.home_txt_8}
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                        >
+                          {e.User.Name}
+                        </Text>
+                        <View style={styles.home_con8}>
+                          <View style={styles.home_con9}>
+                            <Icon
+                              name={"thumb-up-outline"}
+                              size={width * 0.04}
+                              color={theme.text}
+                            />
+                            <Text style={{ color: theme.text }}>
+                              {e.LikeCount}
+                            </Text>
+                          </View>
+                          <View style={styles.home_con9}>
+                            <Icon
+                              name={"comment-outline"}
+                              size={width * 0.04}
+                              color={theme.text}
+                            />
+                            <Text style={{ color: theme.text }}>
+                              {e.CommentCount}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-          </ScrollView>
+                    </TouchableOpacity>
+                  );
+                })}
+            </ScrollView>
           </View>
         </View>
       )}
@@ -319,4 +315,3 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
 };
 
 export default Home;
-

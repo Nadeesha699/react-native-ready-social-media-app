@@ -44,29 +44,30 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
   const [ccid, setCCId] = useState(0);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const id = await AsyncStorage.getItem("Id");
-        let ids = Number(id);
-        setCCId(ids);
-        const resp = await axios.get(
-          `${commanApi}/messages/get-all-converstion/${ids}`
-        );
-        if (resp.data.data.length !== 0) {
-          setChatListData(resp.data.data);
-          setWaiting(false);
-        } else {
-          setNoDataFound(true);
-          setWaiting(false);
-        }
-      } catch (e) {
-        console.log(e);
-        setWaiting(false);
-        setServerError(true);
-      }
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    try {
+      const id = await AsyncStorage.getItem("Id");
+      let ids = Number(id);
+      setCCId(ids);
+      const resp = await axios.get(
+        `${commanApi}/messages/get-all-converstion/${ids}`
+      );
+      if (resp.data.data.length !== 0) {
+        setChatListData(resp.data.data);
+        setWaiting(false);
+      } else {
+        setNoDataFound(true);
+        setWaiting(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setWaiting(false);
+      setServerError(true);
+    }
+  };
 
   return (
     <View

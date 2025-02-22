@@ -10,14 +10,16 @@ const Index = () => {
   const [logged, setLogged] = useState<string | null>(null);
   const [newComer, setNewComer] = useState<string | null>(null);
   useEffect(() => {
-    const loadData = async () => {
-      let a = await AsyncStorage.getItem("logged");
-      let b = await AsyncStorage.getItem("newComer");
-      setLogged(a);
-      setNewComer(b);
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    let a = await AsyncStorage.getItem("logged");
+    let b = await AsyncStorage.getItem("newComer");
+    setLogged(a);
+    setNewComer(b);
+  };
+
   return (
     <>
       <ThemeProvider>

@@ -59,30 +59,29 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [waiting, setWaiting] = useState(true);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const id = await AsyncStorage.getItem("Id");
-        let ids = Number(id);
-        const user = await axios.get(`${commanApi}/user/get-All/${ids}`);
-        user.data.data[0].length !== 0 ? setWaiting(false) : setWaiting(true);
-        if (user.data.data[0].length !== 0) {
-          setUpdateUser((prev) => ({
-            ...prev,
-            Name: user.data.data[0].Name,
-            Email: user.data.data[0].Email,
-            PhoneNumber: user.data.data[0].PhoneNumber,
-            ProfileImage: user.data.data[0].ProfileImage,
-            CoverImage: user.data.data[0].CoverImage,
-            Bio: user.data.data[0].Bio,
-          }));
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
     loadData();
   }, []);
+
+  const loadData = async () => {
+    try {
+      const id = await AsyncStorage.getItem("Id");
+      const user = await axios.get(`${commanApi}/user/get-All/${id}`);
+      user.data.data[0].length !== 0 ? setWaiting(false) : setWaiting(true);
+      if (user.data.data[0].length !== 0) {
+        setUpdateUser((prev) => ({
+          ...prev,
+          Name: user.data.data[0].Name,
+          Email: user.data.data[0].Email,
+          PhoneNumber: user.data.data[0].PhoneNumber,
+          ProfileImage: user.data.data[0].ProfileImage,
+          CoverImage: user.data.data[0].CoverImage,
+          Bio: user.data.data[0].Bio,
+        }));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <>
@@ -209,7 +208,6 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
 
                       const result = await ImagePicker.launchImageLibraryAsync({
                         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                        // allowsEditing: true,
                         base64: true,
                         quality: 1,
                       });

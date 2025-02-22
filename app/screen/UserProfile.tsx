@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import {  ImageBackground, ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import storyJson from "../Json/storyJson.json";
-
 import { NavigationProp } from "@react-navigation/native";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,7 +18,6 @@ type TestScreenProps = {
 const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
   const [profileData, setProfilData] = useState({
     Name: "",
     Email: "",
@@ -38,60 +36,61 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
   const [followButtonShow, setFollowButtonShow] = useState(true);
 
   useEffect(() => {
-    const loadData = async () => {
-      const aid = await AsyncStorage.getItem("AId");
-      const id = await AsyncStorage.getItem("Id");
-      const resp1 = await axios.get(
-        `${commanApi}/story/get-all/by-user-id/${aid}`
-      );
-      resp1.data.data.length
-        ? setStoryData(resp1.data.data)
-        : setNoDataFound(true);
-      setStoryCount(storyData.length);
-
-      const resp2 = await axios.get(
-        `${commanApi}/follower/following-count/${aid}`
-      );
-      const resp3 = await axios.get(
-        `${commanApi}/follower/follower-count/${aid}`
-      );
-      setFollowingCount(resp2.data.data);
-      setFollowerCount(resp3.data.data);
-
-      const resp = await axios.get(`${commanApi}/user/get-All/${aid}`);
-      if (resp.data.data[0].length !== 0) {
-        setProfilData((prev) => ({
-          ...prev,
-          Name: resp.data.data[0].Name,
-          Email: resp.data.data[0].Email,
-          PhoneNumber: resp.data.data[0].PhoneNumber,
-          Bio: resp.data.data[0].Bio,
-          ProfileImage: resp.data.data[0].ProfileImage,
-          CoverImage: resp.data.data[0].CoverImage,
-        }));
-      }
-
-      const resp4 = await axios.get(
-        `${commanApi}/follower/verify-follower/${id}/${aid}`
-      );
-      if (resp4.data.data[0]) {
-        setFollowData(resp4.data.data[0]);
-        if (resp4.data.data[0].FriendStatus) {
-          setFollowStatus("FRIEND");
-        } else {
-          if (resp4.data.data[0].UserId === Number(id)) {
-            setFollowStatus("FOLLOWING");
-          } else {
-            setFollowStatus("FOLLOW BACK");
-          }
-        }
-      } else {
-        setFollowStatus("FOLLOW");
-      }
-      id === aid ? setFollowButtonShow(true) : setFollowButtonShow(false);
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const aid = await AsyncStorage.getItem("AId");
+    const id = await AsyncStorage.getItem("Id");
+    const resp1 = await axios.get(
+      `${commanApi}/story/get-all/by-user-id/${aid}`
+    );
+    resp1.data.data.length
+      ? setStoryData(resp1.data.data)
+      : setNoDataFound(true);
+    setStoryCount(storyData.length);
+
+    const resp2 = await axios.get(
+      `${commanApi}/follower/following-count/${aid}`
+    );
+    const resp3 = await axios.get(
+      `${commanApi}/follower/follower-count/${aid}`
+    );
+    setFollowingCount(resp2.data.data);
+    setFollowerCount(resp3.data.data);
+
+    const resp = await axios.get(`${commanApi}/user/get-All/${aid}`);
+    if (resp.data.data[0].length !== 0) {
+      setProfilData((prev) => ({
+        ...prev,
+        Name: resp.data.data[0].Name,
+        Email: resp.data.data[0].Email,
+        PhoneNumber: resp.data.data[0].PhoneNumber,
+        Bio: resp.data.data[0].Bio,
+        ProfileImage: resp.data.data[0].ProfileImage,
+        CoverImage: resp.data.data[0].CoverImage,
+      }));
+    }
+
+    const resp4 = await axios.get(
+      `${commanApi}/follower/verify-follower/${id}/${aid}`
+    );
+    if (resp4.data.data[0]) {
+      setFollowData(resp4.data.data[0]);
+      if (resp4.data.data[0].FriendStatus) {
+        setFollowStatus("FRIEND");
+      } else {
+        if (resp4.data.data[0].UserId === Number(id)) {
+          setFollowStatus("FOLLOWING");
+        } else {
+          setFollowStatus("FOLLOW BACK");
+        }
+      }
+    } else {
+      setFollowStatus("FOLLOW");
+    }
+    id === aid ? setFollowButtonShow(true) : setFollowButtonShow(false);
+  };
 
   return (
     <>

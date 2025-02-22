@@ -31,11 +31,10 @@ const Notifications = () => {
     const loadData = async () => {
       try {
         const id = await AsyncStorage.getItem("Id");
-
         const resp = await axios.get(
           `${commanApi}/notification/all/by-id/${id}`
         );
-        console.log(resp.data.data)
+        console.log(resp.data.data);
         if (resp.data.data.length !== 0) {
           setNotificationData(resp.data.data);
           setWaiting(false);
@@ -79,9 +78,13 @@ const Notifications = () => {
             return (
               <TouchableOpacity key={index} style={styles.notification_card}>
                 <ImageBackground
-                  source={e.User.ProfileImage?{
-                    uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
-                  }:require("@/assets/images/21666259.jpg")}
+                  source={
+                    e.User.ProfileImage
+                      ? {
+                          uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
+                        }
+                      : require("@/assets/images/21666259.jpg")
+                  }
                   style={styles.notification_img_1}
                 />
                 <View style={styles.notification_view_1}>

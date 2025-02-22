@@ -31,39 +31,40 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
   const shareUrl = "https://example.com";
 
   useEffect(() => {
-    const loadData = async () => {
-      const id = await AsyncStorage.getItem("Id");
-      let ids = Number(id);
-      const resp1 = await axios.get(
-        `${commanApi}/story/get-all/by-user-id/${ids}`
-      );
-      const resp2 = await axios.get(
-        `${commanApi}/follower/following-count/${ids}`
-      );
-      const resp3 = await axios.get(
-        `${commanApi}/follower/follower-count/${ids}`
-      );
-      const resp = await axios.get(`${commanApi}/user/get-All/${ids}`);
-      resp1.data.data.length !== 0
-        ? setStoryData(resp1.data.data)
-        : setNoDataFound(true);
-      setStoryCount(storyData.length);
-      setFollowingCount(resp2.data.data);
-      setFollowerCount(resp3.data.data);
-      if (resp.data.data[0].length !== 0) {
-        setProfilData((prev) => ({
-          ...prev,
-          Name: resp.data.data[0].Name,
-          Email: resp.data.data[0].Email,
-          PhoneNumber: resp.data.data[0].PhoneNumber,
-          Bio: resp.data.data[0].Bio,
-          ProfileImage: resp.data.data[0].ProfileImage,
-          CoverImage: resp.data.data[0].CoverImage,
-        }));
-      }
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const id = await AsyncStorage.getItem("Id");
+    const resp1 = await axios.get(
+      `${commanApi}/story/get-all/by-user-id/${id}`
+    );
+    const resp2 = await axios.get(
+      `${commanApi}/follower/following-count/${id}`
+    );
+    const resp3 = await axios.get(
+      `${commanApi}/follower/follower-count/${id}`
+    );
+    const resp = await axios.get(`${commanApi}/user/get-All/${id}`);
+    resp1.data.data.length !== 0
+      ? setStoryData(resp1.data.data)
+      : setNoDataFound(true);
+    setStoryCount(storyData.length);
+    setFollowingCount(resp2.data.data);
+    setFollowerCount(resp3.data.data);
+    if (resp.data.data[0].length !== 0) {
+      setProfilData((prev) => ({
+        ...prev,
+        Name: resp.data.data[0].Name,
+        Email: resp.data.data[0].Email,
+        PhoneNumber: resp.data.data[0].PhoneNumber,
+        Bio: resp.data.data[0].Bio,
+        ProfileImage: resp.data.data[0].ProfileImage,
+        CoverImage: resp.data.data[0].CoverImage,
+      }));
+    }
+  };
+
   return (
     <>
       <View
@@ -164,7 +165,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               flexWrap: "wrap",
             }}
             contentContainerStyle={{
-             flexGrow:1,
+              flexGrow: 1,
               justifyContent: "flex-start",
               alignItems: "flex-start",
             }}
@@ -172,9 +173,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
             {storyData.map((e, Index) => {
               return (
                 <TouchableOpacity
-                  style={[
-                    styles.profile_story_card
-                  ]}
+                  style={[styles.profile_story_card]}
                   key={Index}
                   onPress={async () => {
                     try {

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useContext,useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,
@@ -15,9 +15,6 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-const { width } = Dimensions.get("window");
-
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -32,13 +29,14 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
+const { width } = Dimensions.get("window");
+
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [likeRed, setLikeRed] = useState(false);
   const [closeComment, setCloseComment] = useState(false);
   const scrollViewRef = useRef<ScrollView | null>(null);
-
   const [commentData, setCommentData] = useState(commentJson);
   const [storyData, setStoryData] = useState(storySingleJson);
   const [followData, setFollowData] = useState(followJson);
@@ -50,41 +48,40 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
-    const loadData = async () => {
-      const sid = await AsyncStorage.getItem("SId");
-      const aid = await AsyncStorage.getItem("AId");
-
-      const id = await AsyncStorage.getItem("Id");
-
-      const resp3 = await axios.get(`${commanApi}/story/get-all/by-id/${sid}`);
-
-      setStoryData(resp3.data.data);
-      const resp = await axios.get(`${commanApi}/comment/all/by-id/${sid}`);
-      resp.data.data.length !== 0 ? setCommentData(resp.data.data) : setNoDataFound(true);
-      const resp4 = await axios.get(
-        `${commanApi}/follower/verify-follower/${id}/${aid}`
-      );
-      if (resp4.data.data[0]) {
-        setFollowData(resp4.data.data[0]);
-        if (resp4.data.data[0].FriendStatus) {
-          setFollowStatus("FRIEND");
-        } else {
-          if (resp4.data.data[0].UserId === Number(id)) {
-            setFollowStatus("FOLLOWING");
-          } else {
-            setFollowStatus("FOLLOW BACK");
-          }
-        }
-      } else {
-        setFollowStatus("FOLLOW");
-      }
-      const resp2 = await axios.get(`${commanApi}/like/verify/${sid}/${id}`);
-      resp2.data.success ? setLikeRed(true) : setLikeRed(false);
-      id === aid ? setFollowButtonShow(true) : setFollowButtonShow(false);
-    };
-
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const sid = await AsyncStorage.getItem("SId");
+    const aid = await AsyncStorage.getItem("AId");
+    const id = await AsyncStorage.getItem("Id");
+    const resp3 = await axios.get(`${commanApi}/story/get-all/by-id/${sid}`);
+    setStoryData(resp3.data.data);
+    const resp = await axios.get(`${commanApi}/comment/all/by-id/${sid}`);
+    resp.data.data.length !== 0
+      ? setCommentData(resp.data.data)
+      : setNoDataFound(true);
+    const resp4 = await axios.get(
+      `${commanApi}/follower/verify-follower/${id}/${aid}`
+    );
+    if (resp4.data.data[0]) {
+      setFollowData(resp4.data.data[0]);
+      if (resp4.data.data[0].FriendStatus) {
+        setFollowStatus("FRIEND");
+      } else {
+        if (resp4.data.data[0].UserId === Number(id)) {
+          setFollowStatus("FOLLOWING");
+        } else {
+          setFollowStatus("FOLLOW BACK");
+        }
+      }
+    } else {
+      setFollowStatus("FOLLOW");
+    }
+    const resp2 = await axios.get(`${commanApi}/like/verify/${sid}/${id}`);
+    resp2.data.success ? setLikeRed(true) : setLikeRed(false);
+    id === aid ? setFollowButtonShow(true) : setFollowButtonShow(false);
+  };
 
   const timeFormat = (time: any) => {
     const date = new Date(time);
@@ -252,10 +249,10 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View
             style={{
               flex: 0.5,
-              backgroundColor:theme.background,
-              display:"flex",
-              flexDirection:"column",
-              justifyContent:"space-between"
+              backgroundColor: theme.background,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
             <View

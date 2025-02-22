@@ -1,30 +1,23 @@
 import React, { useContext, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
 import { router } from "expo-router";
-
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 
 type TestScreenProps = {
-  navigation: NavigationProp<any>; 
+  navigation: NavigationProp<any>;
 };
 
-const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
-      const { isDarkMode } = useContext(ThemeContext);
-      const theme = isDarkMode ? darkTheme : lightTheme;
-      
+const IntroTwo: React.FC<TestScreenProps> = ({ navigation }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
   const translateYValue = useSharedValue(-400);
 
   useEffect(() => {
@@ -36,13 +29,17 @@ const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
   }));
 
   return (
-    <View style={[styles.intro_container,{backgroundColor:theme.background}]}>
+    <View
+      style={[styles.intro_container, { backgroundColor: theme.background }]}
+    >
       <Animated.View style={[styles.intro_header, animatedStyle]}>
         <Image
           source={require("@/assets/images/4977116.jpg")}
           style={styles.img_intro}
         />
-        <Text style={[styles.txt_1,{color:theme.text}]}>Read all in one 🏷️</Text>
+        <Text style={[styles.txt_1, { color: theme.text }]}>
+          Read all in one 🏷️
+        </Text>
         <Text style={styles.txt_2}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, fuga
           deleniti temporibus consequatur dolore excepturi illum! Veniam,
@@ -66,7 +63,7 @@ const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('IntroThree')
+            navigation.navigate("IntroThree");
           }}
           style={styles.btn_2}
         >
@@ -75,7 +72,6 @@ const IntroTwo: React.FC<TestScreenProps> = ({navigation})  =>{
       </View>
     </View>
   );
-}
-
+};
 
 export default IntroTwo;

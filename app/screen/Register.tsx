@@ -1,4 +1,4 @@
-import { commanApi,StatusBars } from "@/app/components/components";
+import { commanApi, StatusBars } from "@/app/components/components";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
@@ -13,9 +13,6 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-const { width } = Dimensions.get("window");
-
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
@@ -36,6 +33,8 @@ import {
 type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
+
+const { width } = Dimensions.get("window");
 
 const Register: React.FC<TestScreenProps> = ({ navigation }) => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -84,7 +83,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             flexGrow: 1,
             justifyContent: "space-evenly",
             alignItems: "center",
-            gap:"2%"
+            gap: "2%",
           }}
         >
           <TextInput
@@ -227,21 +226,29 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
                     Password: registerData.Password,
                     PhoneNumber: registerData.PhoneNumber,
                   });
-              
+
                   if (resp.data.success) {
-                    ToastAndroid.show("You're all set! Registration Successful!", 2000);
+                    ToastAndroid.show(
+                      "You're all set! Registration Successful!",
+                      2000
+                    );
                   } else {
-                    Alert.alert("Oops! Something went wrong. Please try again later.");
-                    
+                    Alert.alert(
+                      "Oops! Something went wrong. Please try again later."
+                    );
                   }
                 } else {
-                  Alert.alert("Please make sure all fields are filled out correctly.");
+                  Alert.alert(
+                    "Please make sure all fields are filled out correctly."
+                  );
                 }
               } catch (e) {
                 console.log(e);
-                 Alert.alert("Something went wrong!", "It seems we're having trouble connecting. Please try again later.");
+                Alert.alert(
+                  "Something went wrong!",
+                  "It seems we're having trouble connecting. Please try again later."
+                );
               }
-              
             }}
           >
             <Text style={styles.login_2}>Sign up</Text>

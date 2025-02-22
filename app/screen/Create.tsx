@@ -34,17 +34,17 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [uid, setUid] = useState(0);
-
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
-    const loadData = async () => {
-      const id = await AsyncStorage.getItem("Id");
-      setUid(parseInt(id ?? "0"));
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const id = await AsyncStorage.getItem("Id");
+    setUid(parseInt(id ?? "0"));
+  };
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,13 +52,11 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
       Alert.alert("Permission Required", "You need to grant access to your gallery.");
       return;
     }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       base64: true,
       quality: 1,
     });
-
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
       setBase64Image(result.assets[0].base64?? null);
