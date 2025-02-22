@@ -46,8 +46,6 @@ const HomeDrawer = () => {
           drawerIcon: ({ color, size }) => (
             <Icon name="cog-outline" color={color} size={size} />
           ),
-          // headerTitleStyle: { fontWeight: "bold" },
-          // headerTitleAlign: "center",
         }}
       />
       <Drawer.Screen
@@ -61,8 +59,7 @@ const HomeDrawer = () => {
         }}
         listeners={({ navigation }) => ({
           focus: async () => {
-            await AsyncStorage.removeItem('logged');  // old comer came
-            // await AsyncStorage.clear();            // new comwer came
+            await AsyncStorage.removeItem('logged'); 
             navigation.reset({
               index: 0,
               routes: [{ name: "Login" }],

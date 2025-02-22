@@ -94,6 +94,7 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
                   Category: selectCategory,
                   AuthorId: uid,
                 });
+                
 
                 if (resp.data.success) {
                   ToastAndroid.show("Your story has been uploaded successfully!", ToastAndroid.LONG);

@@ -84,6 +84,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             flexGrow: 1,
             justifyContent: "space-evenly",
             alignItems: "center",
+            gap:"2%"
           }}
         >
           {/* <Animated.View style={[styles.sign_body, animatedStyle1]}> */}

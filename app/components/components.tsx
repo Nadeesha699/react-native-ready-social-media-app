@@ -22,9 +22,8 @@ export const loadAuthor = async (id: any) => {
   return authorData.data.data.Name;
 };
 
-// export const commanApi = "http://192.168.1.82:4000/api";
-export const commanApi = 'http://localhost:4000/api'
-//http://192.168.1.82:4000
+export const commanApi = "http://192.168.1.82:4000/api";
+// export const commanApi = 'http://localhost:4000/api'
 
 export const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
 export const nameRegex = /^[a-zA-Z\s]+$/;
@@ -53,8 +52,8 @@ export const ServerErrorView = () => {
         alignItems: "center",
       }}
     >
-      <Icon name="flash-alert" color={"red"} size={100} />
-      <Text style={{ color: "red", fontSize: 10 }}>
+      <Icon name="flash-alert" color={"red"} size={50} />
+      <Text style={{ color: "red", fontSize: 15 }}>
         Oops! Internal server error
       </Text>
     </View>
@@ -73,9 +72,9 @@ export const NoDataNotificationView = () => {
         alignItems: "center",
       }}
     >
-      <Icon name="bell-off-outline" color={theme.text} size={100} />
-      <Text style={{ color: theme.text, fontSize: 10 }}>
-        No notifications found
+      <Icon name="bell-off-outline" color={theme.text} size={50} />
+      <Text style={{ color: theme.text, fontSize: 15 }}>
+        No notifications available
       </Text>
     </View>
   );
@@ -93,9 +92,9 @@ export const NoDataChatView = () => {
         alignItems: "center",
       }}
     >
-      <Icon name="message-off-outline" color={theme.text} size={100} />
-      <Text style={{ color: theme.text, fontSize: 10 }}>
-        No Message found
+      <Icon name="chat-off-outline" color={theme.text} size={50} />
+      <Text style={{ color: theme.text, fontSize: 15 }}>
+        No messages available
       </Text>
     </View>
   );
@@ -113,9 +112,9 @@ export const NoDataCommentView = () => {
         alignItems: "center",
       }}
     >
-      <Icon name="comment-off-outline" color={theme.text} size={100} />
-      <Text style={{ color: theme.text, fontSize: 10 }}>
-        No Message found
+      <Icon name="comment-off-outline" color={theme.text} size={50} />
+      <Text style={{ color: theme.text, fontSize: 15 }}>
+        No comments available
       </Text>
     </View>
   );
@@ -133,9 +132,9 @@ export const NoDataPostView = () => {
         alignItems: "center",
       }}
     >
-      <Icon name="note-off-outline" color={theme.text} size={100} />
-      <Text style={{ color: theme.text, fontSize: 10 }}>
-        No Story found
+      <Icon name="file-document-outline" color={theme.text} size={50} />
+      <Text style={{ color: theme.text, fontSize: 15 }}>
+        No posts available
       </Text>
     </View>
   );

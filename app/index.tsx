@@ -22,7 +22,6 @@ const Index = () => {
     <>
       <ThemeProvider>
         <StatusBars />
-        {/* <ImageTest/> */}
         {logged === "1" ? (
           <LoggedRootStack />
         ) : newComer !== "1" ? (

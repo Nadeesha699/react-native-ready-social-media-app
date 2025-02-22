@@ -165,7 +165,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
               flexWrap: "wrap",
             }}
             contentContainerStyle={{
-              flexGrow: 1,
+             flexGrow:1,
               justifyContent: "flex-start",
               alignItems: "flex-start",
             }}

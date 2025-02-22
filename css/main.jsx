@@ -308,7 +308,7 @@ export const styles = StyleSheet.create({
   },
 
   profile_hearder: {
-    flex: 0.5,
+    flex: 1,
   },
   profile_body: {
     flex: 0.5,

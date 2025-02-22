@@ -16,10 +16,12 @@ import {
   Dimensions,
   ActivityIndicator,
   ToastAndroid,
+  Alert,
+  BackHandler,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { DrawerActions, NavigationProp } from "@react-navigation/native";
+import { DrawerActions, NavigationProp, useFocusEffect } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { lightTheme, darkTheme } from "../Theme/theme";
@@ -52,6 +54,36 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
 
   const [waiting, setWaiting] = useState(true);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert("Logout", "Are you sure you want to log out?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          {
+            text: "YES",
+            onPress: async () => {
+              await AsyncStorage.removeItem('logged'); 
+              navigation.navigate("Login");
+            },
+          },
+        ]);
+        return true;
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+      return () => backHandler.remove();
+    }, [navigation])
+  );
+  
+  
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -62,7 +94,6 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
         setuserData(resp1.data.data[0]);
         resp.data.data[0] ? setWaiting(false) : setWaiting(true);
         setStoryData(resp.data.data);
-        ToastAndroid.show("Hello " + userData.Name, 2000);
       } catch (e) {
         setWaiting(true);
       }
@@ -73,9 +104,9 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   return (
     <>
       <StatusBars />
-      {/* {waiting ? (
+      {waiting ? (
         <ActivityIndicators />
-      ) : ( */}
+      ) : (
         <View
           style={[styles.home_container, { backgroundColor: theme.background }]}
         >
@@ -288,7 +319,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
           </ScrollView>
           </View>
         </View>
-      {/* )} */}
+      )}
     </>
   );
 };

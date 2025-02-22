@@ -62,7 +62,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
 
       setStoryData(resp3.data.data);
       const resp = await axios.get(`${commanApi}/comment/all/by-id/${sid}`);
-      resp.data.data ? setCommentData(resp.data.data) : setNoDataFound(true);
+      resp.data.data.length !== 0 ? setCommentData(resp.data.data) : setNoDataFound(true);
       const resp4 = await axios.get(
         `${commanApi}/follower/verify-follower/${id}/${aid}`
       );
@@ -254,6 +254,10 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
           <View
             style={{
               flex: 0.5,
+              backgroundColor:theme.background,
+              display:"flex",
+              flexDirection:"column",
+              justifyContent:"space-between"
             }}
           >
             <View
