@@ -89,28 +89,21 @@ const Notifications = () => {
                     <Text style={{ color: theme.text }}>
                       <Text style={styles.notification_txt_2}>
                         {e.User.Name}
-                      </Text>
-                      started following you
+                      </Text>{" "}
+                       started following you
                     </Text>
                   ) : e.NotificationType.toLowerCase() === "like" ? (
                     <Text style={{ color: theme.text }}>
                       <Text style={styles.notification_txt_2}>
                         {e.User.Name}
-                      </Text>
+                      </Text>{" "}
                       liked your story: {e.Story.Tittle}
                     </Text>
-                  ) : e.NotificationType.toLowerCase() === "upload" ? (
+                  ) :  e.NotificationType.toLowerCase() === "comment" ? (
                     <Text style={{ color: theme.text }}>
                       <Text style={styles.notification_txt_2}>
                         {e.User.Name}
-                      </Text>
-                      uploaded a new story: {e.Story.Tittle}
-                    </Text>
-                  ) : e.NotificationType.toLowerCase() === "comment" ? (
-                    <Text style={{ color: theme.text }}>
-                      <Text style={styles.notification_txt_2}>
-                        {e.User.Name}
-                      </Text>
+                      </Text>{" "}
                       commented on your story {e.Story.Tittle}
                       {e.Comment.Comment}
                     </Text>

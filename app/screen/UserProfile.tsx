@@ -207,6 +207,11 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                             UserId: b,
                             FriendStatus: false,
                           });
+                          await axios.post(`${commanApi}/notification/create`, {
+                            SenderId: b,
+                            RecieverId: a,
+                            NotificationType: "FOLLOW",
+                          });
                         } else if (followStatus === "FOLLOWING") {
                           await axios.delete(
                             `${commanApi}/follower/unfollow/${followData.Id}`

@@ -21,7 +21,6 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
 import {
-  ActivityIndicators,
   commanApi,
   NoDataCommentView,
 } from "../components/components";
@@ -201,6 +200,11 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                   UserId: b,
                   FriendStatus: false,
                 });
+                await axios.post(`${commanApi}/notification/create`, {
+                  SenderId: b,
+                  RecieverId: a,
+                  NotificationType: "FOLLOW",
+                });
               } else if (followStatus === "FOLLOWING") {
                 await axios.delete(
                   `${commanApi}/follower/unfollow/${followData.Id}`
@@ -305,7 +309,6 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
             </ScrollView>
           )}
           <TextInput
-            style={{ backgroundColor: theme.background, color: theme.text }}
             placeholder="Message"
             value={commentTxt}
             onChangeText={(e) => {
@@ -319,6 +322,8 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                     let a = Number(sid);
                     const id = await AsyncStorage.getItem("Id");
                     let b = Number(id);
+                    const aid = await AsyncStorage.getItem("AId");
+                    let c = Number(aid);
                     const resp = await axios.post(
                       `${commanApi}/comment/create`,
                       {
@@ -329,6 +334,14 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                     );
 
                     if (resp.data.success) {
+                      await axios.post(`${commanApi}/notification/create`, {
+                        SenderId: b,
+                        RecieverId: c,
+                        StoryId: a,
+                        CommentId: Number(resp.data.data.Id),
+                        NotificationType: "COMMENT",
+                      });
+                      loadData();
                       ToastAndroid.show("Comment successfully posted!", 2000);
                     } else {
                       ToastAndroid.show(
@@ -346,9 +359,7 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
                     );
                   }
                 }}
-                icon={() => (
-                  <Icon name="send" size={width * 0.06} color={theme.text} />
-                )}
+                icon={() => <Icon name="send" size={width * 0.06} />}
               />
             }
           />

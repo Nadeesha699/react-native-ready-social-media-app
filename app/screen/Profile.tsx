@@ -6,9 +6,6 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, ImageBackground, Linking, ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-
-const { width, height } = Dimensions.get("window");
-
 import { NavigationProp } from "@react-navigation/native";
 import { styles } from "@/css/main";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -66,10 +63,6 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
         CoverImage: resp.data.data[0].CoverImage,
       }));
     }
-
-    console.log(
-      resp1.data.data + resp.data.data[0] + resp2.data.data + resp3.data.data
-    );
 
     setWaiting(false);
   };

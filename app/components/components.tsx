@@ -34,11 +34,10 @@ export const ActivityIndicators = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <ActivityIndicator
-      color="blue"
-      size="large"
-      style={{ flex: 1, backgroundColor: theme.background }}
-    />
+    <View style={{ backgroundColor: theme.background, flex: 1,display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column",gap:"1%" }}>
+      <ActivityIndicator color={theme.text} size="large" />
+      <Text style={{color:theme.text}}>Loading...</Text>
+    </View>
   );
 };
 
@@ -136,6 +135,28 @@ export const NoDataPostView = () => {
       <Text style={{ color: theme.text, fontSize: 15 }}>
         No posts available
       </Text>
+    </View>
+  );
+};
+
+export const ActivityIndicatorsLogin = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  return (
+    <View style={{ backgroundColor: theme.background, flex: 1,display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column",gap:"1%" }}>
+      <ActivityIndicator color={theme.text} size="large" />
+      <Text style={{color:theme.text}}>Logging...</Text>
+    </View>
+  );
+};
+
+export const ActivityIndicatorsSaving = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  return (
+    <View style={{ backgroundColor: theme.background, flex: 1,display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column",gap:"1%" }}>
+      <ActivityIndicator color={theme.text} size="large" />
+      <Text style={{color:theme.text}}>Saving...</Text>
     </View>
   );
 };

@@ -1,4 +1,8 @@
-import { commanApi, StatusBars } from "@/app/components/components";
+import {
+  ActivityIndicatorsLogin,
+  commanApi,
+  StatusBars,
+} from "@/app/components/components";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
@@ -12,7 +16,7 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 import { NavigationProp } from "@react-navigation/native";
 import { ThemeContext } from "../Theme/ThemeContext";
@@ -41,6 +45,7 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
     Email: "",
     Password: "",
   });
+  const [waitingForLogging, setWaitingForLogging] = useState(false);
 
   useEffect(() => {
     translateXValue.value = withSpring(0);
@@ -59,115 +64,125 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
     <View
       style={[styles.login_container, { backgroundColor: theme.background }]}
     >
-      <Animated.View style={[styles.login_header, animatedStyle]}>
-        <Image
-          source={require("@/assets/images/6333040.jpg")}
-          alt="icon"
-          style={[
-            styles.login_img,
-            { borderRadius: isDarkMode ? width * 1 : 0 },
-          ]}
-        />
-        <Text style={[styles.login_1, { color: theme.text }]}>Login</Text>
-      </Animated.View>
-      <Animated.View style={[styles.login_body, animatedStyle1]}>
-        <TextInput
-          onChangeText={(e) => {
-            setLoginData((prev) => ({ ...prev, Email: e }));
-          }}
-          value={loginData.Email}
-          left={
-            <TextInput.Icon
-              icon={({ size }) => <Icon name="email" size={size} />}
+      {waitingForLogging ? (
+        <ActivityIndicatorsLogin />
+      ) : (
+        <>
+          <Animated.View style={[styles.login_header, animatedStyle]}>
+            <Image
+              source={require("@/assets/images/6333040.jpg")}
+              alt="icon"
+              style={[
+                styles.login_img,
+                { borderRadius: isDarkMode ? width * 1 : 0 },
+              ]}
             />
-          }
-          underlineColor="transparent"
-          activeUnderlineColor="transparent"
-          mode="flat"
-          label="Email"
-          style={styles.input_field}
-        />
-        <TextInput
-          onChangeText={(e) => {
-            setLoginData((prev) => ({ ...prev, Password: e }));
-          }}
-          value={loginData.Password}
-          left={
-            <TextInput.Icon
-              icon={({ size }) => <Icon name="lock" size={size} />}
-            />
-          }
-          underlineColor="transparent"
-          activeUnderlineColor="transparent"
-          mode="flat"
-          label="Password"
-          secureTextEntry={hidePassword}
-          right={
-            <TextInput.Icon
-              icon={({ size }) => (
-                <Icon name={hidePassword ? "eye" : "eye-off"} size={size} />
-              )}
-              onPress={() => {
-                hidePassword ? setHidePassword(false) : setHidePassword(true);
+            <Text style={[styles.login_1, { color: theme.text }]}>Login</Text>
+          </Animated.View>
+          <Animated.View style={[styles.login_body, animatedStyle1]}>
+            <TextInput
+              onChangeText={(e) => {
+                setLoginData((prev) => ({ ...prev, Email: e }));
               }}
+              value={loginData.Email}
+              left={
+                <TextInput.Icon
+                  icon={({ size }) => <Icon name="email" size={size} />}
+                />
+              }
+              underlineColor="transparent"
+              activeUnderlineColor="transparent"
+              mode="flat"
+              label="Email"
+              style={styles.input_field}
             />
-          }
-          style={styles.input_field}
-        />
-        <TouchableOpacity
-          style={styles.btn_sign}
-          onPress={async () => {
-            try {
-              if (
-                loginData.Email.length !== 0 &&
-                loginData.Password.length !== 0
-              ) {
-                const resp = await axios.get(
-                  `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
-                );
+            <TextInput
+              onChangeText={(e) => {
+                setLoginData((prev) => ({ ...prev, Password: e }));
+              }}
+              value={loginData.Password}
+              left={
+                <TextInput.Icon
+                  icon={({ size }) => <Icon name="lock" size={size} />}
+                />
+              }
+              underlineColor="transparent"
+              activeUnderlineColor="transparent"
+              mode="flat"
+              label="Password"
+              secureTextEntry={hidePassword}
+              right={
+                <TextInput.Icon
+                  icon={({ size }) => (
+                    <Icon name={hidePassword ? "eye" : "eye-off"} size={size} />
+                  )}
+                  onPress={() => {
+                    hidePassword
+                      ? setHidePassword(false)
+                      : setHidePassword(true);
+                  }}
+                />
+              }
+              style={styles.input_field}
+            />
+            <TouchableOpacity
+              style={styles.btn_sign}
+              onPress={async () => {
+                try {
+                  setWaitingForLogging(true);
+                  if (
+                    loginData.Email.length !== 0 &&
+                    loginData.Password.length !== 0
+                  ) {
+                    const resp = await axios.get(
+                      `${commanApi}/user/login?Email=${loginData.Email}&Password=${loginData.Password}`
+                    );
 
-                if (resp.data.success) {
-                  const id = resp.data.data.Id.toString();
-                  await AsyncStorage.setItem("Id", id);
-                  await AsyncStorage.setItem("logged", "1");
-                  await AsyncStorage.setItem("newComer", "1");
-                  navigation.navigate("Main");
-                } else {
+                    if (resp.data.success) {
+                      const id = resp.data.data.Id.toString();
+                      await AsyncStorage.setItem("Id", id);
+                      await AsyncStorage.setItem("logged", "1");
+                      await AsyncStorage.setItem("newComer", "1");
+                      navigation.navigate("Main");
+                    } else {
+                      Alert.alert(
+                        "Oops!",
+                        "We couldn't find an account with those details. Please check your email and password."
+                      );
+                      navigation.navigate("Login");
+                    }
+                  } else {
+                    Alert.alert(
+                      "Oops!",
+                      "Please enter both your email and password to log in."
+                    );
+                  }
+                  setWaitingForLogging(false);
+                } catch (e) {
+                  console.log(e);
                   Alert.alert(
-                    "Oops!",
-                    "We couldn't find an account with those details. Please check your email and password."
+                    "Something went wrong!",
+                    "It seems we're having trouble connecting. Please try again later."
                   );
                   navigation.navigate("Login");
                 }
-              } else {
-                Alert.alert(
-                  "Oops!",
-                  "Please enter both your email and password to log in."
-                );
-              }
-            } catch (e) {
-              console.log(e);
-              Alert.alert(
-                "Something went wrong!",
-                "It seems we're having trouble connecting. Please try again later."
-              );
-              navigation.navigate("Login");
-            }
-          }}
-        >
-          <Text style={styles.login_2}>Sign in</Text>
-        </TouchableOpacity>
-        <View style={styles.login_com1}>
-          <Text style={[styles.login_txt3]}>if you are new user ?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Register");
-            }}
-          >
-            <Text style={[styles.login_txt4]}>Register</Text>
-          </TouchableOpacity>
-        </View>
-      </Animated.View>
+              }}
+            >
+              <Text style={styles.login_2}>Sign in</Text>
+            </TouchableOpacity>
+            <View style={styles.login_com1}>
+              <Text style={[styles.login_txt3]}>if you are new user ?</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Register");
+                }}
+              >
+                <Text style={[styles.login_txt4]}>Register</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </>
+      )}
     </View>
   );
 };
