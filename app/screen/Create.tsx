@@ -122,6 +122,7 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
                   }
                   setWaitingForSaving(false);
                 } catch (e) {
+                  setWaitingForSaving(false);
                   console.error(e);
                   Alert.alert(
                     "Error",

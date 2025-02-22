@@ -71,10 +71,10 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
           Name: user.data.data[0].Name,
           Email: user.data.data[0].Email,
           PhoneNumber: user.data.data[0].PhoneNumber,
-          ProfileImage: user.data.data[0].ProfileImage,
-          CoverImage: user.data.data[0].CoverImage,
           Bio: user.data.data[0].Bio,
         }));
+        setCoverImageUri(user.data.data[0].CoverImage);
+        setProfileImageUri(user.data.data[0].ProfileImage);
       }
     } catch (e) {
       console.log(e);
@@ -157,6 +157,7 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                     }
                     setWaitingForSaving(false);
                   } catch (e) {
+                    setWaitingForSaving(false);
                     console.log(e);
                     Alert.alert(
                       "There was an error connecting. Please try again later."

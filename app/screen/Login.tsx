@@ -159,12 +159,12 @@ const Login: React.FC<TestScreenProps> = ({ navigation }) => {
                   }
                   setWaitingForLogging(false);
                 } catch (e) {
+                  setWaitingForLogging(false);
                   console.log(e);
                   Alert.alert(
                     "Something went wrong!",
                     "It seems we're having trouble connecting. Please try again later."
                   );
-                  navigation.navigate("Login");
                 }
               }}
             >

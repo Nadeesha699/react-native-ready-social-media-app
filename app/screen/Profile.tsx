@@ -34,7 +34,7 @@ const Profile: React.FC<TestScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [profileData]);
 
   const loadData = async () => {
     const id = await AsyncStorage.getItem("Id");

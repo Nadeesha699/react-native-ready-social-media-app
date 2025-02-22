@@ -257,6 +257,7 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
                   }
                   setWaitingForSaving(false);
                 } catch (e) {
+                  setWaitingForSaving(false);
                   console.log(e);
                   Alert.alert(
                     "Something went wrong!",
