@@ -4,7 +4,7 @@ import {
   StatusBars,
 } from "@/app/components/components";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -46,6 +46,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
     PhoneNumber: "",
   });
   const [waiting, setWaiting] = useState(true);
+  const scrollRef = useRef<ScrollView | null>(null);
+  let scrollPosition = 0;
 
   useFocusEffect(
     React.useCallback(() => {
@@ -77,7 +79,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     loadData();
-  },[]);
+  }, []);
 
   const loadData = async () => {
     try {
@@ -91,6 +93,24 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
       setWaiting(true);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        scrollPosition += 200;
+        scrollRef.current.scrollTo({
+          x: scrollPosition,
+          animated: true,
+        });
+      }
+
+      if (scrollPosition >= storyData.length * 220) {
+        scrollPosition = 0;
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [storyData]);
 
   return (
     <>
@@ -138,11 +158,13 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               {userData.Name}
             </Text>
             <ScrollView
+              ref={scrollRef}
               horizontal={true}
+              showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
                 flexGrow: 1,
                 gap: "2%",
-                paddingRight:"10%"
+                paddingRight: "10%",
               }}
             >
               {storyData.map((e, index) => {
@@ -190,7 +212,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               contentContainerStyle={{
                 flexGrow: 1,
                 gap: "2%",
-                paddingRight:"10%"
+                paddingRight: "10%",
               }}
             >
               <TouchableOpacity
