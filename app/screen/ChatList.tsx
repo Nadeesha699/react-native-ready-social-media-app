@@ -141,7 +141,30 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                   }}
                   style={styles.chatlist_card}
                 >
-                  <Image
+                  {e.Participant.Id === ccid ? (
+                    <Image
+                      source={
+                        e.Creator.ProfileImage
+                          ? {
+                              uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
+                            }
+                          : require("@/assets/images/21666259.jpg")
+                      }
+                      style={styles.chatlist_img_1}
+                    />
+                  ) : (
+                    <Image
+                      source={
+                        e.Participant.ProfileImage
+                          ? {
+                              uri: `data:image/jpeg;base64,${e.Participant.ProfileImage}`,
+                            }
+                          : require("@/assets/images/21666259.jpg")
+                      }
+                      style={styles.chatlist_img_1}
+                    />
+                  )}
+                  {/* <Image
                     source={
                       e.Participant.ProfileImage
                         ? {
@@ -150,7 +173,7 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
                         : require("@/assets/images/21666259.jpg")
                     }
                     style={styles.chatlist_img_1}
-                  />
+                  /> */}
                   <View style={styles.chatlist_view_1}>
                     <Text
                       numberOfLines={1}

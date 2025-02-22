@@ -28,28 +28,25 @@ const Notifications = () => {
   const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const id = await AsyncStorage.getItem("Id");
-        const resp = await axios.get(
-          `${commanApi}/notification/all/by-id/${id}`
-        );
-        console.log(resp.data.data);
-        if (resp.data.data.length !== 0) {
-          setNotificationData(resp.data.data);
-          setWaiting(false);
-        } else {
-          setWaiting(false);
-          setNoDataFound(true);
-        }
-      } catch (e) {
-        console.log(e);
-        setWaiting(false);
-        setServerError(true);
-      }
-    };
     loadData();
   }, []);
+  const loadData = async () => {
+    try {
+      const id = await AsyncStorage.getItem("Id");
+      const resp = await axios.get(`${commanApi}/notification/all/by-id/${id}`);
+      if (resp.data.data.length !== 0) {
+        setNotificationData(resp.data.data);
+        setWaiting(false);
+      } else {
+        setWaiting(false);
+        setNoDataFound(true);
+      }
+    } catch (e) {
+      console.log(e);
+      setWaiting(false);
+      setServerError(true);
+    }
+  };
   return (
     <View
       style={[

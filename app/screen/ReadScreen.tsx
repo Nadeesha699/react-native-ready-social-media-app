@@ -20,7 +20,11 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 import { styles } from "@/css/main";
 import axios from "axios";
-import { commanApi, NoDataCommentView } from "../components/components";
+import {
+  ActivityIndicators,
+  commanApi,
+  NoDataCommentView,
+} from "../components/components";
 import commentJson from "../Json/commentJson.json";
 import followJson from "../Json/followJson.json";
 import storySingleJson from "../Json/storySingleJson.json";
@@ -94,274 +98,263 @@ const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
   const [commentTxt, setCommentTxt] = useState("");
 
   return (
-    <>
-      <StatusBar />
-      <View
-        style={[
-          styles.readscreen_container,
-          { backgroundColor: theme.background },
-        ]}
+    <View
+      style={[
+        styles.readscreen_container,
+        { backgroundColor: theme.background },
+      ]}
+    >
+      <ImageBackground
+        style={styles.readscreen_header}
+        source={{ uri: `data:image/jpeg;base64,${storyData.Image}` }}
       >
-        <ImageBackground
-          style={styles.readscreen_header}
-          source={{ uri: `data:image/jpeg;base64,${storyData.Image}` }}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
         >
+          <Icon name="chevron-left" size={width * 0.1} color={"white"} />
+        </TouchableOpacity>
+        <View style={styles.readscreen_con6}>
           <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
+            onPress={async () => {
+              const sid = await AsyncStorage.getItem("SId");
+              let a = Number(sid);
+              const id = await AsyncStorage.getItem("Id");
+              let b = Number(id);
+              const aid = await AsyncStorage.getItem("AId");
+              let c = Number(aid);
+              if (likeRed) {
+                const resp = await axios.delete(
+                  `${commanApi}/like/remove/${a}/${b}`
+                );
+                resp.data.success ? setLikeRed(false) : setLikeRed(true);
+              } else {
+                const resp = await axios.post(`${commanApi}/like/add`, {
+                  SenderId: b,
+                  StoryId: a,
+                });
+                if (resp.data.success) {
+                  await axios.post(`${commanApi}/notification/create`, {
+                    SenderId: b,
+                    RecieverId: c,
+                    StoryId: a,
+                    NotificationType: "LIKE",
+                  });
+                  setLikeRed(true);
+                } else {
+                  setLikeRed(false);
+                }
+              }
             }}
           >
-            <Icon name="chevron-left" size={width * 0.1} color={"white"} />
+            <Icon
+              name={likeRed ? "thumb-up" : "thumb-up-outline"}
+              size={width * 0.06}
+              color={likeRed ? "red" : "white"}
+            />
           </TouchableOpacity>
-          <View style={styles.readscreen_con6}>
+          <TouchableOpacity
+            onPress={() => {
+              setCloseComment(!closeComment);
+            }}
+          >
+            <Icon
+              name={"comment-outline"}
+              size={width * 0.06}
+              color={"white"}
+            />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+      <View style={styles.readscreen_body}>
+        <View style={styles.readscreen_con8}>
+          <View style={styles.readscreen_con7}>
+            <Text
+              style={[styles.readscreen_txt1, { color: theme.text }]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {storyData.Tittle}
+            </Text>
             <TouchableOpacity
               onPress={async () => {
-                const sid = await AsyncStorage.getItem("SId");
-                let a = Number(sid);
-                console.log(a);
-                const id = await AsyncStorage.getItem("Id");
-                let b = Number(id);
-                const aid = await AsyncStorage.getItem("AId");
-                let c = Number(aid);
-                console.log(b);
-                if (likeRed) {
-                  const resp = await axios.delete(
-                    `${commanApi}/like/remove/${a}/${b}`
-                  );
-                  resp.data.success ? setLikeRed(false) : setLikeRed(true);
-                } else {
-                  const resp = await axios.post(`${commanApi}/like/add`, {
-                    SenderId: b,
-                    StoryId: a,
-                  });
-                  if (resp.data.success) {
-                    const resp = await axios.post(
-                      `${commanApi}/notification/create`,
-                      {
-                        SenderId: b,
-                        RecieverId: c,
-                        StoryId: a,
-                        NotificationType: "LIKE",
-                      }
-                    );
-                    console.log(resp.data.data);
-                    setLikeRed(true);
-                  } else {
-                    setLikeRed(false);
-                  }
-                }
+                navigation.navigate("User Profile");
               }}
             >
-              <Icon
-                name={likeRed ? "thumb-up" : "thumb-up-outline"}
-                size={width * 0.06}
-                color={likeRed ? "red" : "white"}
-              />
+              <Text style={styles.readscreen_txt4}>{storyData.User.Name}</Text>
             </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[
+              styles.readscreen_follow_button,
+              { display: followButtonShow ? "none" : "flex" },
+            ]}
+            onPress={async () => {
+              const aid = await AsyncStorage.getItem("AId");
+              let a = Number(aid);
+              const id = await AsyncStorage.getItem("Id");
+              let b = Number(id);
+              if (followStatus === "FOLLOW") {
+                await axios.post(`${commanApi}/follower/follow`, {
+                  FollowerId: a,
+                  UserId: b,
+                  FriendStatus: false,
+                });
+              } else if (followStatus === "FOLLOWING") {
+                await axios.delete(
+                  `${commanApi}/follower/unfollow/${followData.Id}`
+                );
+              } else if (followStatus === "FRIEND") {
+                await axios.put(
+                  `${commanApi}/follower/follow-back/${followData.Id}`,
+                  {
+                    FriendStatus: false,
+                  }
+                );
+              } else if (followStatus === "FOLLOW BACK") {
+                await axios.put(
+                  `${commanApi}/follower/follow-back/${followData.Id}`,
+                  {
+                    FriendStatus: true,
+                  }
+                );
+              }
+            }}
+          >
+            <Text style={[styles.readscreen_txt1, { color: "white" }]}>
+              {followStatus.toLocaleLowerCase()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={{ flex: 0.5 }}>
+          <Text style={styles.readscreen_txt3}>{storyData.Story}</Text>
+        </ScrollView>
+      </View>
+      <View
+        style={[
+          styles.readscreen_comment_section,
+          {
+            top: closeComment ? 0 : width * 20,
+          },
+        ]}
+      >
+        <View style={styles.readscreen_dark_view} />
+        <View
+          style={{
+            flex: 0.5,
+            backgroundColor: theme.background,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <View
+            style={[
+              styles.comment_header,
+              { backgroundColor: theme.background },
+            ]}
+          >
+            <Text style={{ fontWeight: "bold", color: theme.text }}>
+              Comments
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 setCloseComment(!closeComment);
               }}
             >
-              <Icon
-                name={"comment-outline"}
-                size={width * 0.06}
-                color={"white"}
-              />
+              <Icon name="close" size={width * 0.1} color={theme.text} />
             </TouchableOpacity>
           </View>
-        </ImageBackground>
-        <View style={styles.readscreen_body}>
-          <View style={styles.readscreen_con8}>
-            <View style={styles.readscreen_con7}>
-              <Text
-                style={[styles.readscreen_txt1, { color: theme.text }]}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {storyData.Tittle}
-              </Text>
-              <TouchableOpacity
-                onPress={async () => {
-                  navigation.navigate("User Profile");
-                }}
-              >
-                <Text style={styles.readscreen_txt4}>
-                  {storyData.User.Name}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
+          {noDataFound ? (
+            <NoDataCommentView />
+          ) : (
+            <ScrollView
               style={[
-                styles.readscreen_follow_button,
-                { display: followButtonShow ? "none" : "flex" },
-              ]}
-              onPress={async () => {
-                const aid = await AsyncStorage.getItem("AId");
-                let a = Number(aid);
-                const id = await AsyncStorage.getItem("Id");
-                let b = Number(id);
-                if (followStatus === "FOLLOW") {
-                  await axios.post(`${commanApi}/follower/follow`, {
-                    FollowerId: a,
-                    UserId: b,
-                    FriendStatus: false,
-                  });
-                } else if (followStatus === "FOLLOWING") {
-                  await axios.delete(
-                    `${commanApi}/follower/unfollow/${followData.Id}`
-                  );
-                } else if (followStatus === "FRIEND") {
-                  await axios.put(
-                    `${commanApi}/follower/follow-back/${followData.Id}`,
-                    {
-                      FriendStatus: false,
-                    }
-                  );
-                } else if (followStatus === "FOLLOW BACK") {
-                  await axios.put(
-                    `${commanApi}/follower/follow-back/${followData.Id}`,
-                    {
-                      FriendStatus: true,
-                    }
-                  );
-                }
-              }}
-            >
-              <Text style={[styles.readscreen_txt1, { color: "white" }]}>
-                {followStatus.toLocaleLowerCase()}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.readscreen_con9, {}]}>
-            <Text style={styles.readscreen_txt3}>{storyData.Story}</Text>
-          </View>
-        </View>
-        <View
-          style={[
-            styles.readscreen_comment_section,
-            {
-              top: closeComment ? 0 : width * 20,
-            },
-          ]}
-        >
-          <View style={styles.readscreen_dark_view} />
-          <View
-            style={{
-              flex: 0.5,
-              backgroundColor: theme.background,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <View
-              style={[
-                styles.comment_header,
+                styles.comment_scroll,
                 { backgroundColor: theme.background },
               ]}
+              showsHorizontalScrollIndicator={false}
+              ref={scrollViewRef}
             >
-              <Text style={{ fontWeight: "bold", color: theme.text }}>
-                Comments
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setCloseComment(!closeComment);
-                }}
-              >
-                <Icon name="close" size={width * 0.1} color={theme.text} />
-              </TouchableOpacity>
-            </View>
-            {noDataFound ? (
-              <NoDataCommentView />
-            ) : (
-              <ScrollView
-                style={[
-                  styles.comment_scroll,
-                  { backgroundColor: theme.background },
-                ]}
-                showsHorizontalScrollIndicator={false}
-                ref={scrollViewRef}
-              >
-                {commentData.map((e, index) => {
-                  return (
-                    <View key={index} style={styles.comment_card}>
-                      <Image
-                        source={
-                          e.User.ProfileImage
-                            ? {
-                                uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
-                              }
-                            : require("@/assets/images/21666259.jpg")
-                        }
-                        style={styles.comment_profile}
-                      />
-                      <View style={styles.comment_con}>
-                        <Text style={{ fontWeight: "bold", color: theme.text }}>
-                          {e.User.Name}
-                        </Text>
-                        <Text style={{ color: theme.text }}>{e.Comment}</Text>
-                        <Text style={styles.comment_txt}>
-                          {timeFormat(e.createAt)}
-                        </Text>
-                      </View>
-                    </View>
-                  );
-                })}
-              </ScrollView>
-            )}
-            <TextInput
-              style={{ backgroundColor: theme.background, color: theme.text }}
-              placeholder="Message"
-              value={commentTxt}
-              onChangeText={(e) => {
-                setCommentTxt(e);
-              }}
-              right={
-                <TextInput.Icon
-                  onPress={async () => {
-                    try {
-                      const sid = await AsyncStorage.getItem("SId");
-                      let a = Number(sid);
-                      const id = await AsyncStorage.getItem("Id");
-                      let b = Number(id);
-                      const resp = await axios.post(
-                        `${commanApi}/comment/create`,
-                        {
-                          Comment: commentTxt,
-                          SenderId: b,
-                          StoryId: a,
-                        }
-                      );
-
-                      if (resp.data.success) {
-                        ToastAndroid.show("Comment successfully posted!", 2000);
-                      } else {
-                        ToastAndroid.show(
-                          "Failed to post comment. Please try again.",
-                          2000
-                        );
+              {commentData.map((e, index) => {
+                return (
+                  <View key={index} style={styles.comment_card}>
+                    <Image
+                      source={
+                        e.User.ProfileImage
+                          ? {
+                              uri: `data:image/jpeg;base64,${e.User.ProfileImage}`,
+                            }
+                          : require("@/assets/images/21666259.jpg")
                       }
+                      style={styles.comment_profile}
+                    />
+                    <View style={styles.comment_con}>
+                      <Text style={{ fontWeight: "bold", color: theme.text }}>
+                        {e.User.Name}
+                      </Text>
+                      <Text style={{ color: theme.text }}>{e.Comment}</Text>
+                      <Text style={styles.comment_txt}>
+                        {timeFormat(e.createAt)}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          )}
+          <TextInput
+            style={{ backgroundColor: theme.background, color: theme.text }}
+            placeholder="Message"
+            value={commentTxt}
+            onChangeText={(e) => {
+              setCommentTxt(e);
+            }}
+            right={
+              <TextInput.Icon
+                onPress={async () => {
+                  try {
+                    const sid = await AsyncStorage.getItem("SId");
+                    let a = Number(sid);
+                    const id = await AsyncStorage.getItem("Id");
+                    let b = Number(id);
+                    const resp = await axios.post(
+                      `${commanApi}/comment/create`,
+                      {
+                        Comment: commentTxt,
+                        SenderId: b,
+                        StoryId: a,
+                      }
+                    );
 
-                      setCommentTxt("");
-                    } catch (e) {
-                      console.log(e);
-                      Alert.alert(
-                        "Something went wrong!",
-                        "It seems we're having trouble connecting. Please try again later."
+                    if (resp.data.success) {
+                      ToastAndroid.show("Comment successfully posted!", 2000);
+                    } else {
+                      ToastAndroid.show(
+                        "Failed to post comment. Please try again.",
+                        2000
                       );
                     }
-                  }}
-                  icon={() => (
-                    <Icon name="send" size={width * 0.06} color={theme.text} />
-                  )}
-                />
-              }
-            />
-          </View>
+
+                    setCommentTxt("");
+                  } catch (e) {
+                    console.log(e);
+                    Alert.alert(
+                      "Something went wrong!",
+                      "It seems we're having trouble connecting. Please try again later."
+                    );
+                  }
+                }}
+                icon={() => (
+                  <Icon name="send" size={width * 0.06} color={theme.text} />
+                )}
+              />
+            }
+          />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

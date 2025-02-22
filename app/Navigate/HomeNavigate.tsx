@@ -21,21 +21,22 @@ const HomeNaviagte = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
   useEffect(() => {
-    const loadData = async () => {
-      const id = await AsyncStorage.getItem("Id");
-
-      const resp = await axios.get(
-        `${commanApi}/notification/all-count/by-id/${id}`
-      );
-      setNotificationCount(resp.data.data);
-
-      const resp1 = await axios.get(
-        `${commanApi}/messages//get-all-messages/${id}`
-      );
-      setMessageCount(resp1.data.data);
-    };
     loadData();
   }, []);
+
+  const loadData = async () => {
+    const id = await AsyncStorage.getItem("Id");
+
+    const resp = await axios.get(
+      `${commanApi}/notification/all-count/by-id/${id}`
+    );
+    setNotificationCount(resp.data.data);
+
+    const resp1 = await axios.get(
+      `${commanApi}/messages//get-all-messages/${id}`
+    );
+    setMessageCount(resp1.data.data);
+  };
   return (
     <Tab.Navigator
       screenOptions={{
