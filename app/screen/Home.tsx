@@ -77,7 +77,7 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  },[]);
 
   const loadData = async () => {
     try {
@@ -141,7 +141,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               horizontal={true}
               contentContainerStyle={{
                 flexGrow: 1,
-                gap: "5%",
+                gap: "2%",
+                paddingRight:"10%"
               }}
             >
               {storyData.map((e, index) => {
@@ -188,7 +189,8 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
               horizontal={true}
               contentContainerStyle={{
                 flexGrow: 1,
-                gap: "5%",
+                gap: "2%",
+                paddingRight:"10%"
               }}
             >
               <TouchableOpacity

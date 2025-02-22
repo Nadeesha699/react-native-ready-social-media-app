@@ -265,14 +265,12 @@ const UserProfile: React.FC<TestScreenProps> = ({ navigation }) => {
             <NoDataPostView />
           ) : (
             <ScrollView
-              horizontal={true}
               style={{
-                flex: 0.5,
-                flexDirection: "row",
-                flexWrap: "wrap",
+                flex: 1,
               }}
               contentContainerStyle={{
-                flexGrow: 1,
+                flexDirection: "row",
+                flexWrap: "wrap",
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
               }}
