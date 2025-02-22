@@ -115,8 +115,6 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
               onPress={async () => {
                 try {
                   const id = await AsyncStorage.getItem("Id");
-                  let ids = Number(id);
-
                   if (
                     emailError === false &&
                     passwordError === false &&
@@ -130,33 +128,36 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                     profilebase64Image?.length !== 0 &&
                     coverbase64Image?.length !== 0
                   ) {
-                    const resp = await axios.put(
-                      `${commanApi}/user/update/${ids}`,
-                      {
-                        Name: updateUser.Name,
-                        Email: updateUser.Email,
-                        Password: updateUser.Password,
-                        PhoneNumber: updateUser.PhoneNumber,
-                        ProfileImage: profilebase64Image,
-                        CoverImage: coverbase64Image,
-                        Bio: updateUser.Bio,
-                      }
-                    );
+                    console.log(1)
+                    // const resp = await axios.put(
+                    //   `${commanApi}/user/update/${id}`,
+                    //   {
+                    //     Name: updateUser.Name,
+                    //     Email: updateUser.Email,
+                    //     Password: updateUser.Password,
+                    //     PhoneNumber: updateUser.PhoneNumber,
+                    //     ProfileImage: profilebase64Image,
+                    //     CoverImage: coverbase64Image,
+                    //     Bio: updateUser.Bio,
+                    //   }
+                    // );
 
-                    if (resp.data.success) {
-                      ToastAndroid.show(
-                        "Your profile has been updated successfully!",
-                        2000
-                      );
-                    } else {
-                      Alert.alert("Oops! Update failed. Please try again.");
-                    }
+                    // if (resp.data.success) {
+                    //   ToastAndroid.show(
+                    //     "Your profile has been updated successfully!",
+                    //     2000
+                    //   );
+                    // } else {
+                    //   Alert.alert("Oops! Update failed. Please try again.");
+                    // }
                   } else {
+                    console.log(2)
                     Alert.alert(
                       "Please fill out all fields correctly and completely."
                     );
                   }
                 } catch (e) {
+                  console.log(3)
                   console.log(e);
                   Alert.alert(
                     "There was an error connecting. Please try again later."

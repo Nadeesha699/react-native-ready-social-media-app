@@ -428,6 +428,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     overflowY: "scroll",
     padding: "5%",
+    gap:"2%"
   },
   profile_update_hearder_1: {
     flex: 0.9,
