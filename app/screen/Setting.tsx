@@ -1,7 +1,7 @@
 import { Dimensions, TouchableOpacity, View, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 import { DrawerActions, NavigationProp } from "@react-navigation/native";
 import { useContext } from "react";

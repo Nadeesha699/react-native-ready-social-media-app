@@ -12,7 +12,6 @@ import UserProfile from "../screen/UserProfile";
 import Search from "../screen/Search";
 import  HomeDrawer  from "../Drawer/HomeDrawer";
 import UserMessages from "../screen/UserMessage";
-import Profile from "../screen/Profile";
 import { useContext } from "react";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";

@@ -4,10 +4,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-  ActivityIndicator,
   ScrollView,
 } from "react-native";
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 import { NavigationProp } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
@@ -31,7 +30,6 @@ type TestScreenProps = {
 };
 
 const Search: React.FC<TestScreenProps> = ({ navigation }) => {
-  // const Search = () => {
   const [changeSearchIcon, setChangeTextIcon] = useState(false);
   const [text, setText] = useState("");
 

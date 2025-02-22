@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
-import React, { useContext, useId, useRef } from "react";
+import React, { useContext,useRef } from "react";
 import { useEffect, useState } from "react";
 import {
   ImageBackground,
@@ -34,7 +33,6 @@ type TestScreenProps = {
 };
 
 const ReadScreen: React.FC<TestScreenProps> = ({ navigation }) => {
-  // const ReadScreen = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
   const [likeRed, setLikeRed] = useState(false);

@@ -218,27 +218,6 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                         setCoverImageUri(result.assets[0].uri);
                         setCoverBase64Image(result.assets[0].base64 ?? null);
                       }
-                      // launchImageLibrary(
-                      //   { mediaType: "photo" },
-                      //   (response: any) => {
-                      //     if (response.assets) {
-                      //       setCoverImageUri(response.assets[0].uri);
-                      //       // Convert image to base64
-                      //       const uri = response.assets[0].uri;
-                      //       fetch(uri)
-                      //         .then((res) => res.blob())
-                      //         .then((blob) => {
-                      //           const reader = new FileReader();
-                      //           reader.onloadend = () => {
-                      //             setCoverBase64Image(
-                      //               (reader.result as string)?.split(",")[1]
-                      //             );
-                      //           };
-                      //           reader.readAsDataURL(blob);
-                      //         });
-                      //     }
-                      //   }
-                      // );
                     }}
                   >
                     <Icon name="camera" color="white" size={width * 0.08} />
@@ -268,7 +247,6 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
 
                       const result = await ImagePicker.launchImageLibraryAsync({
                         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                        // allowsEditing: true,
                         base64: true,
                         quality: 1,
                       });
@@ -276,27 +254,6 @@ const UpdateProfile: React.FC<TestScreenProps> = ({ navigation }) => {
                         setProfileImageUri(result.assets[0].uri);
                         setProfileBase64Image(result.assets[0].base64 ?? null);
                       }
-                      // launchImageLibrary(
-                      //   { mediaType: "photo" },
-                      //   (response: any) => {
-                      //     if (response.assets) {
-                      //       setProfileImageUri(response.assets[0].uri);
-                      //       // Convert image to base64
-                      //       const uri = response.assets[0].uri;
-                      //       fetch(uri)
-                      //         .then((res) => res.blob())
-                      //         .then((blob) => {
-                      //           const reader = new FileReader();
-                      //           reader.onloadend = () => {
-                      //             setProfileBase64Image(
-                      //               (reader.result as string)?.split(",")[1]
-                      //             );
-                      //           };
-                      //           reader.readAsDataURL(blob);
-                      //         });
-                      //     }
-                      //   }
-                      // );
                     }}
                   >
                     <Icon name="camera" color="white" size={width * 0.08} />

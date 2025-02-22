@@ -1,4 +1,4 @@
-import { commanApi, emailRegex, StatusBars } from "@/app/components/components";
+import { commanApi,StatusBars } from "@/app/components/components";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
@@ -87,7 +87,6 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
             gap:"2%"
           }}
         >
-          {/* <Animated.View style={[styles.sign_body, animatedStyle1]}> */}
           <TextInput
             onChangeText={(e) => {
               setRegisterData((prev) => ({ ...prev, Email: e }));
@@ -257,7 +256,6 @@ const Register: React.FC<TestScreenProps> = ({ navigation }) => {
               <Text style={[styles.login_txt4]}>Login</Text>
             </TouchableOpacity>
           </View>
-          {/* </Animated.View> */}
         </ScrollView>
       </View>
     </>

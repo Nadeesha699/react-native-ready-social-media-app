@@ -1,7 +1,6 @@
 import {
   ActivityIndicators,
   commanApi,
-  loadAuthor,
   StatusBars,
 } from "@/app/components/components";
 
@@ -11,11 +10,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  Image,
-  StyleSheet,
   Dimensions,
-  ActivityIndicator,
-  ToastAndroid,
   Alert,
   BackHandler,
 } from "react-native";
@@ -34,7 +29,7 @@ type TestScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 const Home: React.FC<TestScreenProps> = ({ navigation }) => {
   const [clickButtonColor, setClickButtonColor] = useState("all");
@@ -103,7 +98,6 @@ const Home: React.FC<TestScreenProps> = ({ navigation }) => {
 
   return (
     <>
-      <StatusBars />
       {waiting ? (
         <ActivityIndicators />
       ) : (

@@ -4,7 +4,7 @@ import { ThemeContext } from "../Theme/ThemeContext";
 import { lightTheme, darkTheme } from "../Theme/theme";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "@/css/main";
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const SettingsScreen = () => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);

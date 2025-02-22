@@ -9,7 +9,7 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 
 const Stack = createNativeStackNavigator();
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 const SettingStack = () => {
   const { isDarkMode } = useContext(ThemeContext);

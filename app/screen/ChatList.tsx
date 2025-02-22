@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Dimensions,
-  ImageBackground,
   ScrollView,
 } from "react-native";
 import { TextInput } from "react-native-paper";
@@ -32,7 +31,6 @@ type TestScreenProps = {
 };
 
 const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
-  // const ChatList = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -115,7 +113,6 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
       ) : serverError ? (
         <ServerErrorView />
       ) : (
-        // <View style={{ flexDirection: "column", flex: 1, overflowY: "scroll" }}>
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{
@@ -187,7 +184,6 @@ const ChatList: React.FC<TestScreenProps> = ({ navigation }) => {
               );
             })}
         </ScrollView>
-        // </View>
       )}
     </View>
   );

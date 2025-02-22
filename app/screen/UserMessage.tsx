@@ -1,7 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
-  ImageBackground,
-  StyleSheet,
   TouchableOpacity,
   View,
   Text,

@@ -1,7 +1,6 @@
 import {
   Dimensions,
   ImageBackground,
-  StyleSheet,
   TouchableOpacity,
   View,
   Text,
@@ -9,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import { Button, Menu, TextInput } from "react-native-paper";
+import {TextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
 import { useContext, useEffect, useState } from "react";
@@ -47,7 +46,6 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
     loadData();
   }, []);
 
-  // Function to pick an image
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.status !== "granted") {
@@ -57,7 +55,6 @@ const Create: React.FC<TestScreenProps> = ({ navigation }) => {
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // allowsEditing: true,
       base64: true,
       quality: 1,
     });

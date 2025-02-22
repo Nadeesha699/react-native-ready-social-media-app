@@ -1,8 +1,7 @@
 import { commanApi, NoDataPostView } from "@/app/components/components";
-import { navigate } from "expo-router/build/global-state/routing";
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, ImageBackground, Linking, ScrollView } from "react-native";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 

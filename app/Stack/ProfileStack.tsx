@@ -1,20 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Profile from "../screen/Profile";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Dimensions, TouchableOpacity, Text } from "react-native";
 import UpdateProfile from "../screen/UpdateProfile";
 import ReadScreen from "../screen/ReadScreen";
-import Notifications from "../screen/Notification";
-import ChatList from "../screen/ChatList";
-import UserMessages from "../screen/UserMessage";
 import { useContext } from "react";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { darkTheme, lightTheme } from "../Theme/theme";
 
 const Stack = createNativeStackNavigator();
-
-const { width } = Dimensions.get("window");
 
 const ProfileStack = () => {
     const { isDarkMode } = useContext(ThemeContext);

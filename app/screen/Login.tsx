@@ -1,6 +1,4 @@
 import { commanApi, StatusBars } from "@/app/components/components";
-import { validateEmail, validatePassword } from "@/scripts/scripts";
-import { router } from "expo-router";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
@@ -9,13 +7,8 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  ToastAndroid,
-  StyleSheet,
   Dimensions,
-  Easing,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 
@@ -27,11 +20,6 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withClamp,
-  withDecay,
-  withDelay,
-  withRepeat,
-  withSequence,
   withSpring,
   withTiming,
 } from "react-native-reanimated";

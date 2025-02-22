@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
 } from "react-native";
 import Animated, {
@@ -12,9 +11,6 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { router } from "expo-router";
-
-const { width } = Dimensions.get("window");
 
 import { NavigationProp } from '@react-navigation/native';
 import { darkTheme, lightTheme } from "../Theme/theme";

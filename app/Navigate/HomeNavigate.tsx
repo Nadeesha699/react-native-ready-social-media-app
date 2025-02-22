@@ -1,17 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screen/Home";
-import Search from "../screen/Search";
-import Upload from "../screen/Create";
-import Message from "../screen/UserMessage";
-import Notifications from "../screen/Notification";
-import Profile from "../screen/Profile";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { Dimensions, TouchableOpacity, Text } from "react-native";
 import Create from "../screen/Create";
 import ChatStack from "../Stack/ChatStack";
-import NotificationStack from "../Stack/NotificationStack";
 import ProfileStack from "../Stack/ProfileStack";
 import { ThemeContext } from "../Theme/ThemeContext";
 import { useContext, useEffect, useState } from "react";
@@ -19,10 +11,9 @@ import { darkTheme, lightTheme } from "../Theme/theme";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { commanApi } from "../components/components";
+import Notifications from "../screen/Notification";
 
 const Tab = createBottomTabNavigator();
-
-const { width, height } = Dimensions.get("window");
 
 const HomeNaviagte = () => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -90,7 +81,7 @@ const HomeNaviagte = () => {
       />
       <Tab.Screen
         name="Notification"
-        component={NotificationStack}
+        component={Notifications}
         options={{
           tabBarBadge: notificationCount !== 0 ? notificationCount : undefined,
           tabBarIcon: ({ color, size }) => (
